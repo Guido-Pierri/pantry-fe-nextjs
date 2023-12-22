@@ -23,6 +23,7 @@ async function seedUsers(client) {
         console.log(`Created "users" table`);
 
         // Insert data into the "users" table
+        console.log('users', users)
         const insertedUsers = await Promise.all(
             users.map(async (user) => {
                 const hashedPassword = await bcrypt.hash(user.password, 10);
@@ -61,7 +62,7 @@ async function seedItems(client) {
     brand VARCHAR(255) NOT NULL,
     category VARCHAR(255) NOT NULL,
     image VARCHAR(255) NOT NULL,
-    userId UUID NOT NULL,
+    userId UUID NOT NULL
   );
 `;
 
