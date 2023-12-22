@@ -1,4 +1,4 @@
-const MyPantry = () => {}
+const Items = () => {}
     /*
     'use client'
     import React, { useState } from 'react'
@@ -41,12 +41,12 @@ const MyPantry = () => {}
             navigate('/login')
         }*!/
         useEffect(() => {
-            user && console.log('data in useEffect', user)
+            user && console.log('data.ts in useEffect', user)
             if (useFetchIsAuthenticated && user?.email) {
                 console.log('user inside callback FetchUSer', user)
                 const fetchData = async () => {
                     try {
-                        // Fetch user data from the server when the component mounts
+                        // Fetch user data.ts from the server when the component mounts
                         const response = await fetch(
                             `https://app-produkt-api-230801161903.azurewebsites.net/api/v1/users/user/${user.email}`,
                             {
@@ -63,7 +63,7 @@ const MyPantry = () => {}
                             responseData && setUserData(responseData)
                             console.log('userData', userData)
                         } else {
-                            console.error('Error fetching user data')
+                            console.error('Error fetching user data.ts')
                         }
                     } catch (error) {
                         console.error('Error:', error)
@@ -71,7 +71,7 @@ const MyPantry = () => {}
                 }
                 fetchData().then()
             }
-        }, [user]) // Empty dependency array to fetch data once on component mount
+        }, [user]) // Empty dependency array to fetch data.ts once on component mount
 
         //parse a bson object id to a UUID
         //why is ObjectId undefined?
@@ -98,6 +98,6 @@ const MyPantry = () => {}
     }
     // how can I use the id to navigate to the item detail page?
     */
-export default MyPantry
+export default Items
 
 
