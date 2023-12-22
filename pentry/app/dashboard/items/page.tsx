@@ -1,4 +1,4 @@
-const MyPantry = () => {}
+const Items = () => {}
     /*
     'use client'
     import React, { useState } from 'react'
@@ -98,6 +98,6 @@ const MyPantry = () => {}
     }
     // how can I use the id to navigate to the item detail page?
     */
-export default MyPantry
+export default Items
 
 
