@@ -7,7 +7,8 @@ export default function Button({ btnClass, title, onClick, type }: Props) {
     return (
         <button className={`btn ${btnClass}`}
                 onClick={onClick}
-                type={`${type}`}>
+                //type={`${type}`}
+             >
             {title}
         </button>
     )
