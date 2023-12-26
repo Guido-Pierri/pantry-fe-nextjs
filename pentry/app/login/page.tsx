@@ -4,6 +4,7 @@ import LoginForm from '@/app/ui/login-form';
 */
 
 import {croissant} from "@/app/ui/fonts";
+import LoginForm from "@/app/ui/login-form";
 
 export default function LoginPage() {
     return (
@@ -14,7 +15,7 @@ export default function LoginPage() {
                         {/*<AcmeLogo />*/}Login
                     </div>
                 </div>
-               {/* <LoginForm />*/}
+                <LoginForm />
             </div>
         </main>
     );

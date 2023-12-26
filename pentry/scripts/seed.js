@@ -22,7 +22,7 @@ async function seedUsers(client) {
 
         console.log(`Created "users" table`);
 
-        // Insert data into the "users" table
+        // Insert data.ts into the "users" table
         console.log('users', users)
         const insertedUsers = await Promise.all(
             users.map(async (user) => {
@@ -68,7 +68,7 @@ async function seedItems(client) {
 
         console.log(`Created "items" table`);
 
-        // Insert data into the "items" table
+        // Insert data.ts into the "items" table
         const insertedItems = await Promise.all(
             items.map(
                 (item) => client.sql`
@@ -108,7 +108,7 @@ async function seedCustomers(client) {
 
         console.log(`Created "customers" table`);
 
-        // Insert data into the "customers" table
+        // Insert data.ts into the "customers" table
         const insertedCustomers = await Promise.all(
             customers.map(
                 (customer) => client.sql`
@@ -143,7 +143,7 @@ async function seedRevenue(client) {
 
         console.log(`Created "revenue" table`);
 
-        // Insert data into the "revenue" table
+        // Insert data.ts into the "revenue" table
         const insertedRevenue = await Promise.all(
             revenue.map(
                 (rev) => client.sql`

@@ -1,11 +1,44 @@
-const Dashboard = () => {
+import { Card } from '@/app/ui/dashboard/cards';
+/*import RevenueChart from '@/app/ui/dashboard/revenue-chart';
+import LatestInvoices from '@/app/ui/dashboard/latest-invoices';*/
+import {croissant, lusitana} from '@/app/ui/fonts';
+import {
+    /*fetchRevenue,
+    fetchLatestInvoices,
+    fetchItems,*/
+    fetchCardData,
+} from '@/app/lib/data';
+
+export default async function Page() {
+    const {
+        numberOfItems,
+        /*numberOfCustomers,
+        totalPaidInvoices,
+        totalPendingInvoices,*/
+    } = await fetchCardData();
+    console.log('numberOfItems', numberOfItems)
     return (
-        <div>
-            <h1>Dashboard</h1>
-        </div>
-    )
+        <main>
+            <h1 className={`${croissant.className} mb-4 text-xl md:text-2xl`}>
+                Dashboard
+            </h1>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 text-blue-400">
+                {/* <Card title="Collected" value={totalPaidInvoices} type="collected" /> */}
+                {/* <Card title="Pending" value={totalPendingInvoices} type="pending" /> */}
+                { <Card title="Total Items" value={numberOfItems} type="items" /> }
+                {/* <Card
+          title="Total Customers"
+          value={numberOfCustomers}
+          type="customers"
+        /> */}
+            </div>
+            {/*<div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">*/}
+                {/* <RevenueChart revenue={revenue}  /> */}
+                {/* <LatestInvoices latestInvoices={latestInvoices} /> */}
+            {/*</div>*/}
+        </main>
+    );
 }
-export default Dashboard
 
 
 
@@ -34,11 +67,11 @@ const Dashboard = () => {
         setTimeout(() => {
             if (user && user?.email) {
                 userRef.current = user // Update the ref
-                //setUser(data)
+                //setUser(data.ts)
                 console.log('user inside callback', FetchUser)
                 const fetchData = async () => {
                     try {
-                        // Fetch user data from the server when the component mounts
+                        // Fetch user data.ts from the server when the component mounts
                         const response = await fetch(
                             `https://app-produkt-api-230801161903.azurewebsites.net/api/v1/users/user/${user?.email}`,
                             {
@@ -49,12 +82,12 @@ const Dashboard = () => {
                             }
                         )
                         if (response.ok) {
-                            const data = await response.json()
+                            const data.ts = await response.json()
                             setIsInDatabase(true)
-                            setUserData(data) // Update the state])
+                            setUserData(data.ts) // Update the state])
                             // setIsLoading(false)
                         } else {
-                            console.error('Error fetching user data:', response.statusText)
+                            console.error('Error fetching user data.ts:', response.statusText)
                         }
                     } catch (error) {
                         console.error('Error:', error)
@@ -83,10 +116,10 @@ const Dashboard = () => {
                     }
                 )
                 if (response.status === 201) {
-                    //   const data = await response.json()
-                    //   setSearchResult(data) // Set the fetched data to the searchResult state
+                    //   const data.ts = await response.json()
+                    //   setSearchResult(data.ts) // Set the fetched data.ts to the searchResult state
                 } else {
-                    console.error('Error fetching data from the API')
+                    console.error('Error fetching data.ts from the API')
                 }
             } catch (error) {
                 console.error('Error:', error)
