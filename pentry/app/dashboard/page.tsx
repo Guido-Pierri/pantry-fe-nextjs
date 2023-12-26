@@ -25,7 +25,7 @@ export default async function Page() {
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 text-blue-400">
                 {/* <Card title="Collected" value={totalPaidInvoices} type="collected" /> */}
                 {/* <Card title="Pending" value={totalPendingInvoices} type="pending" /> */}
-                { <Card title="Total Items" value={numberOfItems} type="items" /> }
+                { <Card title="My Pantry" value={numberOfItems} type="items" /> }
                 {/* <Card
           title="Total Customers"
           value={numberOfCustomers}
