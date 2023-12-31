@@ -4,6 +4,7 @@ import {
     UserGroupIcon,
     HomeIcon,
     DocumentDuplicateIcon,
+    MagnifyingGlassIcon
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -20,13 +21,13 @@ export default function NavLinks() {
             href: '/dashboard',
             icon: HomeIcon },
         {
-            name: 'Items',
-            href: '/dashboard/items',
+            name: 'Pantry',
+            href: '/dashboard/pantry',
             icon: DocumentDuplicateIcon,
         },
-        /*{ name: 'Customers',
-            href: '/dashboard/customers',
-            icon: UserGroupIcon },*/
+        { name: 'Search',
+            href: '/dashboard/search',
+            icon: MagnifyingGlassIcon },
     ];
     return (
         <>

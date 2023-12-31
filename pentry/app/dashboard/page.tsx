@@ -7,7 +7,10 @@ import {
     fetchLatestInvoices,
     fetchItems,*/
     fetchCardData,
+    fetchPantry,
 } from '@/app/lib/data';
+import Link from "next/link";
+import {Item, Pantry} from "@/app/lib/definitions";
 
 export default async function Page() {
     const {
@@ -16,6 +19,9 @@ export default async function Page() {
         totalPaidInvoices,
         totalPendingInvoices,*/
     } = await fetchCardData();
+    const data = await fetchPantry()
+    console.log('data', data)
+    console.log(fetchCardData())
     console.log('numberOfItems', numberOfItems)
     return (
         <main>
@@ -25,7 +31,8 @@ export default async function Page() {
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 text-blue-400">
                 {/* <Card title="Collected" value={totalPaidInvoices} type="collected" /> */}
                 {/* <Card title="Pending" value={totalPendingInvoices} type="pending" /> */}
-                { <Card title="My Pantry" value={numberOfItems} type="items" /> }
+                { <Link href="/dashboard/pantry"><Card title="Items in Pantry" value={data.items.length} type="items" /></Link> }
+
                 {/* <Card
           title="Total Customers"
           value={numberOfCustomers}
@@ -39,7 +46,19 @@ export default async function Page() {
         </main>
     );
 }
+async function getData() {
+    const res = await fetch('http://localhost:8000/api/v1/pantry/1')
+    console.log('res', res)
+    // The return value is *not* serialized
+    // You can return Date, Map, Set, etc.
 
+    if (!res.ok) {
+        // This will activate the closest `error.js` Error Boundary
+        throw new Error('Failed to fetch data')
+    }
+
+    return res.json()
+}
 
 
 /*

@@ -1,13 +1,5 @@
-import { sql } from '@vercel/postgres';
-import {
-    //CustomerField,
-    //CustomersTableType,
-    ItemForm,
-    //InvoicesTable,
-    //LatestInvoiceRaw,
-    User,
-    //Revenue,
-} from './definitions';
+import {sql} from '@vercel/postgres';
+import {ItemForm, Pantry, PantryDto, User,} from './definitions';
 //import { formatCurrency } from './utils';
 
 /*export async function fetchRevenue() {
@@ -104,6 +96,29 @@ export async function fetchCardData() {
         throw new Error('Failed to fetch card data.');
     }
 }
+export async function fetchPantry(): Promise<PantryDto> {
+
+        const res :Response = await fetch('http://localhost:8000/api/v1/pantry/1',
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json', // Set the correct Content-Type header
+                }, });
+        console.log('Response Status:', res.status);
+    const data = await res.json();
+    if (!res.ok) {
+        // This will activate the closest `error.js` Error Boundary
+        throw new Error('Failed to fetch data')
+    }
+    const id = data.id;
+    const userId = data.userId;
+    const items = data.items;
+    return {id, userId, items}
+
+
+
+}
+
 
 const ITEMS_PER_PAGE = 6;
 /*export async function fetchFilteredInvoices(
