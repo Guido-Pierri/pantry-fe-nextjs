@@ -12,7 +12,7 @@ async function Page()  {
         <main>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 text-blue-400">
                 {items && items.map((item: Item) =>
-                    <Link href="/dashboard/pantry"><Card title={item.name} value={ "Expires: " + item.expirationDate}
+                    <Link href="/dashboard/pantry"><Card key={item.id} title={item.name} value={ "Expires: " + item.expirationDate}
                                                          type="items"/></Link>)}
             </div>
         </main>
