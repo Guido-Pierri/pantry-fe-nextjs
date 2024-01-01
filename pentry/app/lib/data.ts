@@ -97,8 +97,9 @@ export async function fetchCardData() {
     }
 }
 export async function fetchPantry(): Promise<PantryDto> {
+    const apiUrl = process.env.SQL_DATABASE || 'http://localhost:8000';
 
-        const res :Response = await fetch('http://localhost:8000/api/v1/pantry/1',
+        const res :Response = await fetch(`${apiUrl}/api/v1/pantry/1`,
             {
                 method: 'GET',
                 headers: {
