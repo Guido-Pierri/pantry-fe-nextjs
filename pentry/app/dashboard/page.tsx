@@ -8,7 +8,7 @@ import {
     fetchItems,*/
     fetchCardData, fetchPantry,
     fetchPantryByUserId,
-    fetUserByEmail
+    fetchUserByEmail
 } from '@/app/lib/data';
 import Link from "next/link";
 import {auth} from "@/auth";
@@ -17,7 +17,7 @@ export default async function Page() {
     const  user  = await auth()
     const userEmail = user?.user?.email as string
     console.log('user session', user?.user)
-    const {firstName,lastName,id,email} =  await fetUserByEmail( userEmail)
+    const {firstName,lastName,id,email} =  await fetchUserByEmail( userEmail)
     /*const {
         numberOfItems,
         /!*numberOfCustomers,
