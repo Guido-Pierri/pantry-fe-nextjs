@@ -1,6 +1,6 @@
 import {sql} from '@vercel/postgres';
 import {ItemForm, Pantry, PantryDto, User,} from './definitions';
-const apiUrl = 'http://localhost:8000';
+const apiUrl = process.env.SQL_DATABASE || 'http://localhost:8000';
 
 //import { formatCurrency } from './utils';
 
