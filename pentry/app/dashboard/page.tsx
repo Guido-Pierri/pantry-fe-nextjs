@@ -6,32 +6,34 @@ import {
     /*fetchRevenue,
     fetchLatestInvoices,
     fetchItems,*/
-    fetchCardData,
-    fetchPantry,
+    fetchCardData, fetchPantry,
+    fetchPantryByUserId,
+    fetchUserByEmail
 } from '@/app/lib/data';
 import Link from "next/link";
-import {Item, Pantry} from "@/app/lib/definitions";
+import {auth} from "@/auth";
 
 export default async function Page() {
-    const {
+    const  user  = await auth()
+    const userEmail = user?.user?.email as string
+    console.log('user session', user?.user)
+    const {firstName,lastName,id,email} =  await fetchUserByEmail( userEmail)
+    /*const {
         numberOfItems,
-        /*numberOfCustomers,
+        /!*numberOfCustomers,
         totalPaidInvoices,
-        totalPendingInvoices,*/
-    } = await fetchCardData();
-    const data = await fetchPantry()
-    console.log('data', data)
-    console.log(fetchCardData())
-    console.log('numberOfItems', numberOfItems)
+        totalPendingInvoices,*!/
+    } = await fetchCardData();*/
+    const {items} = await fetchPantryByUserId(id)
     return (
         <main>
             <h1 className={`${croissant.className} mb-4 text-xl md:text-2xl`}>
-                Dashboard
+                Dashboard {`${firstName} ${lastName}`}
             </h1>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 text-blue-400">
                 {/* <Card title="Collected" value={totalPaidInvoices} type="collected" /> */}
-                {/* <Card title="Pending" value={totalPendingInvoices} type="pending" /> */}
-                { <Link href="/dashboard/pantry"><Card title="Items in Pantry" value={data.items.length} type="items" /></Link> }
+
+                { <Link href="/dashboard/pantry"><Card title="Items in Pantry" value={items.length} type="items" /></Link> }
 
                 {/* <Card
           title="Total Customers"
