@@ -136,7 +136,7 @@ export async function fetchPantryByUserId(user_id: string): Promise<PantryDto> {
     const items = data.items;
     return {id, userId, items}
 }
-export async function fetUserByEmail(email: string): Promise<User> {
+export async function fetchUserByEmail(email: string): Promise<User> {
     const res :Response = await fetch(`${apiUrl}/api/v1/users/${email}`,
         {
             method: 'GET',
