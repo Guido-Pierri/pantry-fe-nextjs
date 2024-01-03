@@ -28,7 +28,8 @@ export type Item = {
 }
 export type User = {
     id: string;
-    name: string;
+    firstName: string;
+    lastName: string;
     email: string;
     password: string;
 };

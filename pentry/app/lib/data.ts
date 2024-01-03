@@ -1,5 +1,7 @@
 import {sql} from '@vercel/postgres';
 import {ItemForm, Pantry, PantryDto, User,} from './definitions';
+const apiUrl = 'http://localhost:8000';
+
 //import { formatCurrency } from './utils';
 
 /*export async function fetchRevenue() {
@@ -97,7 +99,6 @@ export async function fetchCardData() {
     }
 }
 export async function fetchPantry(): Promise<PantryDto> {
-    const apiUrl = process.env.SQL_DATABASE || 'http://localhost:8000';
 
         const res :Response = await fetch(`${apiUrl}/api/v1/pantry/1`,
             {
@@ -115,9 +116,44 @@ export async function fetchPantry(): Promise<PantryDto> {
     const userId = data.userId;
     const items = data.items;
     return {id, userId, items}
+}
 
-
-
+export async function fetchPantryByUserId(user_id: string): Promise<PantryDto> {
+    const res :Response = await fetch(`${apiUrl}/api/v1/pantry/user/${user_id}`,
+        {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json', // Set the correct Content-Type header
+            }, });
+    console.log('Response Status:', res.status);
+    const data = await res.json();
+    if (!res.ok) {
+        // This will activate the closest `error.js` Error Boundary
+        throw new Error('Failed to fetch data')
+    }
+    const id = data.id;
+    const userId = data.userId;
+    const items = data.items;
+    return {id, userId, items}
+}
+export async function fetUserByEmail(email: string): Promise<User> {
+    const res :Response = await fetch(`${apiUrl}/api/v1/users/${email}`,
+        {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json', // Set the correct Content-Type header
+            }, });
+    console.log('Response Status:', res.status);
+    const data = await res.json();
+    if (!res.ok) {
+        // This will activate the closest `error.js` Error Boundary
+        throw new Error('Failed to fetch data')
+    }
+    const id = data.id;
+    const firstName = data.firstName;
+    const lastName = data.lastName;
+    const userEmail = data.email;
+    return {id, firstName, lastName, email: userEmail, password: ''}
 }
 
 
