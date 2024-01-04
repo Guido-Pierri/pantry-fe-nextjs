@@ -123,7 +123,7 @@ export async function fetchPantry(): Promise<PantryDto> {
     return {id, userId, items}
 }
 
-export async function searchItems(query: string, currentPage: number): Promise<SearchItem> {
+export async function searchItems(query: string, currentPage: number): Promise<SearchItem[]> {
     console.log('inside searchItems');
     console.log('query', query);
 
