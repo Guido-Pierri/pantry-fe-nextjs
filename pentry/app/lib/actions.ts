@@ -6,6 +6,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
+import {stringify} from "yaml";
 
 
 
@@ -20,7 +21,26 @@ export type State = {
     message?: string | null;
 };
 
+export async function searchItem(prevState: string | undefined, formData: FormData) {
+try {
+    const res = await fetch(`http://localhost:8000/api/v2/search/parameter/${formData.get('search')}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json', // Set the correct Content-Type header
+        },
+    });
+    console.log('Response Status:', res.status);
+    const data = await res.json();
+    console.log('data', data)
+    revalidatePath('/search')
+    return {message: stringify(data)}
 
+}
+catch (error) {
+    console.error('Failed to fetch data:', error);
+    throw new Error('Failed to fetch data.');
+}
+}
 export async function authenticate(
     prevState: string | undefined,
     formData: FormData,
