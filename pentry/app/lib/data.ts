@@ -1,5 +1,6 @@
 import {sql} from '@vercel/postgres';
-import {ItemForm, Pantry, PantryDto, User,} from './definitions';
+import {ItemForm, PantryDto, Search, SearchDto, User,} from './definitions';
+
 const apiUrl = process.env.SQL_DATABASE || 'http://localhost:8000';
 
 //import { formatCurrency } from './utils';
@@ -45,6 +46,7 @@ const apiUrl = process.env.SQL_DATABASE || 'http://localhost:8000';
         throw new Error('Failed to fetch the latest invoices.');
     }
 }*/
+
 /*export async function fetchLatestInvoices() {
     try {
         const data = await sql<LatestInvoiceRaw>`
@@ -70,7 +72,8 @@ export async function fetchCardData() {
         // You can probably combine these into a single SQL query
         // However, we are intentionally splitting them to demonstrate
         // how to initialize multiple queries in parallel with JS.
-        const itemCountPromise = sql`SELECT COUNT(*) FROM items`;
+        const itemCountPromise = sql`SELECT COUNT(*)
+                                     FROM items`;
         //const customerCountPromise = sql`SELECT COUNT(*) FROM customers`;
         /*const invoiceStatusPromise = sql`SELECT
          SUM(CASE WHEN status = 'paid' THEN amount ELSE 0 END) AS "paid",
@@ -98,33 +101,16 @@ export async function fetchCardData() {
         throw new Error('Failed to fetch card data.');
     }
 }
+
 export async function fetchPantry(): Promise<PantryDto> {
 
-        const res :Response = await fetch(`${apiUrl}/api/v1/pantry/1`,
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json', // Set the correct Content-Type header
-                }, });
-        console.log('Response Status:', res.status);
-    const data = await res.json();
-    if (!res.ok) {
-        // This will activate the closest `error.js` Error Boundary
-        throw new Error('Failed to fetch data')
-    }
-    const id = data.id;
-    const userId = data.userId;
-    const items = data.items;
-    return {id, userId, items}
-}
-
-export async function fetchPantryByUserId(user_id: string): Promise<PantryDto> {
-    const res :Response = await fetch(`${apiUrl}/api/v1/pantry/user/${user_id}`,
+    const res: Response = await fetch(`${apiUrl}/api/v1/pantry/1`,
         {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json', // Set the correct Content-Type header
-            }, });
+                'Content-Type': 'application/json',
+            },
+        });
     console.log('Response Status:', res.status);
     const data = await res.json();
     if (!res.ok) {
@@ -136,13 +122,60 @@ export async function fetchPantryByUserId(user_id: string): Promise<PantryDto> {
     const items = data.items;
     return {id, userId, items}
 }
-export async function fetchUserByEmail(email: string): Promise<User> {
-    const res :Response = await fetch(`${apiUrl}/api/v1/users/${email}`,
+
+export async function searchItems(query: string, currentPage: number): Promise<SearchDto> {
+    console.log('inside searchItems');
+    console.log('query', query);
+
+    const res = await fetch(`http://localhost:8000/api/v2/search/parameter/${query}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    console.log('Response Status:', res.status);
+
+    if (!res.ok) {
+        // This will activate the closest `error.js` Error Boundary
+        throw new Error('Failed to fetch data');
+    }
+
+    const data = await res.json();
+    console.log('API Response Data:', data);
+
+    return data;
+}
+
+
+export async function fetchPantryByUserId(user_id: string): Promise<PantryDto> {
+    const res: Response = await fetch(`${apiUrl}/api/v1/pantry/user/${user_id}`,
         {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json', // Set the correct Content-Type header
-            }, });
+            },
+        });
+    console.log('Response Status:', res.status);
+    const data = await res.json();
+    if (!res.ok) {
+        // This will activate the closest `error.js` Error Boundary
+        throw new Error('Failed to fetch data')
+    }
+    const id = data.id;
+    const userId = data.userId;
+    const items = data.items;
+    return {id, userId, items}
+}
+
+export async function fetchUserByEmail(email: string): Promise<User> {
+    const res: Response = await fetch(`${apiUrl}/api/v1/users/${email}`,
+        {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json', // Set the correct Content-Type header
+            },
+        });
     console.log('Response Status:', res.status);
     const data = await res.json();
     if (!res.ok) {
@@ -158,6 +191,7 @@ export async function fetchUserByEmail(email: string): Promise<User> {
 
 
 const ITEMS_PER_PAGE = 6;
+
 /*export async function fetchFilteredInvoices(
     query: string,
     currentPage: number,
@@ -196,15 +230,18 @@ const ITEMS_PER_PAGE = 6;
 export async function fetchInvoicesPages(query: string) {
     try {
         const count = await sql`SELECT COUNT(*)
-    FROM invoices
-    JOIN customers ON invoices.customer_id = customers.id
-    WHERE
-      customers.name ILIKE ${`%${query}%`} OR
-      customers.email ILIKE ${`%${query}%`} OR
-      invoices.amount::text ILIKE ${`%${query}%`} OR
-      invoices.date::text ILIKE ${`%${query}%`} OR
-      invoices.status ILIKE ${`%${query}%`}
-  `;
+                                FROM invoices
+                                         JOIN customers ON invoices.customer_id = customers.id
+                                WHERE customers.name ILIKE ${`%${query}%`}
+                                   OR
+                                    customers.email ILIKE ${`%${query}%`}
+                                   OR
+                                    invoices.amount::text ILIKE ${`%${query}%`}
+                                   OR
+                                    invoices.date::text ILIKE ${`%${query}%`}
+                                   OR
+                                    invoices.status ILIKE ${`%${query}%`}
+        `;
 
         const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
         return totalPages;
@@ -217,14 +254,13 @@ export async function fetchInvoicesPages(query: string) {
 export async function fetchItemById(id: string) {
     try {
         const data = await sql<ItemForm>`
-      SELECT
-        items.id,
-        items.customer_id,
-        items.amount,
-        items.status
-      FROM items
-      WHERE items.id = ${id};
-    `;
+            SELECT items.id,
+                   items.customer_id,
+                   items.amount,
+                   items.status
+            FROM items
+            WHERE items.id = ${id};
+        `;
 
         const item = data.rows.map((item) => ({
             ...item,
@@ -292,7 +328,9 @@ export async function fetchItemById(id: string) {
 */
 export async function getUser(email: string) {
     try {
-        const user = await sql`SELECT * FROM users WHERE email=${email}`;
+        const user = await sql`SELECT *
+                               FROM users
+                               WHERE email = ${email}`;
         return user.rows[0] as User;
     } catch (error) {
         console.error('Failed to fetch user:', error);

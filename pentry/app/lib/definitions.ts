@@ -44,3 +44,15 @@ export type ItemForm = {
     image: string;
     userId: string;
 }
+export type SearchItem = {
+    Forpackningsstorlek: string;
+    Varumarke: string;
+    GTIN: string;
+    Artikelbenamning: string;
+    TillverkarensArtikelnummer: string;
+    Hyllkantstext: string;
+    Artikeltyp: string;
+    SkapadDatum: string;
+    SenastAndradDatum: string;
+};
+//export type SearchDto = SearchItem[];
