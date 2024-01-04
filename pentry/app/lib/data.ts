@@ -1,5 +1,5 @@
 import {sql} from '@vercel/postgres';
-import {ItemForm, PantryDto, Search, SearchDto, User,} from './definitions';
+import {ItemForm, PantryDto, SearchItem, User,} from './definitions';
 
 const apiUrl = process.env.SQL_DATABASE || 'http://localhost:8000';
 
@@ -123,7 +123,7 @@ export async function fetchPantry(): Promise<PantryDto> {
     return {id, userId, items}
 }
 
-export async function searchItems(query: string, currentPage: number): Promise<SearchDto> {
+export async function searchItems(query: string, currentPage: number): Promise<SearchItem> {
     console.log('inside searchItems');
     console.log('query', query);
 
