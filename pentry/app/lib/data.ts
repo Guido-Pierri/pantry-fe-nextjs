@@ -1,5 +1,5 @@
 import {sql} from '@vercel/postgres';
-import {ItemForm, PantryDto, SearchItem, User,} from './definitions';
+import {Item, ItemForm, PantryDto, SearchItem, User,} from './definitions';
 
 const apiUrl = process.env.SQL_DATABASE || 'http://localhost:8000';
 
@@ -147,6 +147,19 @@ export async function searchItems(query: string, currentPage: number): Promise<S
     return data;
 }
 
+export async function fetchItemByGtin(gtin: string): Promise<Item> {
+    console.log('inside fetchItemByGtin');
+    const res = await fetch(`${apiUrl}/api/v2/search/product/${gtin}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }, cache: "no-store",
+
+    });
+    const data = await res.json();
+    console.log('Response in fetchItemsByGtin:', data);
+    return data;
+}
 
 export async function fetchPantryByUserId(user_id: string): Promise<PantryDto> {
     const res: Response = await fetch(`${apiUrl}/api/v1/pantry/user/${user_id}`,
@@ -326,6 +339,7 @@ export async function fetchItemById(id: string) {
     }
 }
 */
+/*
 export async function getUser(email: string) {
     try {
         const user = await sql`SELECT *
@@ -336,4 +350,4 @@ export async function getUser(email: string) {
         console.error('Failed to fetch user:', error);
         throw new Error('Failed to fetch user.');
     }
-}
+}*/

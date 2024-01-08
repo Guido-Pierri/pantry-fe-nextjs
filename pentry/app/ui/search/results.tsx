@@ -1,6 +1,8 @@
 import {searchItems} from "@/app/lib/data";
 import {SearchItem} from "@/app/lib/definitions";
 import {Key, ReactElement, JSXElementConstructor, ReactNode, ReactPortal, PromiseLikeOfReactNode} from "react";
+import Link from "next/link";
+import {ItemCard} from "@/app/ui/dashboard/cards";
 
 export default async function Results({
                                           query,
@@ -17,13 +19,15 @@ export default async function Results({
             {items &&
                 items.map((item: {
                     GTIN: Key | null | undefined;
-                    Artikelbenamning: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | PromiseLikeOfReactNode | null | undefined;
-                    Artikeltyp: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | PromiseLikeOfReactNode | null | undefined;
+                    Artikelbenamning: string | undefined;
+                    Artikeltyp: string | undefined;
+                    Varumarke: string | undefined;
                 }) => (
-                    <div className="text-white" key={item.GTIN}>
-                        <h2 className="text-white">{item.Artikelbenamning}</h2>
-                        {/*<p className={"text-white"}>{item.Artikeltyp}</p>*/}
-                    </div>
+                    <ItemCard title={item.Artikelbenamning as string} value={item.Varumarke as string} type={"search"}
+                              item={item as SearchItem} key={item.GTIN} subtitle={item.Artikelbenamning}>
+
+                    </ItemCard>
+
                 ))}
         </div>
     );
