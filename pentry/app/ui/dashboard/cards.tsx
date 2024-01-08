@@ -3,15 +3,19 @@ import {
     ClockIcon,
     UserGroupIcon,
     InboxIcon,
-    ListBulletIcon
+    ListBulletIcon, MagnifyingGlassIcon, ClipboardDocumentListIcon, ShoppingCartIcon
 } from '@heroicons/react/24/outline';
-import { lusitana } from '@/app/ui/fonts';
+import {lusitana} from '@/app/ui/fonts';
+import Link from "next/link";
+import {Item, SearchItem} from "@/app/lib/definitions";
 
 const iconMap = {
     /*collected: BanknotesIcon,
     customers: UserGroupIcon,
     pending: ClockIcon,*/
-    items: ListBulletIcon,
+    items: ShoppingCartIcon,
+    search: MagnifyingGlassIcon,
+    recipes: ClipboardDocumentListIcon
 };
 
 export default async function CardWrapper() {
@@ -38,14 +42,14 @@ export function Card({
                      }: {
     title: string;
     value: number | string;
-    type: 'items' /*| 'customers' | 'pending' | 'collected'*/;
+    type: 'items' | 'search' | 'recipes'/*  | 'collected'*/;
 }) {
     const Icon = iconMap[type];
 
     return (
         <div className="rounded-xl bg-gray-50 p-2 shadow-sm">
             <div className="flex p-4">
-                {Icon ? <Icon className="h-5 w-5 text-gray-700" /> : null}
+                {Icon ? <Icon className="h-5 w-5 text-gray-700"/> : null}
                 <h3 className="ml-2 text-sm font-medium">{title}</h3>
             </div>
             <p
@@ -54,6 +58,34 @@ export function Card({
             >
                 {value}
             </p>
+        </div>
+    );
+}
+
+export function ItemCard({
+                             title,
+                             subtitle,
+                             value,
+                             type,
+                             item,
+                         }: {
+    title: string;
+    subtitle?: string;
+    image?: string;
+    value: number | string;
+    item: SearchItem;
+    type: 'items' | 'search';
+}) {
+    const Icon = iconMap[type];
+
+    return (
+        <div className="rounded-xl bg-gray-50 p-2 shadow-sm">
+            <div>
+                <h1>{item.Varumarke}</h1>
+            </div>
+            <Link href={`/dashboard/pantry/items/${item.GTIN}`} key={item.GTIN}>
+                <h2>{item.Artikelbenamning}</h2>
+            </Link>
         </div>
     );
 }

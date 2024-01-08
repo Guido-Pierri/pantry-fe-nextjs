@@ -1,4 +1,4 @@
-import { Card } from '@/app/ui/dashboard/cards';
+import {Card} from '@/app/ui/dashboard/cards';
 /*import RevenueChart from '@/app/ui/dashboard/revenue-chart';
 import LatestInvoices from '@/app/ui/dashboard/latest-invoices';*/
 import {croissant, lusitana} from '@/app/ui/fonts';
@@ -14,10 +14,10 @@ import Link from "next/link";
 import {auth} from "@/auth";
 
 export default async function Page() {
-    const  user  = await auth()
+    const user = await auth()
     const userEmail = user?.user?.email as string
     console.log('user session', user?.user)
-    const {firstName,lastName,id,email} =  await fetchUserByEmail( userEmail)
+    const {firstName, lastName, id, email} = await fetchUserByEmail(userEmail)
     /*const {
         numberOfItems,
         /!*numberOfCustomers,
@@ -33,8 +33,8 @@ export default async function Page() {
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 text-blue-400">
                 {/* <Card title="Collected" value={totalPaidInvoices} type="collected" /> */}
 
-                { <Link href="/dashboard/pantry"><Card title="Items in Pantry" value={items.length} type="items" /></Link> }
-
+                {<Link href="/dashboard/pantry"><Card title="My Pantry" value={items.length} type="items"/></Link>}
+                {<Link href={"/dasboard/recipes"}><Card title="Recipes" value={0} type="recipes"/></Link>}
                 {/* <Card
           title="Total Customers"
           value={numberOfCustomers}
@@ -42,12 +42,13 @@ export default async function Page() {
         /> */}
             </div>
             {/*<div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">*/}
-                {/* <RevenueChart revenue={revenue}  /> */}
-                {/* <LatestInvoices latestInvoices={latestInvoices} /> */}
+            {/* <RevenueChart revenue={revenue}  /> */}
+            {/* <LatestInvoices latestInvoices={latestInvoices} /> */}
             {/*</div>*/}
         </main>
     );
 }
+
 async function getData() {
     const res = await fetch('http://localhost:8000/api/v1/pantry/1')
     console.log('res', res)

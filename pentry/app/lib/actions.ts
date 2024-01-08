@@ -1,14 +1,14 @@
 'use server';
 
-import { z } from 'zod';
-import { sql } from '@vercel/postgres';
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
-import { signIn } from '@/auth';
-import { AuthError } from 'next-auth';
+import {z} from 'zod';
+import {sql} from '@vercel/postgres';
+import {revalidatePath} from 'next/cache';
+import {redirect} from 'next/navigation';
+import {auth, signIn} from '@/auth';
+import {AuthError} from 'next-auth';
 import {stringify} from "yaml";
-
-
+import {Auth} from "@auth/core";
+import {fetchPantryByUserId, fetchUserByEmail} from "@/app/lib/data";
 
 
 // This is temporary
@@ -21,26 +21,75 @@ export type State = {
     message?: string | null;
 };
 
-export async function searchItem(prevState: string | undefined, formData: FormData) {
-try {
-    const res = await fetch(`http://localhost:8000/api/v2/search/parameter/${formData.get('search')}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json', // Set the correct Content-Type header
-        },
-    });
-    console.log('Response Status:', res.status);
-    const data = await res.json();
-    console.log('data', data)
-    revalidatePath('/search')
-    return {message: stringify(data)}
+async function getUserSession() {
+    const user = await auth()
+    console.log('user in actions', user)
+    return user
+}
 
+async function getPantry() {
+    const user = await getUserSession()
+    console.log('user in actions', user)
+    const userEmail = user?.user?.email as string
+
+    const {id,} = await fetchUserByEmail(userEmail)
+    const {id: pantryId,} = await fetchPantryByUserId(id)
 }
-catch (error) {
-    console.error('Failed to fetch data:', error);
-    throw new Error('Failed to fetch data.');
+
+export async function searchItem(prevState: string | undefined, formData: FormData) {
+    try {
+        const res = await fetch(`http://localhost:8000/api/v2/search/parameter/${formData.get('search')}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json', // Set the correct Content-Type header
+            },
+        });
+        console.log('Response Status:', res.status);
+        const data = await res.json();
+        console.log('data', data)
+        revalidatePath('/search')
+        return {message: stringify(data)}
+
+    } catch (error) {
+        console.error('Failed to fetch data:', error);
+        throw new Error('Failed to fetch data.');
+    }
 }
+
+export async function addItem(pantryId: number, gtin: string, image: string, formData: FormData) {
+    console.log('pantryId', pantryId)
+    console.log('formData', formData)
+    try {
+        const res = await fetch('http://localhost:8000/api/v1/pantry/create-item', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: formData.get('name'),
+                quantity: formData.get('quantity'),
+                expirationDate: formData.get('expirationDate'),
+                gtin: gtin,
+                //brand: formData.get('brand'),
+                image: image || formData.get('image'),
+                //category: formData.get('category'),
+                pantryId: pantryId,
+            }),
+        });
+        console.log('body', res.body)
+        console.log('Response Status:', res.status);
+        const data = await res.json();
+        console.log('data', data)
+        return data
+        /*revalidatePath('/add')
+        return {message: stringify(data)}*/
+
+    } catch (error) {
+        console.error('Failed to fetch data:', error);
+        throw new Error('Failed to fetch data.');
+    }
 }
+
 export async function authenticate(
     prevState: string | undefined,
     formData: FormData,

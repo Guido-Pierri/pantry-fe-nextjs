@@ -12,7 +12,7 @@ export default async function Page({searchParams}: {
 
     return (
         <div className="flex flex-col items-center justify-center md:h-screen">
-            <SearchBar placeholder={'search items'}/>
+            <SearchBar placeholder={'search products...'}/>
             {(query.length > 0) && <Results query={query} currentPage={currentPage}/>}
 
         </div>

@@ -339,6 +339,7 @@ export async function fetchItemById(id: string) {
     }
 }
 */
+/*
 export async function getUser(email: string) {
     try {
         const user = await sql`SELECT *
@@ -349,4 +350,4 @@ export async function getUser(email: string) {
         console.error('Failed to fetch user:', error);
         throw new Error('Failed to fetch user.');
     }
-}
+}*/
