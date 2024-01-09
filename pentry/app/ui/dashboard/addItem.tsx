@@ -1,12 +1,9 @@
 'use client';
 import {addItem} from "@/app/lib/actions";
-import {useFormState, useFormStatus} from "react-dom";
-import {auth} from "@/auth";
-import {fetchUserByEmail} from "@/app/lib/data";
+import {useFormStatus} from "react-dom";
 import {Item} from "@/app/lib/definitions";
 import Image from "next/image";
 
-const initialState = undefined;
 export default function AddItem({pantryId, gtin, item}: {
     pantryId?: number | undefined,
     gtin?: string | undefined
@@ -25,28 +22,30 @@ export default function AddItem({pantryId, gtin, item}: {
     const image = item?.image;
     const name = item?.name;
     const category = item?.category;
-    if (image != undefined && pantryId != undefined && gtin != undefined) {
-        const formAction = addItem.bind(null, pantryId, gtin, image);
-
-
-        //const formAction = updateUser.bind(null, userId)
+    const brand = item?.brand;
+    if (name != undefined && image != undefined && pantryId != undefined && gtin != undefined && category != undefined && brand != undefined) {
+        const formAction = addItem.bind(null, pantryId, name, gtin, image, category, brand,);
 
         return (
             <div className={'flex flex-col justify-center items-center'}>
                 {image && name ? (
-                    <Image className={'rounded'} src={image} alt={name} width={200} height={200}/>) : null}
+                    <>
+                        <h2>{name}</h2>
+                        <Image className={'rounded'} src={image} alt={name} width={500} height={500}/>
+                    </>) : null}
                 {formAction ? (<form action={formAction} className={'flex flex-col'}>
                     {!item?.name && category ? (<><label htmlFor={"name"}>Enter name</label>
-                        <input id={"name"} name={"name"} type={"text"}/>
+                        <input id={"name"} name={"name"} type={"text"} required={true}/>
                         <label htmlFor={"category"}>Category</label>
-                        <input id={"category"} name={"category"} type={"text"}/>
+                        <input id={"category"} name={"category"} type={"text"} required={true}/>
                         <label htmlFor={"image"}>Image</label>
-                        <input id={"image"} name={"image"} type={"text"}/></>) : null}
+                        <input id={"image"} name={"image"} type={"text"} required={true}/></>) : null}
 
                     {/*<label htmlFor={"quantity"}>Quantity</label>
                     <input id={"quantity"} name={"quantity"} type={"text"}/>*/}
                     <label htmlFor={"expirationDate"}></label>
-                    <input placeholder={'Expiration date'} id={"expirationDate"} name={"expirationDate"} type={"date"}/>
+                    <input placeholder={'Expiration date'} id={"expirationDate"} name={"expirationDate"} type={"date"}
+                           required={true}/>
 
                     <SubmitButton/>
                 </form>) : null}
