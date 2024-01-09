@@ -5,9 +5,11 @@ import {z} from 'zod';
 import type {User} from '@/app/lib/definitions';
 import {authConfig} from './auth.config';
 
+const apiUrl = process.env.SQL_DATABASE || 'http://localhost:8000';
+
 async function getUser(email: string): Promise<User | undefined> {
     try {
-        const user = await fetch(`http://localhost:8000/api/v1/users/${email}`);
+        const user = await fetch(`${apiUrl}/api/v1/users/${email}`);
         return await user.json();
     } catch (error) {
         console.error('Failed to fetch user:', error);
@@ -15,17 +17,17 @@ async function getUser(email: string): Promise<User | undefined> {
     }
 }
 
-export const { auth, signIn, signOut } = NextAuth({
+export const {auth, signIn, signOut} = NextAuth({
     ...authConfig,
     providers: [
         Credentials({
             async authorize(credentials) {
                 const parsedCredentials = z
-                    .object({ email: z.string().email(), password: z.string().min(6) })
+                    .object({email: z.string().email(), password: z.string().min(6)})
                     .safeParse(credentials);
 
                 if (parsedCredentials.success) {
-                    const { email, password } = parsedCredentials.data;
+                    const {email, password} = parsedCredentials.data;
 
                     const user = await getUser(email);
                     if (!user) return null;
