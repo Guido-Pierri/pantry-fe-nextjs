@@ -1,5 +1,4 @@
 'use client';
-import {useFormState} from "react-dom";
 import {MagnifyingGlassIcon} from '@heroicons/react/24/outline';
 import {usePathname, useSearchParams, useRouter} from 'next/navigation';
 import {useDebouncedCallback} from "use-debounce";
@@ -14,7 +13,7 @@ export default function SearchBar({placeholder}: { placeholder: string }) {
     const handleSearch = useDebouncedCallback((term) => {
         console.log(`Searching... ${term}`);
 
-        const params = new URLSearchParams(searchParams);
+        //const params = new URLSearchParams(searchParams);
         setSearchQuery(term)
         if (term) {
             params.set('query', term);
@@ -22,17 +21,21 @@ export default function SearchBar({placeholder}: { placeholder: string }) {
             params.delete('query');
         }
         console.log(params)
-        replace(`${pathname}?${params.toString()}`);
+        //replace(`${pathname}?${params.toString()}`);
     }, 300);
 
 
-    function handleClick() {
+    const handleClick = () => {
         const params = new URLSearchParams(searchParams);
-
-        console.log(searchQuery)
-        console.log(params)
-
-        replace(`${pathname}?${searchQuery.toString()}`);
+        console.log('pathname in click', pathname)
+        console.log('searchQuery in click', searchQuery)
+        console.log('params in click', params)
+        if (searchQuery) {
+            params.set('query', searchQuery);
+        } else {
+            params.delete('query');
+        }
+        replace(`${pathname}?${params.toString()}`);
 
     }
 
