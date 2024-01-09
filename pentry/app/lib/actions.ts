@@ -83,6 +83,7 @@ export async function authenticate(
     prevState: string | undefined,
     formData: FormData,
 ) {
+    console.log('formData in authenticate', formData)
     try {
         await signIn('credentials', formData);
     } catch (error) {
