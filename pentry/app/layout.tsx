@@ -5,6 +5,7 @@ import {inter, lusitana} from '@/app/ui/fonts';
 import {croissant} from '@/app/ui/fonts';
 
 import ReactDOM from "react-dom";
+import {Providers} from "@/app/providers";
 //const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -20,7 +21,7 @@ export default function RootLayout({
         <html lang="en" className={`${inter.className} antialiased `}>
 
         <body>
-        <div>{children}</div>
+        <Providers>{children}</Providers>
         </body>
         </html>
     )

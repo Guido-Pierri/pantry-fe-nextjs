@@ -1,9 +1,11 @@
 import NextAuth from 'next-auth';
+import getServerSession from 'next-auth'
 import Credentials from 'next-auth/providers/credentials';
 import bcrypt from 'bcryptjs';
 import {z} from 'zod';
 import type {User} from '@/app/lib/definitions';
 import {authConfig} from './auth.config';
+import GitHub from "@auth/core/providers/github";
 
 const apiUrl = process.env.SQL_DATABASE || 'http://localhost:8000';
 
@@ -44,5 +46,8 @@ export const {auth, signIn, signOut} = NextAuth({
                 return null;
             },
         }),
+        /*
+                GitHub({clientId: process.env.GITHUB_CLIENT_ID, clientSecret: process.env.GITHUB_CLIENT_SECRET}),
+        */
     ],
 });

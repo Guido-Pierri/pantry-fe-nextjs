@@ -83,7 +83,7 @@ export async function fetchPantryByUserId(user_id: string): Promise<PantryDto> {
 }
 
 export async function fetchUserByEmail(email: string): Promise<User> {
-    const res: Response = await fetch(`${apiUrl}/api/v1/users/${email}`,
+    const res: Response = await fetch(`${apiUrl}/api/v1/users/email/${email}`,
         {
             method: 'GET',
             headers: {
@@ -97,8 +97,31 @@ export async function fetchUserByEmail(email: string): Promise<User> {
         throw new Error('Failed to fetch data')
     }
     const id = data.id;
+    const username = data.username;
     const firstName = data.firstName;
     const lastName = data.lastName;
     const userEmail = data.email;
-    return {id, firstName, lastName, email: userEmail, password: ''}
+    return {id, username, firstName, lastName, email: userEmail, password: ''}
+}
+
+export async function fetchUserByUsername(userName: string): Promise<User> {
+    const res: Response = await fetch(`${apiUrl}/api/v1/users/username/${userName}`,
+        {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json', // Set the correct Content-Type header
+            },
+        });
+    console.log('Response Status:', res.status);
+    const data = await res.json();
+    if (!res.ok) {
+        // This will activate the closest `error.js` Error Boundary
+        throw new Error('Failed to fetch data')
+    }
+    const id = data.id;
+    const username = data.username;
+    const firstName = data.firstName;
+    const lastName = data.lastName;
+    const userEmail = data.email;
+    return {id, username, firstName, lastName, email: userEmail, password: ''}
 }
