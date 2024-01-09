@@ -1,14 +1,11 @@
 'use server';
 
 import {z} from 'zod';
-import {sql} from '@vercel/postgres';
 import {revalidatePath} from 'next/cache';
 import {redirect} from 'next/navigation';
 import {auth, signIn} from '@/auth';
 import {AuthError} from 'next-auth';
 import {stringify} from "yaml";
-import {Auth} from "@auth/core";
-import {fetchPantryByUserId, fetchUserByEmail} from "@/app/lib/data";
 
 const apiUrl = process.env.SQL_DATABASE || 'http://localhost:8000';
 

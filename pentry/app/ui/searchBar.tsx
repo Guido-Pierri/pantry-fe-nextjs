@@ -1,5 +1,4 @@
 'use client';
-import {useFormState} from "react-dom";
 import {MagnifyingGlassIcon} from '@heroicons/react/24/outline';
 import {usePathname, useSearchParams, useRouter} from 'next/navigation';
 import {useDebouncedCallback} from "use-debounce";
