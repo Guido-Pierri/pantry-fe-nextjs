@@ -45,7 +45,7 @@ export async function searchItem(prevState: string | undefined, formData: FormDa
     }
 }
 
-export async function addItem(pantryId: number, gtin: string, image: string, formData: FormData) {
+export async function addItem(pantryId: number, name: string, gtin: string, image: string, category: string, brand: string, formData: FormData) {
     console.log('pantryId', pantryId)
     console.log('formData', formData)
     try {
@@ -55,13 +55,13 @@ export async function addItem(pantryId: number, gtin: string, image: string, for
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                name: formData.get('name'),
+                name: name || formData.get('name'),
                 quantity: formData.get('quantity'),
                 expirationDate: formData.get('expirationDate'),
-                gtin: gtin,
-                //brand: formData.get('brand'),
+                gtin: gtin || formData.get('gtin'),
+                brand: brand || formData.get('brand'),
                 image: image || formData.get('image'),
-                //category: formData.get('category'),
+                category: category || formData.get('category'),
                 pantryId: pantryId,
             }),
         });
