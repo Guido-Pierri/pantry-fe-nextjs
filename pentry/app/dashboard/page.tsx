@@ -3,10 +3,6 @@ import {Card} from '@/app/ui/dashboard/cards';
 import LatestInvoices from '@/app/ui/dashboard/latest-invoices';*/
 import {croissant, lusitana} from '@/app/ui/fonts';
 import {
-    /*fetchRevenue,
-    fetchLatestInvoices,
-    fetchItems,*/
-    fetchCardData, fetchPantry,
     fetchPantryByUserId,
     fetchUserByEmail
 } from '@/app/lib/data';

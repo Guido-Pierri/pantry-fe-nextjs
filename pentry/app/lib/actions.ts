@@ -10,6 +10,7 @@ import {stringify} from "yaml";
 import {Auth} from "@auth/core";
 import {fetchPantryByUserId, fetchUserByEmail} from "@/app/lib/data";
 
+const apiUrl = process.env.SQL_DATABASE || 'http://localhost:8000';
 
 // This is temporary
 export type State = {
@@ -27,18 +28,9 @@ async function getUserSession() {
     return user
 }
 
-async function getPantry() {
-    const user = await getUserSession()
-    console.log('user in actions', user)
-    const userEmail = user?.user?.email as string
-
-    const {id,} = await fetchUserByEmail(userEmail)
-    const {id: pantryId,} = await fetchPantryByUserId(id)
-}
-
 export async function searchItem(prevState: string | undefined, formData: FormData) {
     try {
-        const res = await fetch(`http://localhost:8000/api/v2/search/parameter/${formData.get('search')}`, {
+        const res = await fetch(`${apiUrl}/api/v2/search/parameter/${formData.get('search')}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json', // Set the correct Content-Type header
@@ -60,7 +52,7 @@ export async function addItem(pantryId: number, gtin: string, image: string, for
     console.log('pantryId', pantryId)
     console.log('formData', formData)
     try {
-        const res = await fetch('http://localhost:8000/api/v1/pantry/create-item', {
+        const res = await fetch(`${apiUrl}/api/v1/pantry/create-item`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
