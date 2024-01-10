@@ -1,29 +1,11 @@
 'use server';
 
-import {z} from 'zod';
 import {revalidatePath} from 'next/cache';
-import {redirect} from 'next/navigation';
-import {auth, signIn} from '@/auth';
-import {AuthError} from 'next-auth';
 import {stringify} from "yaml";
+import {User} from "@/app/lib/definitions";
+import bcrypt from "bcryptjs";
 
 const apiUrl = process.env.SQL_DATABASE || 'http://localhost:8000';
-
-// This is temporary
-export type State = {
-    errors?: {
-        customerId?: string[];
-        amount?: string[];
-        status?: string[];
-    };
-    message?: string | null;
-};
-
-async function getUserSession() {
-    const user = await auth()
-    console.log('user in actions', user)
-    return user
-}
 
 export async function searchItem(prevState: string | undefined, formData: FormData) {
     try {
@@ -79,22 +61,18 @@ export async function addItem(pantryId: number, name: string, gtin: string, imag
     }
 }
 
-export async function authenticate(
-    prevState: string | undefined,
-    formData: FormData,
-) {
-    console.log('formData in authenticate', formData)
-    try {
-        await signIn('credentials', formData);
-    } catch (error) {
-        if (error instanceof AuthError) {
-            switch (error.type) {
-                case 'CredentialsSignin':
-                    return 'Invalid credentials.';
-                default:
-                    return 'Something went wrong.';
-            }
-        }
-        throw error;
-    }
+export async function registerUser(user: Omit<User, 'id'>) {
+    const req = {...user, password: await bcrypt.hash(user.password, 10)}
+    const res = await fetch(`${apiUrl}/api/v1/users/create`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(req),
+    });
+    console.log('Response Status:', res.status);
+    const data = await res.json();
+    console.log('data', data)
 }
+
+

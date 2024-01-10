@@ -83,6 +83,7 @@ export async function fetchPantryByUserId(user_id: string): Promise<PantryDto> {
 }
 
 export async function fetchUserByEmail(email: string): Promise<User> {
+    console.log('email', email)
     const res: Response = await fetch(`${apiUrl}/api/v1/users/email/${email}`,
         {
             method: 'GET',
@@ -97,11 +98,10 @@ export async function fetchUserByEmail(email: string): Promise<User> {
         throw new Error('Failed to fetch data')
     }
     const id = data.id;
-    const username = data.username;
     const firstName = data.firstName;
     const lastName = data.lastName;
     const userEmail = data.email;
-    return {id, username, firstName, lastName, email: userEmail, password: ''}
+    return {id, firstName, lastName, email: userEmail, password: ''}
 }
 
 export async function fetchUserByUsername(userName: string): Promise<User> {
@@ -119,9 +119,8 @@ export async function fetchUserByUsername(userName: string): Promise<User> {
         throw new Error('Failed to fetch data')
     }
     const id = data.id;
-    const username = data.username;
     const firstName = data.firstName;
     const lastName = data.lastName;
     const userEmail = data.email;
-    return {id, username, firstName, lastName, email: userEmail, password: ''}
+    return {id, firstName, lastName, email: userEmail, password: ''}
 }

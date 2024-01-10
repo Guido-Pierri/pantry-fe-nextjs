@@ -2,35 +2,49 @@ import {Card} from '@/app/ui/dashboard/cards';
 /*import RevenueChart from '@/app/ui/dashboard/revenue-chart';
 import LatestInvoices from '@/app/ui/dashboard/latest-invoices';*/
 import {croissant, lusitana} from '@/app/ui/fonts';
-import {
-    fetchPantryByUserId,
-    fetchUserByEmail
-} from '@/app/lib/data';
 import Link from "next/link";
-import {auth} from "@/auth";
+import getServerSession, {Session} from "next-auth";
+import {authOptions} from "@/app/api/auth/[...nextauth]/route";
+import {redirect} from "next/navigation";
+import {auth} from "@/app/auth";
+import {getSession, useSession} from "next-auth/react";
+import {User} from "@/app/lib/definitions";
 
-export default async function Page() {
-    const user = await auth()
-    const userEmail = user?.user?.email as string
-    console.log('user session', user?.user)
-    const {firstName, lastName, id, email} = await fetchUserByEmail(userEmail)
-    /*const {
-        numberOfItems,
-        /!*numberOfCustomers,
-        totalPaidInvoices,
-        totalPendingInvoices,*!/
-    } = await fetchCardData();*/
-    const {items} = await fetchPantryByUserId(id)
+interface PageProps {
+    session: Session & { user: User };
+    // Add other props as needed
+}
+
+const Page = async () => {
+    const session = await getServerSession(authOptions)
+    console.log('stringified session', JSON.stringify(session, null, 2))
+    /*return <pre>{JSON.stringify(session, null, 2)}</pre>*/
+
+    /*if (!session) {
+        // Redirect or handle the case where the user is not authenticated
+        return <div>Loading...</div>;
+    }*/
+    const user = session?.user;
+    console.log('user', user)
+    //const user = await getServerSession(req, res, authOptions)
+    // const userEmail = user?.user.email
+    //console.log('user email', userEmail)
+    //console.log('user session', user?.user.email)
+    //const {firstName, lastName, id, email, username} = await fetchUserByEmail(userEmail)
+
+    //const {items} = await fetchPantryByUserId(id)
+    //if (!session || !session.user) redirect("/auth/signin");
+
     return (
         <main>
             <h1 className={`${croissant.className} mb-4 text-xl md:text-2xl`}>
-                Dashboard {`${firstName} ${lastName}`}
+                {/*Dashboard {`${firstName} ${lastName}`}*/}
             </h1>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 text-blue-400">
                 {/* <Card title="Collected" value={totalPaidInvoices} type="collected" /> */}
 
-                {<Link href="/dashboard/pantry"><Card title="My Pantry" value={items.length} type="items"/></Link>}
-                {<Link href={"/dasboard/recipes"}><Card title="Recipes" value={0} type="recipes"/></Link>}
+                {/*{<Link href="/dashboard/pantry"><Card title="My Pantry" value={items.length} type="items"/></Link>}*/}
+                {<Link href={"/dashboard/recipes"}><Card title="Recipes" value={0} type="recipes"/></Link>}
                 {/* <Card
           title="Total Customers"
           value={numberOfCustomers}
@@ -177,3 +191,4 @@ const Dashboard = () => {
 }
 export default Dashboard
 */
+export default Page
