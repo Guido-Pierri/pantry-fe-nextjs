@@ -22,9 +22,9 @@ export default async function LoginPage() {
                 Don't have an account? <Link href="/signup">Sign up</Link>
                 <LoginForm/>
                 Sign in with Google
-                <SignIn provider={'google'} children={'Sign in with Google'}/>
+                <SignIn provider={'google'}>Sign in with Google</SignIn>
                 Sign in with Github
-                <SignIn provider={'github'} children={'Sign in with Github'}/>
+                <SignIn provider={'github'}>Sign in with Github</SignIn>
             </div>
         </main>
     );
