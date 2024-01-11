@@ -6,6 +6,8 @@ import {redirect} from 'next/navigation';
 import {auth, signIn} from '@/auth';
 import {AuthError} from 'next-auth';
 import {stringify} from "yaml";
+import bcrypt from "bcryptjs";
+import {User} from "@/app/lib/definitions";
 
 const apiUrl = process.env.SQL_DATABASE || 'http://localhost:8000';
 
@@ -97,4 +99,19 @@ export async function authenticate(
         }
         throw error;
     }
+}
+
+export async function registerUser(user: Omit<User, 'id'>) {
+    const req = {...user, password: await bcrypt.hash(user.password, 10)}
+    const res = await fetch(`${apiUrl}/api/v1/users/create`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(req),
+    });
+    console.log('Response Status:', res.status);
+    const data = await res.json();
+    console.log('data', data)
+    return data
 }

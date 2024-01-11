@@ -2,6 +2,18 @@
 // It describes the shape of the data.ts, and what data.ts type each property should accept.
 // For simplicity of teaching, we're manually defining these types.
 // However, these types are generated automatically if you're using an ORM such as Prisma.
+
+declare module "next-auth" {
+    interface Session {
+        user: User;
+    }
+
+}
+declare module 'next-auth' {
+    interface JWT {
+        user: User;
+    }
+}
 export type Pantry = {
     id: string;
     userId: string;

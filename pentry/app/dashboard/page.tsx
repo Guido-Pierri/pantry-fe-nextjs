@@ -10,56 +10,29 @@ import Link from "next/link";
 import {auth} from "@/auth";
 
 export default async function Page() {
-    const user = await auth()
-    const userEmail = user?.user?.email as string
-    console.log('user session', user?.user)
+    const session = await auth()
+    console.log('user', session?.user)
+    const userEmail = session?.user?.email as string
+    console.log('user session', session?.user)
+    const databaseUser = await fetchUserByEmail(userEmail)
+    console.log('database user', databaseUser)
     const {firstName, lastName, id, email} = await fetchUserByEmail(userEmail)
-    /*const {
-        numberOfItems,
-        /!*numberOfCustomers,
-        totalPaidInvoices,
-        totalPendingInvoices,*!/
-    } = await fetchCardData();*/
+
     const {items} = await fetchPantryByUserId(id)
+    if (!items) return (<div>loading...</div>)
     return (
         <main>
             <h1 className={`${croissant.className} mb-4 text-xl md:text-2xl`}>
                 Dashboard {`${firstName} ${lastName}`}
             </h1>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 text-blue-400">
-                {/* <Card title="Collected" value={totalPaidInvoices} type="collected" /> */}
 
                 {<Link href="/dashboard/pantry"><Card title="My Pantry" value={items.length} type="items"/></Link>}
                 {<Link href={"/dasboard/recipes"}><Card title="Recipes" value={0} type="recipes"/></Link>}
-                {/* <Card
-          title="Total Customers"
-          value={numberOfCustomers}
-          type="customers"
-        /> */}
             </div>
-            {/*<div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">*/}
-            {/* <RevenueChart revenue={revenue}  /> */}
-            {/* <LatestInvoices latestInvoices={latestInvoices} /> */}
-            {/*</div>*/}
         </main>
     );
 }
-
-async function getData() {
-    const res = await fetch('http://localhost:8000/api/v1/pantry/1')
-    console.log('res', res)
-    // The return value is *not* serialized
-    // You can return Date, Map, Set, etc.
-
-    if (!res.ok) {
-        // This will activate the closest `error.js` Error Boundary
-        throw new Error('Failed to fetch data')
-    }
-
-    return res.json()
-}
-
-
 /*
 import MyPantry from './MyPantry'
 import Navbar from './Navbar'
