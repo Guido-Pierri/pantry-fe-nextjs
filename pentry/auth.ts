@@ -1,15 +1,16 @@
-import NextAuth from 'next-auth';
+import NextAuth, {NextAuthConfig} from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import bcrypt from 'bcryptjs';
 import {z} from 'zod';
 import type {User} from '@/app/lib/definitions';
-import {authConfig} from './auth.config';
+//import {authConfig} from './auth.config';
+import Google from "next-auth/providers/google";
 
 const apiUrl = process.env.SQL_DATABASE || 'http://localhost:8000';
 
 async function getUser(email: string): Promise<User | undefined> {
     try {
-        const user = await fetch(`${apiUrl}/api/v1/users/${email}`);
+        const user = await fetch(`${apiUrl}/api/v1/users/email/${email}`);
         return await user.json();
     } catch (error) {
         console.error('Failed to fetch user:', error);
@@ -17,9 +18,9 @@ async function getUser(email: string): Promise<User | undefined> {
     }
 }
 
-export const {auth, signIn, signOut} = NextAuth({
-    ...authConfig,
-    providers: [
+export const config = {
+
+    providers: [Google({}),
         Credentials({
             async authorize(credentials) {
                 const parsedCredentials = z
@@ -44,5 +45,13 @@ export const {auth, signIn, signOut} = NextAuth({
                 return null;
             },
         }),
-    ],
-});
+    ], callbacks: {
+        authorized({request, auth}) {
+            const {pathname} = request.nextUrl
+            if (pathname === "/middleware-example") return !!auth
+            return true
+        },
+    },
+} satisfies NextAuthConfig
+
+export const {handlers, auth, signIn, signOut} = NextAuth(config)

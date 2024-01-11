@@ -83,7 +83,8 @@ export async function fetchPantryByUserId(user_id: string): Promise<PantryDto> {
 }
 
 export async function fetchUserByEmail(email: string): Promise<User> {
-    const res: Response = await fetch(`${apiUrl}/api/v1/users/${email}`,
+    console.log('email', email)
+    const res: Response = await fetch(`${apiUrl}/api/v1/users/email/${email}`,
         {
             method: 'GET',
             headers: {
@@ -91,6 +92,7 @@ export async function fetchUserByEmail(email: string): Promise<User> {
             },
         });
     console.log('Response Status:', res.status);
+    console.log(res.body)
     const data = await res.json();
     if (!res.ok) {
         // This will activate the closest `error.js` Error Boundary
