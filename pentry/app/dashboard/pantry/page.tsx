@@ -6,21 +6,25 @@ import {
 } from '@/app/lib/data';
 import {auth} from "@/auth";
 
-async function Page()  {
+async function Page() {
     const user = await auth()
     const userEmail = user?.user?.email as string
-    const {id,} = await fetchUserByEmail(userEmail)
-    const {items} = await fetchPantryByUserId(id)
+    const userFromDatabase = await fetchUserByEmail(userEmail)
+    const id = userFromDatabase?.id as string
+    const items = await fetchPantryByUserId(id)
     return (
         <main>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 text-blue-400">
-                {items && items.map((item: Item) =>
-                    <Link key={item.id} href="/dashboard/pantry"><Card  title={item.name} value={ "Expires: " + item.expirationDate}
-                                                         type="items"/></Link>)}
+                {items && items.items.map((item: Item) =>
+                    <Link key={item.id} href="/dashboard/pantry"><Card title={item.name}
+                                                                       value={"Expires: " + item.expirationDate}
+                                                                       type="items"
+                                                                       item={item}/></Link>)}
             </div>
         </main>
     )
 }
+
 /*
 'use client'
 import React, { useState } from 'react'

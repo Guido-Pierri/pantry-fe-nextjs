@@ -8,6 +8,7 @@ import {
 import {lusitana} from '@/app/ui/fonts';
 import Link from "next/link";
 import {Item, SearchItem} from "@/app/lib/definitions";
+import Image from "next/image";
 
 const iconMap = {
     /*collected: BanknotesIcon,
@@ -39,10 +40,12 @@ export function Card({
                          title,
                          value,
                          type,
+                         item,
                      }: {
     title: string;
     value: number | string;
     type: 'items' | 'search' | 'recipes'/*  | 'collected'*/;
+    item?: Item;
 }) {
     const Icon = iconMap[type];
 
@@ -52,12 +55,13 @@ export function Card({
                 {Icon ? <Icon className="h-5 w-5 text-gray-700"/> : null}
                 <h3 className="ml-2 text-sm font-medium">{title}</h3>
             </div>
-            <p
-                className={`${lusitana.className}
-          truncate rounded-xl bg-white px-4 py-8 text-center text-2xl`}
-            >
-                {value}
-            </p>
+            <div className="flex flex-col items-center justify-items-center px-4">
+                {item?.image ? <Image src={item?.image as string} width={300} height={300} alt=""/> : null}
+
+                <p className={`${lusitana.className} truncate rounded-xl bg-white px-4 py-8 text-center text-2xl`}>
+                    {value}
+                </p>
+            </div>
         </div>
     );
 }
