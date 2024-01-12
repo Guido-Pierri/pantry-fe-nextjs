@@ -7,9 +7,10 @@ export default async function Page({params}: { params: { gtin: string } }) {
     const item = await fetchItemByGtin(gtin);
     const user = await auth()
     const userEmail = user?.user?.email as string
-    const {id} = await fetchUserByEmail(userEmail)
-    const {id: pantryId} = await fetchPantryByUserId(id)
-    //const item = await fetchItemByGtin(gtin)
+    const userFromDatabase = await fetchUserByEmail(userEmail)
+    const id = userFromDatabase?.id as string
+    const pantry = await fetchPantryByUserId(id)
+    const pantryId = pantry?.id
     return (
         <AddItem gtin={gtin} pantryId={pantryId} item={item}/>
     )
