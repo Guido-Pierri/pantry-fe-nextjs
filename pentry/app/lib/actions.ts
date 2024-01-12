@@ -51,35 +51,35 @@ export async function createItem(pantryId: number, name: string, gtin: string, i
     console.log('pantryId', pantryId)
     console.log('formData', formData)
     const quantity = "1"
-    try {
-        const res = await fetch(`${apiUrl}/api/v1/pantry/create-item`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                name: name || formData.get('name'),
-                quantity: quantity || formData.get('quantity'),
-                expirationDate: formData.get('expirationDate'),
-                gtin: gtin || formData.get('gtin'),
-                brand: brand || formData.get('brand'),
-                image: image || formData.get('image'),
-                category: category || formData.get('category'),
-                pantryId: pantryId,
-            }),
-        });
-        console.log('body', res.body)
-        console.log('Response Status:', res.status);
-        const data = await res.json();
-        console.log('data', data)
-        return data
-        /*revalidatePath('/add')
-        return {message: stringify(data)}*/
+    const res = await fetch(`${apiUrl}/api/v1/pantry/create-item`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            name: name || formData.get('name'),
+            quantity: quantity || formData.get('quantity'),
+            expirationDate: formData.get('expirationDate'),
+            gtin: gtin || formData.get('gtin'),
+            brand: brand || formData.get('brand'),
+            image: image || formData.get('image'),
+            category: category || formData.get('category'),
+            pantryId: pantryId,
+        }),
+    });
+    console.log('body', res.body)
+    console.log('Response Status:', res.status);
+    const data = await res.json();
+    console.log('data', data)
+    redirect('/dashboard/pantry')
 
-    } catch (error) {
-        console.error('Failed to fetch data:', error);
-        throw new Error('Failed to fetch data.');
-    }
+    /*
+    * FIXME: Revalidate data
+    */
+    /*revalidatePath('/add')
+    return {message: stringify(data)}*/
+
+
 }
 
 export async function authenticate(

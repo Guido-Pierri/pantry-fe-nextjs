@@ -16,10 +16,11 @@ async function Page() {
         <main>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 text-blue-400">
                 {items && items.items.map((item: Item) =>
-                    <Link key={item.id} href="/dashboard/pantry"><Card title={item.name}
-                                                                       value={"Expires: " + item.expirationDate}
-                                                                       type="items"
-                                                                       item={item}/></Link>)}
+                    <Link key={item.id} href="/dashboard/pantry">
+                        <Card title={item.name}
+                              value={"Expires: " + item.expirationDate}
+                              type="items"
+                              item={item}/></Link>)}
             </div>
         </main>
     )
