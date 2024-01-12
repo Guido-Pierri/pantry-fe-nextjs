@@ -47,9 +47,10 @@ export async function searchItem(prevState: string | undefined, formData: FormDa
     }
 }
 
-export async function addItem(pantryId: number, name: string, gtin: string, image: string, category: string, brand: string, formData: FormData) {
+export async function createItem(pantryId: number, name: string, gtin: string, image: string, category: string, brand: string, formData: FormData) {
     console.log('pantryId', pantryId)
     console.log('formData', formData)
+    const quantity = "1"
     try {
         const res = await fetch(`${apiUrl}/api/v1/pantry/create-item`, {
             method: 'POST',
@@ -58,7 +59,7 @@ export async function addItem(pantryId: number, name: string, gtin: string, imag
             },
             body: JSON.stringify({
                 name: name || formData.get('name'),
-                quantity: formData.get('quantity'),
+                quantity: quantity || formData.get('quantity'),
                 expirationDate: formData.get('expirationDate'),
                 gtin: gtin || formData.get('gtin'),
                 brand: brand || formData.get('brand'),
@@ -101,17 +102,61 @@ export async function authenticate(
     }
 }
 
-export async function registerUser(user: Omit<User, 'id'>) {
-    const req = {...user, password: await bcrypt.hash(user.password, 10)}
-    const res = await fetch(`${apiUrl}/api/v1/users/create`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(req),
-    });
-    console.log('Response Status:', res.status);
-    const data = await res.json();
-    console.log('data', data)
-    return data
+export async function createPantry(id: number) {
+    console.log('id in createPantry', id)
+    try {
+        const res = await fetch(`${apiUrl}/api/v1/pantry/create-pantry`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userId: id
+            }),
+        });
+        console.log('Response Status:', res.status);
+        const data = await res.json();
+        console.log('data', data)
+        return data
+    } catch (error) {
+        console.error('Failed to fetch data:', error);
+        throw new Error('Failed to fetch data.');
+    }
+}
+
+export async function registerUser(prevState: string | undefined,
+                                   formData: FormData,) {
+    console.log('formData', formData)
+
+    const password = formData.get('password')
+    const confirmPassword = formData.get('confirmPassword')
+    if (typeof password === "string" && typeof confirmPassword === "string") {
+        if (password !== confirmPassword) {
+            return 'Passwords do not match'
+        } else {
+
+            const user = {
+                firstName: formData.get('firstName'),
+                lastName: formData.get('lastName'),
+                email: formData.get('email'), password: password
+            }
+            const req = {...user, password: await bcrypt.hash(password, 10)}
+            const res = await fetch(`${apiUrl}/api/v1/users/create`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(req)
+            });
+            console.log('Response Status:', res.status);
+            console.log('res', res)
+            const data = await res.json();
+            console.log('data', data)
+            const userId = data.id
+            console.log('userId', userId)
+            const pantry = await createPantry(userId)
+            console.log('pantry', pantry)
+            redirect('/login')
+        }
+    }
 }

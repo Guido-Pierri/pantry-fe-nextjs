@@ -1,9 +1,18 @@
 'use client';
-import {useFormState} from "react-dom";
+import {useFormState, useFormStatus} from "react-dom";
 import {registerUser} from "@/app/lib/actions";
+import {useState} from "react";
+import {InputType} from "node:zlib";
+import {ExclamationCircleIcon, EyeIcon, EyeSlashIcon, MagnifyingGlassIcon} from "@heroicons/react/24/outline";
+import {Button} from "@/app/ui/button";
+import {ArrowRightIcon} from "@heroicons/react/20/solid";
 
 export default function SignUpForm() {
-    const [dispatch] = useFormState(registerUser, undefined);
+    const [errorMessage, dispatch] = useFormState(registerUser, undefined);
+    const [isVisiblePass, setIsVisiblePass] = useState(false);
+    const toggleVisblePass = () => {
+        setIsVisiblePass((prev) => !prev)
+    };
 
     return (
         <form action={dispatch} className={'flex flex-col'}>
@@ -14,12 +23,50 @@ export default function SignUpForm() {
             <label htmlFor={"email"}>Email</label>
             <input id={"email"} name={"email"} type={"email"} required={true}/>
             <label htmlFor={"password"}>Password</label>
-            <input id={"password"} name={"password"} type={"password"} required={true}/>
+            <div className="relative flex flex-1">
+                <input id={"password"} name={"password"} type={isVisiblePass ? "text" : "password"}
+                       required={true}></input>
+                {isVisiblePass ? (<EyeSlashIcon
+                    className="absolute right-3/4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 cursor-pointer"
+                    //className="w-4 cursor-pointer"
+                    onClick={toggleVisblePass}/>) : <EyeIcon onClick={toggleVisblePass}
+                                                             className="absolute right-3/4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 cursor-pointer"
+                />}
+            </div>
             <label htmlFor={"confirmPassword"}>Confirm password</label>
-            <input id={"confirmPassword"} name={"confirmPassword"} type={"password"} required={true}/>
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type={"submit"}>
-                Sign up
-            </button>
+            <div className="relative flex flex-1">
+
+                <input id={"confirmPassword"} name={"confirmPassword"} type={isVisiblePass ? "text" : "password"}
+                       required={true}></input>
+                {isVisiblePass ? (<EyeSlashIcon
+                    className="absolute right-3/4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 cursor-pointer"
+                    //className="w-4 cursor-pointer"
+                    onClick={toggleVisblePass}/>) : <EyeIcon onClick={toggleVisblePass}
+                                                             className="absolute right-3/4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 cursor-pointer"/>}
+            </div>
+            <SignupButton/>
+            <div
+                className="flex h-8 items-end space-x-1"
+                aria-live="polite"
+                aria-atomic="true"
+            >
+                {errorMessage && (
+                    <>
+                        <ExclamationCircleIcon className="h-5 w-5 text-red-500"/>
+                        <p className="text-sm text-red-500">{errorMessage}</p>
+                    </>
+                )}
+            </div>
         </form>
+    );
+}
+
+function SignupButton() {
+    const {pending} = useFormStatus();
+
+    return (
+        <Button className="mt-4 w-full" aria-disabled={pending}>
+            Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50"/>
+        </Button>
     );
 }
