@@ -8,26 +8,34 @@ import {
 } from '@/app/lib/data';
 import Link from "next/link";
 import {auth} from "@/auth";
+import {redirect} from "next/navigation";
 
 export default async function Page() {
     const session = await auth()
+    if (!session) {
+        redirect('/login')
+    }
     console.log('user', session?.user)
     const userEmail = session?.user?.email as string
     console.log('user session', session?.user)
     const databaseUser = await fetchUserByEmail(userEmail)
     console.log('database user', databaseUser)
-    const {firstName, lastName, id, email} = await fetchUserByEmail(userEmail)
 
-    const {items} = await fetchPantryByUserId(id)
+    //const {firstName, lastName, id, email} = await fetchUserByEmail(userEmail)
+    if (!databaseUser) {
+        redirect('/signup')
+    }
+    const items = await fetchPantryByUserId(databaseUser?.id as string)
     if (!items) return (<div>loading...</div>)
     return (
         <main>
             <h1 className={`${croissant.className} mb-4 text-xl md:text-2xl`}>
-                Dashboard {`${firstName} ${lastName}`}
+                Dashboard {`${databaseUser?.firstName} ${databaseUser?.lastName}`}
             </h1>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 text-blue-400">
 
-                {<Link href="/dashboard/pantry"><Card title="My Pantry" value={items.length} type="items"/></Link>}
+                {<Link href="/dashboard/pantry"><Card title="My Pantry" value={items.items.length}
+                                                      type="items"/></Link>}
                 {<Link href={"/dasboard/recipes"}><Card title="Recipes" value={0} type="recipes"/></Link>}
             </div>
         </main>

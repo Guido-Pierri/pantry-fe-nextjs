@@ -62,7 +62,11 @@ export async function fetchItemByGtin(gtin: string): Promise<Item> {
     return data;
 }
 
-export async function fetchPantryByUserId(user_id: string): Promise<PantryDto> {
+export async function fetchPantryByUserId(user_id: string): Promise<Promise<PantryDto> | Promise<null>> {
+    console.log('user_id', user_id)
+    if (!user_id) {
+        return null;
+    }
     const res: Response = await fetch(`${apiUrl}/api/v1/pantry/user/${user_id}`,
         {
             method: 'GET',
@@ -82,8 +86,11 @@ export async function fetchPantryByUserId(user_id: string): Promise<PantryDto> {
     return {id, userId, items}
 }
 
-export async function fetchUserByEmail(email: string): Promise<User> {
+export async function fetchUserByEmail(email: string): Promise<Promise<null> | Promise<User>> {
     console.log('email', email)
+    if (!email) {
+        return null;
+    }
     const res: Response = await fetch(`${apiUrl}/api/v1/users/email/${email}`,
         {
             method: 'GET',
@@ -92,7 +99,10 @@ export async function fetchUserByEmail(email: string): Promise<User> {
             },
         });
     console.log('Response Status:', res.status);
-    console.log(res.body)
+    if (res.status === 404) {
+        return null
+    }
+    console.log('res', res)
     const data = await res.json();
     if (!res.ok) {
         // This will activate the closest `error.js` Error Boundary
