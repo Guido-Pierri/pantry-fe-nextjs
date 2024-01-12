@@ -4,10 +4,11 @@ import {
     UserGroupIcon,
     HomeIcon,
     DocumentDuplicateIcon,
-    MagnifyingGlassIcon
+    MagnifyingGlassIcon,
+    CubeIcon, ClipboardIcon, RectangleStackIcon
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import {usePathname} from 'next/navigation';
 import clsx from 'clsx';
 
 // ...
@@ -17,17 +18,31 @@ export default function NavLinks() {
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
     const links = [
-        { name: 'Home',
+        {
+            name: 'Home',
             href: '/dashboard',
-            icon: HomeIcon },
+            icon: HomeIcon
+        },
         {
             name: 'Pantry',
             href: '/dashboard/pantry',
-            icon: DocumentDuplicateIcon,
+            icon: RectangleStackIcon,
         },
-        { name: 'Search',
+        {
+            name: 'Search',
             href: '/dashboard/search',
-            icon: MagnifyingGlassIcon },
+            icon: MagnifyingGlassIcon
+        },
+        {
+            name: 'Add Item',
+            href: '/dashboard/add-item',
+            icon: CubeIcon
+        },
+        {
+            name: 'Recipes',
+            href: '/dashboard/recipes',
+            icon: ClipboardIcon
+        },
     ];
     return (
         <>
@@ -44,7 +59,7 @@ export default function NavLinks() {
                             },
                         )}
                     >
-                        <LinkIcon className="w-6" />
+                        <LinkIcon className="w-6"/>
                         <p className="hidden md:block">{link.name}</p>
                     </Link>
                 );
