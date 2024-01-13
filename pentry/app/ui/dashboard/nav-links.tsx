@@ -34,15 +34,15 @@ export default function NavLinks() {
             icon: MagnifyingGlassIcon
         },
         {
-            name: 'Add Item',
+            name: 'Add',
             href: '/dashboard/add-item',
             icon: CubeIcon
         },
-        {
+        /*{
             name: 'Recipes',
             href: '/dashboard/recipes',
             icon: ClipboardIcon
-        },
+        },*/
     ];
     return (
         <>
