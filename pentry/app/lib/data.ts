@@ -88,6 +88,7 @@ export async function fetchPantryByUserId(user_id: string): Promise<Promise<Pant
 
 export async function fetchUserByEmail(email: string): Promise<Promise<null> | Promise<User>> {
     console.log('email', email)
+    console.log('apiUrl', apiUrl)
     if (!email) {
         return null;
     }
