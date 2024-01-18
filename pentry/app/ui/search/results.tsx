@@ -1,5 +1,5 @@
-import {searchItems} from "@/app/lib/data";
-import {SearchItem} from "@/app/lib/definitions";
+import {searchItems, searchPaginatedItems} from "@/app/lib/data";
+import {SearchItem, SearchPage} from "@/app/lib/definitions";
 import {Key, ReactElement, JSXElementConstructor, ReactNode, ReactPortal, PromiseLikeOfReactNode} from "react";
 import Link from "next/link";
 import {ItemCard} from "@/app/ui/dashboard/cards";
@@ -11,9 +11,9 @@ export default async function Results({
     query: string;
     currentPage: number;
 }) {
-    const items: SearchItem[] = await searchItems(query, currentPage);
+    const page: SearchPage = await searchPaginatedItems(query, currentPage);
+    const items = page.content;
     console.log("items", items);
-    console.log("items.data", items)
     return (
         <div>
             {items &&

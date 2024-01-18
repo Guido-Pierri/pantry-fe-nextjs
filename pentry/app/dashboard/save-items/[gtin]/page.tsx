@@ -11,6 +11,7 @@ export default async function Page({params}: { params: { gtin: string } }) {
     const id = userFromDatabase?.id as string
     const pantry = await fetchPantryByUserId(id)
     const pantryId = pantry?.id
+    console.log('pantryId', pantryId)
     return (
         <AddItem gtin={gtin} pantryId={pantryId} item={item}/>
     )

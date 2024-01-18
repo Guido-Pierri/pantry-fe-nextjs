@@ -1,5 +1,5 @@
 import {sql} from '@vercel/postgres';
-import {Item, ItemForm, PantryDto, SearchItem, User,} from './definitions';
+import {Item, ItemForm, PantryDto, SearchItem, SearchPage, User,} from './definitions';
 
 const apiUrl = process.env.SQL_DATABASE || 'http://localhost:8000';
 
@@ -29,6 +29,30 @@ export async function searchItems(query: string, currentPage: number): Promise<S
     console.log('query', query);
 
     const res = await fetch(`${apiUrl}/api/v2/search/parameter/${query}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    console.log('Response Status:', res.status);
+
+    if (!res.ok) {
+        // This will activate the closest `error.js` Error Boundary
+        throw new Error('Failed to fetch data');
+    }
+
+    const data = await res.json();
+    console.log('API Response Data:', data);
+
+    return data;
+}
+
+export async function searchPaginatedItems(query: string, currentPage: number): Promise<SearchPage> {
+    console.log('inside searchPaginatedItems');
+    console.log('query', query);
+
+    const res = await fetch(`${apiUrl}/api/v2/search/paginated/parameter/${query}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

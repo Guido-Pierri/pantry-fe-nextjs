@@ -9,7 +9,7 @@ import {stringify} from "yaml";
 import bcrypt from "bcryptjs";
 import {User} from "@/app/lib/definitions";
 
-const apiUrl = process.env.SQL_DATABASE || 'http://localhost:8000';
+const apiUrl = process.env.SQL_DATABASE;
 
 // This is temporary
 export type State = {
@@ -48,6 +48,7 @@ export async function searchItem(prevState: string | undefined, formData: FormDa
 }
 
 export async function createItem(pantryId: number, name: string, gtin: string, image: string, category: string, brand: string, formData: FormData) {
+    console.log('apiUrl in createItem', apiUrl)
     console.log('pantryId', pantryId)
     console.log('formData', formData)
     const quantity = "1"
