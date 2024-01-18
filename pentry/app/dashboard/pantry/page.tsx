@@ -24,7 +24,7 @@ async function Page() {
                               item={item}/></Link>) : <div className={'flex flex-col'}>
 
                     <Link href={'/dashboard/add-item'}>start adding items to your pantry</Link>
-                    <Link href={'/dashboard/search'}>or search for items"</Link>
+                    <Link href={'/dashboard/search'}>or search for items</Link>
 
                 </div>}
             </div>
