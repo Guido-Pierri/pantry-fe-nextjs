@@ -52,10 +52,10 @@ export function Card(
                 {Icon ? <Icon className="h-5 w-5 text-gray-700"/> : null}
                 <h3 className="ml-2 text-sm font-medium">{title}</h3>
             </div>
-            <div className="flex flex-col items-center justify-items-center px-4">
+            <div className="flex flex-col items-start justify-items-center px-4">
                 {item?.image ? <Image src={item?.image as string} width={300} height={300} alt=""/> : null}
 
-                <p className={`${lusitana.className}  rounded px-4 text-center`}>
+                <p className={"rounded px-4 text-center"}>
                     {value}
                 </p>
             </div>

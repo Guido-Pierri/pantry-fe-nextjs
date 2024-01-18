@@ -26,6 +26,7 @@ export default async function Page() {
         redirect('/signup')
     }
     const items = await fetchPantryByUserId(databaseUser?.id as string)
+    console.log('items', items)
     if (!items) return (<div>loading...</div>)
     return (
         <main>
@@ -34,7 +35,8 @@ export default async function Page() {
             </h1>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 text-blue-400">
 
-                {<Link href="/dashboard/pantry"><Card title="My Pantry" value={items.items.length}
+                {<Link href="/dashboard/pantry"><Card title="My Pantry"
+                                                      value={items.items ? items.items.length : "Your pantry is empty"}
                                                       type="items"/></Link>}
                 {<Link href={"/dasboard/recipes"}><Card title="Recipes" value={0} type="recipes"/></Link>}
             </div>
