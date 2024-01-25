@@ -9,7 +9,7 @@ import {ArrowRightIcon} from "@heroicons/react/20/solid";
 import {auth} from "@/auth";
 import {useSession} from "next-auth/react";
 
-export default async function SignUpForm() {
+export default function SignUpForm() {
 
 // Store the token in a state
     const [errorMessage, dispatch] = useFormState(registerUser, undefined);

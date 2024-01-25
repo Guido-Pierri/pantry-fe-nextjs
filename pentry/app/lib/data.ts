@@ -2,7 +2,6 @@ import {Item, PantryDto, SearchItem, SearchPage, User,} from './definitions';
 import {auth} from "@/auth";
 
 const apiUrl =/* process.env.SQL_DATABASE || */'http://localhost:8080';
-const session = auth()
 
 export async function getSession() {
     const session = await auth()
