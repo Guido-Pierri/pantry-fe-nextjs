@@ -7,9 +7,11 @@ import {
 import {auth} from "@/auth";
 
 async function Page() {
-    const user = await auth()
-    const userEmail = user?.user?.email as string
-    const userFromDatabase = await fetchUserByEmail(userEmail)
+    const session = await auth()
+    const token = session?.token;
+    const userEmail = session?.user?.email
+    if (!token || !userEmail) return null
+    const userFromDatabase = await fetchUserByEmail(userEmail, token)
     const id = userFromDatabase?.id as string
     const items = await fetchPantryByUserId(id)
     return (
