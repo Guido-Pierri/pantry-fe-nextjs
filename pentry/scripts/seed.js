@@ -1,4 +1,4 @@
-const { db } = require('@vercel/postgres');
+const {db} = require('@vercel/postgres');
 const {
     items,
     /*customers,
@@ -12,26 +12,32 @@ async function seedUsers(client) {
         await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
         // Create the "users" table if it doesn't exist
         const createTable = await client.sql`
-      CREATE TABLE IF NOT EXISTS users (
-        id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-        name VARCHAR(255) NOT NULL,
-        email TEXT NOT NULL UNIQUE,
-        password TEXT NOT NULL
-      );
-    `;
+            CREATE TABLE IF NOT EXISTS users
+            (
+                id
+                UUID
+                DEFAULT
+                uuid_generate_v4
+            (
+            ) PRIMARY KEY,
+                name VARCHAR
+            (
+                255
+            ) NOT NULL,
+                email TEXT NOT NULL UNIQUE,
+                password TEXT NOT NULL
+                );
+        `;
 
-        console.log(`Created "users" table`);
 
         // Insert data.ts into the "users" table
-        console.log('users', users)
         const insertedUsers = await Promise.all(
             users.map(async (user) => {
                 const hashedPassword = await bcrypt.hash(user.password, 10);
                 return client.sql`
-        INSERT INTO users (id, name, email, password)
-        VALUES (${user.id}, ${user.name}, ${user.email}, ${hashedPassword})
-        ON CONFLICT (id) DO NOTHING;
-      `;
+                    INSERT INTO users (id, name, email, password)
+                    VALUES (${user.id}, ${user.name}, ${user.email}, ${hashedPassword}) ON CONFLICT (id) DO NOTHING;
+                `;
             }),
         );
 
@@ -53,18 +59,39 @@ async function seedItems(client) {
 
         // Create the "invoices" table if it doesn't exist
         const createTable = await client.sql`
-    CREATE TABLE IF NOT EXISTS items (
-    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    quantity INT NOT NULL,
-    expirationDate DATE NOT NULL,
-    gtin VARCHAR(255) NOT NULL,
-    brand VARCHAR(255) NOT NULL,
-    category VARCHAR(255) NOT NULL,
-    image VARCHAR(255) NOT NULL,
-    userId UUID NOT NULL
-  );
-`;
+            CREATE TABLE IF NOT EXISTS items
+            (
+                id
+                UUID
+                DEFAULT
+                uuid_generate_v4
+            (
+            ) PRIMARY KEY,
+                name VARCHAR
+            (
+                255
+            ) NOT NULL,
+                quantity INT NOT NULL,
+                expirationDate DATE NOT NULL,
+                gtin VARCHAR
+            (
+                255
+            ) NOT NULL,
+                brand VARCHAR
+            (
+                255
+            ) NOT NULL,
+                category VARCHAR
+            (
+                255
+            ) NOT NULL,
+                image VARCHAR
+            (
+                255
+            ) NOT NULL,
+                userId UUID NOT NULL
+                );
+        `;
 
         console.log(`Created "items" table`);
 
@@ -72,10 +99,10 @@ async function seedItems(client) {
         const insertedItems = await Promise.all(
             items.map(
                 (item) => client.sql`
-        INSERT INTO items (name, quantity, expirationDate, gtin, brand, category, image, userId)
-        VALUES (${item.name}, ${item.quantity}, ${item.expirationDate}, ${item.gtin}, ${item.brand}, ${item.category}, ${item.image}, ${item.userId})
-        ON CONFLICT (id) DO NOTHING;
-      `,
+                    INSERT INTO items (name, quantity, expirationDate, gtin, brand, category, image, userId)
+                    VALUES (${item.name}, ${item.quantity}, ${item.expirationDate}, ${item.gtin}, ${item.brand},
+                            ${item.category}, ${item.image}, ${item.userId}) ON CONFLICT (id) DO NOTHING;
+                `,
             ),
         );
 

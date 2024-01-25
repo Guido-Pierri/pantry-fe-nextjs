@@ -243,18 +243,34 @@ export const config = {
             }
             return true;
         },
+        async signIn({user, account}) {
+            if (account?.provider === 'google') {
+                //console.log('user in signIn', user)
+                console.log('account in signIn', account)
+                //user.accessToken = account.id_token;
+            }
+            return true;
+        },
         async session({token, session}) {
             // Add property to session, like an access_token from a provider.
-            //session.accessToken = token.accessToken
+            session.token = token.accessToken as string;
+            //console.log('token in session', token)
             session.user = token.user as User;
-
+            console.log('session in session', session)
             return Promise.resolve(session)
         },
-        async jwt({token, user}) {
-            if (user) token.user = user as User;
+        async jwt({token, user, account}) {
+            if (user) {
+                token.user = user as User;
+
+                token.accessToken = account?.id_token;
+                token.provider = account?.provider;
+                
+
+            }
             console.log('token in jwt', token)
-            console.log('token.user', token.user)
-            console.log('user in jwt', user)
+            //console.log('token.user', token.user)
+            //console.log('user in jwt', user)
             return token;
         },
 

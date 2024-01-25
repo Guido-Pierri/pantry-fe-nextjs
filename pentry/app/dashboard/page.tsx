@@ -12,13 +12,15 @@ import {redirect} from "next/navigation";
 
 export default async function Page() {
     const session = await auth()
+    const token = session?.token;
     if (!session) {
         redirect('/login')
     }
     console.log('user', session?.user)
     const userEmail = session?.user?.email as string
     console.log('user session', session?.user)
-    const databaseUser = await fetchUserByEmail(userEmail)
+    if (!token) return null
+    const databaseUser = await fetchUserByEmail(userEmail, token)
     console.log('database user', databaseUser)
 
     //const {firstName, lastName, id, email} = await fetchUserByEmail(userEmail)

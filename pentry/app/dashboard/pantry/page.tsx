@@ -12,7 +12,6 @@ async function Page() {
     const userFromDatabase = await fetchUserByEmail(userEmail)
     const id = userFromDatabase?.id as string
     const items = await fetchPantryByUserId(id)
-    console.log('items in pantry', items)
     return (
         <main>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 text-blue-400">

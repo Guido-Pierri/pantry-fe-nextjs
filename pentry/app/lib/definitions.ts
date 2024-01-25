@@ -6,6 +6,7 @@
 declare module "next-auth" {
     interface Session {
         user: User;
+        token: string;
     }
 
 }
@@ -44,6 +45,7 @@ export type User = {
     lastName: string;
     email: string;
     password: string;
+    accessToken?: string;
 };
 export type ItemForm = {
     id: string;
