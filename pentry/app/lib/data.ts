@@ -126,34 +126,11 @@ export async function fetchPantryByUserId(user_id: string): Promise<Promise<Pant
     return {id, userId, items}
 }
 
-export async function fetchUserByEmail(email: string, token: string): Promise<Promise<null> | Promise<User>> {
-    console.log('email in fetchUserByEmail ', email)
-    console.log('token in fetchUserByEmail', token)
-    if (!email || !token) {
-        return null;
-    }
+/*
+export async function fetchUserByEmail(email: string): Promise<Promise<null> | Promise<User>> {
+    /!*const encodedEmail = encodeURIComponent(email);
+    console.log('encodedEmail', encodedEmail)*!/
+    const res = await import(`http://localhost:3000/api/user-by-email?email=${email}`);
+    return await (await res.handler()).json()
 
-    const res: Response = await fetch(`${apiUrl}/api/v1/users/email/${email}`,
-        {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json', // Set the correct Content-Type header
-                'Authorization': `Bearer ${token}`
-            },
-        });
-    console.log('Response Status for fetch:', res.status);
-    if (res.status === 404) {
-        return null
-    }
-    //console.log('res', res)
-    const data = await res.json();
-    if (!res.ok) {
-        // This will activate the closest `error.js` Error Boundary
-        throw new Error('Failed to fetch data')
-    }
-    const id = data.id;
-    const firstName = data.firstName;
-    const lastName = data.lastName;
-    const userEmail = data.email;
-    return {id, firstName, lastName, email: userEmail, password: ''}
-}
+}*/

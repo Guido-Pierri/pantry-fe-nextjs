@@ -128,12 +128,25 @@ import bcrypt from 'bcryptjs';
 import {z} from 'zod';
 import type {User} from '@/app/lib/definitions';
 import authConfig from "@/auth.config";
+import {useSession} from "next-auth/react";
+import {NextResponse} from "next/server";
 
 const apiUrl = process.env.SQL_DATABASE || 'http://localhost:8000';
 
-async function getUser(email: string): Promise<User | undefined> {
+async function getUser(email: string, token?: string): Promise<User | undefined> {
     try {
-        const user = await fetch(`${apiUrl}/api/v1/users/email/${email}`);
+        const user = await fetch(`${apiUrl}/api/v1/users/email/${email}`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+            });
+        if (user.status === 401) {
+            //document.cookie = 'authjs.session-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            Error('Failed to fetch user. status 401');
+        }
         return await user.json();
     } catch (error) {
         console.error('Failed to fetch user:', error);
@@ -251,12 +264,21 @@ export const config = {
             }
             return true;
         },
-        async session({token, session}) {
+        async session({token, session, user}) {
             // Add property to session, like an access_token from a provider.
             session.token = token.accessToken as string;
             //console.log('token in session', token)
             session.user = token.user as User;
             console.log('session in session', session)
+            const dbUser = await getUser(session.user.email, session.token);
+            console.log('dbUser in session', dbUser)
+            if (!dbUser) {
+                console.log('expired auth token')
+                session.expires = '0';
+                if (dbUser) {
+                    session.dbUser = dbUser;
+                }
+            }
             return Promise.resolve(session)
         },
         async jwt({token, user, account}) {
@@ -265,10 +287,11 @@ export const config = {
 
                 token.accessToken = account?.id_token;
                 token.provider = account?.provider;
-                
+
 
             }
             console.log('token in jwt', token)
+            console.log('account in jwt', account)
             //console.log('token.user', token.user)
             //console.log('user in jwt', user)
             return token;

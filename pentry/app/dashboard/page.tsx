@@ -4,11 +4,12 @@ import LatestInvoices from '@/app/ui/dashboard/latest-invoices';*/
 import {croissant, lusitana} from '@/app/ui/fonts';
 import {
     fetchPantryByUserId,
-    fetchUserByEmail
 } from '@/app/lib/data';
 import Link from "next/link";
 import {auth} from "@/auth";
 import {redirect} from "next/navigation";
+import {User} from "@/app/lib/definitions";
+import {cookies} from "next/headers";
 
 export default async function Page() {
     const session = await auth()
@@ -20,13 +21,19 @@ export default async function Page() {
     const userEmail = session?.user?.email as string
     console.log('user session', session?.user)
     if (!token) return null
-    const databaseUser = await fetchUserByEmail(userEmail, token)
-    console.log('database user', databaseUser)
-
+    //const databaseUser = await fetchUserByEmail(userEmail)
+    //TODO: fix this, replace with env variable
+    const data = async (): Promise<User> => {
+        const res = await fetch(`http://localhost:3000/api/user-by-email?email=${encodeURIComponent(userEmail)}&token=${token}`);
+        //cookies().set('token', token)
+        return await res.json();
+    }
+    const databaseUser = await data()
     //const {firstName, lastName, id, email} = await fetchUserByEmail(userEmail)
     if (!databaseUser) {
         redirect('/signup')
     }
+    if (!databaseUser) return null
     const items = await fetchPantryByUserId(databaseUser?.id as string)
     console.log('items', items)
     if (!items) return (<div>loading...</div>)
