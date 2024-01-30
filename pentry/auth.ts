@@ -131,9 +131,9 @@ import authConfig from "@/auth.config";
 import {useSession} from "next-auth/react";
 import {NextResponse} from "next/server";
 
-const apiUrl = process.env.SQL_DATABASE || 'http://localhost:8000';
+const apiUrl = process.env.SQL_DATABASE;
 
-async function getUser(email: string, token?: string): Promise<User | undefined> {
+async function getUser(email: string, token?: string, refreshToken?: string): Promise<User | undefined> {
     try {
         const user = await fetch(`${apiUrl}/api/v1/users/email/${email}`,
             {
@@ -144,8 +144,16 @@ async function getUser(email: string, token?: string): Promise<User | undefined>
                 },
             });
         if (user.status === 401) {
-            //document.cookie = 'authjs.session-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-            Error('Failed to fetch user. status 401');
+            console.log('status 401')
+            const user = await fetch(`${apiUrl}/api/v1/users/email/${email}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                });
+            //Error('Failed to fetch user. status 401');
         }
         return await user.json();
     } catch (error) {
@@ -258,8 +266,9 @@ export const config = {
         },
         async signIn({user, account}) {
             if (account?.provider === 'google') {
+                const dbUser = getUser(user?.email as string, account.id_token);
                 //console.log('user in signIn', user)
-                console.log('account in signIn', account)
+                //console.log('account in signIn', account)
                 //user.accessToken = account.id_token;
             }
             return true;
@@ -267,42 +276,31 @@ export const config = {
         async session({token, session, user}) {
             // Add property to session, like an access_token from a provider.
             session.token = token.accessToken as string;
-            //console.log('token in session', token)
+            session.refreshToken = token.refreshToken as string;
             session.user = token.user as User;
-            console.log('session in session', session)
             const dbUser = await getUser(session.user.email, session.token);
-            console.log('dbUser in session', dbUser)
             if (!dbUser) {
                 console.log('expired auth token')
-                session.expires = '0';
-                if (dbUser) {
-                    session.dbUser = dbUser;
-                }
+                //session.expires = '0';
+                return Promise.resolve(session);
             }
+            session.dbUser = dbUser;
             return Promise.resolve(session)
         },
         async jwt({token, user, account}) {
-            if (user) {
-                token.user = user as User;
+            if (account?.provider === 'google') {
+                if (user) {
+                    token.user = user as User;
+                    token.accessToken = account?.id_token;
+                    token.provider = account?.provider;
+                    console.log('account in jwt', account)
 
-                token.accessToken = account?.id_token;
-                token.provider = account?.provider;
 
-
+                }
             }
-            console.log('token in jwt', token)
-            console.log('account in jwt', account)
-            //console.log('token.user', token.user)
-            //console.log('user in jwt', user)
+
             return token;
         },
-
-        /*async session({token, session}) {
-
-            session.user = token.user;
-            console.log('session in session', session)
-            return session;
-        },*/
     },
 
 } satisfies NextAuthConfig
