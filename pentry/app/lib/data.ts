@@ -32,11 +32,13 @@ export async function fetchPantry(): Promise<PantryDto> {
 export async function searchItems(query: string, currentPage: number): Promise<SearchItem[]> {
     console.log('inside searchItems');
     console.log('query', query);
-
+    const session = await getSession()
     const res = await fetch(`${apiUrl}/api/v2/search/parameter/${query}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session?.token}`,
+
         },
     });
 
@@ -53,19 +55,15 @@ export async function searchItems(query: string, currentPage: number): Promise<S
     return data;
 }
 
-export async function searchPaginatedItems(query: string, currentPage: number): Promise<SearchPage> {
-    console.log('inside searchPaginatedItems');
+export async function searchPaginatedItems(query: string, page?: number, itemsPerPage?: number): Promise<SearchPage> {
     console.log('query', query);
     const session = await getSession()
-    console.log('session in searchPaginatedItems', session?.token)
-
-
-    console.log('session in searchPaginatedItems', session?.token)
-    const res = await fetch(`${apiUrl}/api/v2/search/paginated/parameter/${query}`, {
+    const res = await fetch(`${apiUrl}/api/v2/search/paginated/parameter/${query}?page=${page}&size=${itemsPerPage}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${session?.token}`
+            , cache: "no-store",
         },
     });
 
@@ -83,9 +81,7 @@ export async function searchPaginatedItems(query: string, currentPage: number): 
 }
 
 export async function fetchItemByGtin(gtin: string): Promise<Item> {
-    console.log('inside fetchItemByGtin');
-    const session = await getSession()
-    console.log('session in fetchItemByGtin', session?.token)
+    const session = await auth()
     const res = await fetch(`${apiUrl}/api/v2/search/product/${gtin}`, {
         method: 'GET',
         headers: {
@@ -94,12 +90,10 @@ export async function fetchItemByGtin(gtin: string): Promise<Item> {
         }, cache: "no-store",
 
     });
-    //console.log('Response in fetchItemsByGtin:', data);
     return await res.json();
 }
 
 export async function fetchPantryByUserId(user_id: string): Promise<Promise<PantryDto> | Promise<null>> {
-    console.log('user_id', user_id)
     if (!user_id) {
         return null;
     }
@@ -126,11 +120,45 @@ export async function fetchPantryByUserId(user_id: string): Promise<Promise<Pant
     return {id, userId, items}
 }
 
-/*
-export async function fetchUserByEmail(email: string): Promise<Promise<null> | Promise<User>> {
-    /!*const encodedEmail = encodeURIComponent(email);
-    console.log('encodedEmail', encodedEmail)*!/
-    const res = await import(`http://localhost:3000/api/user-by-email?email=${email}`);
-    return await (await res.handler()).json()
 
-}*/
+export async function fetchUserByEmail(email: string, token: string, refreshToken: string): Promise<Promise<null> | Promise<User>> {
+    const session = await auth()
+    /*if (!email || !token) {
+        return NextResponse.error();
+    }*/
+
+    const res: Response = await fetch(`${apiUrl}/api/v1/users/email/${email}`,
+        {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+        });
+
+    if (res.status === 401) {
+        const res: Response = await fetch(`${apiUrl}/api/v1/users/email/${email}`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${refreshToken}`
+                },
+            });
+        return res.json();
+    }
+    if (res.status === 404) {
+        return res.json();
+    }
+
+    const data = await res.json();
+    if (!res.ok) {
+        throw new Error('Failed to fetch data');
+    }
+    const id = data.id;
+    const firstName = data.firstName;
+    const lastName = data.lastName;
+    const userEmail = data.email;
+    return {id, firstName, lastName, email: userEmail, password: ''};
+
+}
