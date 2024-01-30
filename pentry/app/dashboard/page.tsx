@@ -23,12 +23,12 @@ export default async function Page() {
     if (!token) return null
     //const databaseUser = await fetchUserByEmail(userEmail)
     //TODO: fix this, replace with env variable
-    const data = async (): Promise<User> => {
+    /*const data = async (): Promise<User> => {
         const res = await fetch(`http://localhost:3000/api/user-by-email?email=${encodeURIComponent(userEmail)}&token=${token}`);
         //cookies().set('token', token)
         return await res.json();
-    }
-    const databaseUser = await data()
+    }*/
+    const databaseUser = session?.dbUser
     //const {firstName, lastName, id, email} = await fetchUserByEmail(userEmail)
     if (!databaseUser) {
         redirect('/signup')

@@ -10,13 +10,13 @@ const appUrl = process.env.NEXTAUTH_URL
 export async function GET(request: NextRequest) {
     const email = request.nextUrl.searchParams.get('email');
     const token = request.nextUrl.searchParams.get('token');
+    const refreshToken = request.nextUrl.searchParams.get('refreshToken');
 
     //const email = request;
     const session = await auth()
     const cookieStore = cookies()
     //const token = cookieStore.get('token')
-    console.log('email', email)
-    console.log('token in routehandler', token)
+
     /*if (!email || !token) {
         return NextResponse.error();
     }*/
@@ -31,8 +31,15 @@ export async function GET(request: NextRequest) {
         });
 
     if (res.status === 401) {
-        document.cookie = 'authjs.session-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-        return NextResponse.redirect(`${apiUrl}/login`);
+        const res: Response = await fetch(`${apiUrl}/api/v1/users/email/${email}`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${refreshToken}`
+                },
+            });
+        return NextResponse.json(res);
     }
     if (res.status === 404) {
         return NextResponse.json(res);

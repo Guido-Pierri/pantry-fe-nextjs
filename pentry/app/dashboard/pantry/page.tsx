@@ -2,7 +2,7 @@ import Link from "next/link";
 import {Card} from "@/app/ui/dashboard/cards";
 import {Item} from "@/app/lib/definitions";
 import {
-    fetchPantryByUserId, fetchUserByEmail,
+    fetchPantryByUserId,
 } from '@/app/lib/data';
 import {auth} from "@/auth";
 
@@ -11,7 +11,7 @@ async function Page() {
     const token = session?.token;
     const userEmail = session?.user?.email
     if (!token || !userEmail) return null
-    const userFromDatabase = await fetchUserByEmail(userEmail, token)
+    const userFromDatabase = session?.dbUser
     const id = userFromDatabase?.id as string
     const items = await fetchPantryByUserId(id)
     return (

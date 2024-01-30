@@ -8,6 +8,7 @@ declare module "next-auth" {
         user: User;
         dbUser: User;
         token: string;
+        refreshToken: string;
     }
 
 }

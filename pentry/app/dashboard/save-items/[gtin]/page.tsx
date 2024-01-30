@@ -3,13 +3,17 @@ import AddItem from "@/app/ui/dashboard/addItem";
 import {auth} from "@/auth";
 
 export default async function Page({params}: { params: { gtin: string } }) {
-    const gtin = params.gtin;
-    const item = await fetchItemByGtin(gtin);
     const session = await auth()
+    console.log('session', session)
     const token = session?.token;
     const userEmail = session?.user?.email
+    const gtin = params.gtin;
+    console.log('gtin', gtin)
+    const item = await fetchItemByGtin(gtin);
+    console.log('item', item)
     if (!token || !userEmail) return null
     const userFromDatabase = session?.dbUser
+    console.log('userFromDatabase', userFromDatabase)
     if (!userFromDatabase) return null
     const id = userFromDatabase?.id
     const pantry = await fetchPantryByUserId(id)
