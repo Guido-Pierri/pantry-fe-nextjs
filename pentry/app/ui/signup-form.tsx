@@ -6,14 +6,17 @@ import {InputType} from "node:zlib";
 import {ExclamationCircleIcon, EyeIcon, EyeSlashIcon, MagnifyingGlassIcon} from "@heroicons/react/24/outline";
 import {Button} from "@/app/ui/button";
 import {ArrowRightIcon} from "@heroicons/react/20/solid";
+import {auth} from "@/auth";
+import {useSession} from "next-auth/react";
 
 export default function SignUpForm() {
+
+// Store the token in a state
     const [errorMessage, dispatch] = useFormState(registerUser, undefined);
     const [isVisiblePass, setIsVisiblePass] = useState(false);
     const toggleVisblePass = () => {
         setIsVisiblePass((prev) => !prev)
     };
-
     return (
         <form action={dispatch} className={'flex flex-col'}>
             <label htmlFor={"firstName"}>First name</label>
@@ -53,7 +56,7 @@ export default function SignUpForm() {
                 {errorMessage && (
                     <>
                         <ExclamationCircleIcon className="h-5 w-5 text-red-500"/>
-                        <p className="text-sm text-red-500">{errorMessage}</p>
+                        {/*<p className="text-sm text-red-500">{errorMessage}</p>*/}
                     </>
                 )}
             </div>

@@ -21,12 +21,6 @@ export type State = {
     message?: string | null;
 };
 
-async function getUserSession() {
-    const user = await auth()
-    console.log('user in actions', user)
-    return user
-}
-
 export async function searchItem(prevState: string | undefined, formData: FormData) {
     try {
         const res = await fetch(`${apiUrl}/api/v2/search/parameter/${formData.get('search')}`, {
@@ -52,10 +46,13 @@ export async function createItem(pantryId: number, name: string, gtin: string, i
     console.log('pantryId', pantryId)
     console.log('formData', formData)
     const quantity = "1"
+    const session = await auth()
+    const token = session?.token
     const res = await fetch(`${apiUrl}/api/v1/pantry/create-item`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
             name: name || formData.get('name'),
@@ -126,9 +123,8 @@ export async function createPantry(id: number) {
 }
 
 export async function registerUser(prevState: string | undefined,
-                                   formData: FormData,) {
+                                   formData: FormData) {
     console.log('formData', formData)
-
     const password = formData.get('password')
     const confirmPassword = formData.get('confirmPassword')
     if (typeof password === "string" && typeof confirmPassword === "string") {
@@ -141,7 +137,9 @@ export async function registerUser(prevState: string | undefined,
                 lastName: formData.get('lastName'),
                 email: formData.get('email'), password: password
             }
-            const req = {...user, password: await bcrypt.hash(password, 10)}
+            const req = {
+                ...user, password: await bcrypt.hash(password, 10)
+            }
             const res = await fetch(`${apiUrl}/api/v1/users/create`, {
                 method: 'POST',
                 headers: {
