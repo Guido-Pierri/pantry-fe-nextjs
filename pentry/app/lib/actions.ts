@@ -46,10 +46,13 @@ export async function createItem(pantryId: number, name: string, gtin: string, i
     console.log('pantryId', pantryId)
     console.log('formData', formData)
     const quantity = "1"
+    const session = await auth()
+    const token = session?.token
     const res = await fetch(`${apiUrl}/api/v1/pantry/create-item`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
             name: name || formData.get('name'),
