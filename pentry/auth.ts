@@ -267,7 +267,7 @@ export const config = {
             console.log('account in signIn', account)
             console.log('user in signIn', user)
             if (account?.provider === 'google') {
-                if (user) {
+                if (user && user.email) {
                     const dbUser = await getUser(user.email);
                     user = dbUser as User;
                     if (!dbUser) {
