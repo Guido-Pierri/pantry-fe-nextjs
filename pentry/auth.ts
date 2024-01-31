@@ -133,14 +133,13 @@ import {NextResponse} from "next/server";
 
 const apiUrl = process.env.SQL_DATABASE;
 
-async function getUser(email: string, token?: string, refreshToken?: string): Promise<User | undefined> {
+async function getUser(email: string, token?: string, provider?: string): Promise<User | undefined> {
     try {
         const user = await fetch(`${apiUrl}/api/v1/users/email/${email}`,
             {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
                 },
             });
         if (user.status === 401) {
@@ -236,7 +235,7 @@ export const config = {
                 if (parsedCredentials.success) {
                     const {email, password} = parsedCredentials.data;
 
-                    const user = await getUser(email);
+                    const user = await getUser(email, undefined, 'credentials');
                     console.log('user in authorize', user)
                     if (!user) return null;
 
@@ -265,38 +264,67 @@ export const config = {
             return true;
         },
         async signIn({user, account}) {
+            console.log('account in signIn', account)
+            console.log('user in signIn', user)
             if (account?.provider === 'google') {
-                const dbUser = getUser(user?.email as string, account.id_token);
-                //console.log('user in signIn', user)
-                //console.log('account in signIn', account)
-                //user.accessToken = account.id_token;
+                if (user) {
+                    const dbUser = await getUser(user.email);
+                    user = dbUser as User;
+                    if (!dbUser) {
+                        console.log('expired auth token')
+                        return Promise.resolve(false);
+                    }
+                    return Promise.resolve(true);
+                }
+            }
+            if (account?.provider === 'credentials') {
+
             }
             return true;
         },
         async session({token, session, user}) {
             // Add property to session, like an access_token from a provider.
+            console.log('session in session start', session)
+            console.log('user in session start', user)
+            if (token?.token) {
+                session.token = token.token as string;
+            }
             session.token = token.accessToken as string;
             session.refreshToken = token.refreshToken as string;
             session.user = token.user as User;
-            const dbUser = await getUser(session.user.email, session.token);
-            if (!dbUser) {
-                console.log('expired auth token')
-                //session.expires = '0';
-                return Promise.resolve(session);
+            console.log('session in session', session)
+            if (session.user) {
+                const dbUser = await getUser(session.user.email, session.token);
+                if (!dbUser) {
+                    console.log('expired auth token')
+                    //session.expires = '0';
+                    return Promise.resolve(session);
+                }
+                session.dbUser = dbUser;
             }
-            session.dbUser = dbUser;
             return Promise.resolve(session)
         },
         async jwt({token, user, account}) {
+            console.log('token in jwt', token)
             if (account?.provider === 'google') {
+                const dbUser = await getUser(user?.email as string);
                 if (user) {
                     token.user = user as User;
-                    token.accessToken = account?.id_token;
+                    //workaround for setting the token in the session from the database user info
+                    token.accessToken = dbUser?.token as string;
                     token.provider = account?.provider;
                     console.log('account in jwt', account)
 
 
                 }
+            }
+            if (account?.provider === 'credentials') {
+                if (user) {
+                    token.user = user as User;
+                    token.accessToken = user?.token;
+                }
+
+
             }
 
             return token;
