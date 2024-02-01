@@ -11,16 +11,6 @@ import {User} from "@/app/lib/definitions";
 
 const apiUrl = process.env.SQL_DATABASE;
 
-// This is temporary
-export type State = {
-    errors?: {
-        customerId?: string[];
-        amount?: string[];
-        status?: string[];
-    };
-    message?: string | null;
-};
-
 export async function searchItem(prevState: string | undefined, formData: FormData) {
     try {
         const res = await fetch(`${apiUrl}/api/v2/search/parameter/${formData.get('search')}`, {

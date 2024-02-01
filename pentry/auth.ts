@@ -57,41 +57,38 @@ export const config = {
 } satisfies NextAuthConfig
 
 export const {handlers, auth, signIn, signOut} = NextAuth(config)*/
+import type {NextAuthConfig} from "next-auth"
 import NextAuth from "next-auth"
 import GitHub from "next-auth/providers/github"
 import Google from "next-auth/providers/google"
-
-import type {NextAuthConfig} from "next-auth"
 import Credentials from 'next-auth/providers/credentials';
 import bcrypt from 'bcryptjs';
 import {z} from 'zod';
 import type {User} from '@/app/lib/definitions';
 import authConfig from "@/auth.config";
+import {redirect} from "next/navigation";
 
 const apiUrl = process.env.SQL_DATABASE;
 
-async function getUser(email: string, token?: string, provider?: string): Promise<User | undefined> {
+export async function getUser(email: string, token?: string, provider?: string): Promise<User | undefined> {
     try {
-        const user = await fetch(`${apiUrl}/api/v1/users/email/${email}`,
+        const response = await fetch(`${apiUrl}/api/v1/users/email/${email}`,
             {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
-        if (user.status === 401) {
-            console.log('status 401')
-            const user = await fetch(`${apiUrl}/api/v1/users/email/${email}`,
-                {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                });
-            //Error('Failed to fetch user. status 401');
+        if (response.status === 404) {
+            return undefined;
         }
-        return await user.json();
+        // Check if the response is not empty
+        if (response.ok) {
+            return await response.json();
+        } else {
+            console.error('Failed to fetch user:', response.statusText);
+            throw new Error('Failed to fetch user.');
+        }
     } catch (error) {
         console.error('Failed to fetch user:', error);
         throw new Error('Failed to fetch user.');
@@ -145,12 +142,13 @@ export const config = {
             console.log('user in signIn', user)
             if (account?.provider === 'google') {
                 if (user && user.email) {
-                    const dbUser = await getUser(user.email);
-                    user = dbUser as User;
-                    if (!dbUser) {
-                        console.log('expired auth token')
-                        return Promise.resolve(false);
+                    console.log('user?.email', user?.email)
+                    const dbUser = await getUser(user?.email);
+                    if (dbUser === undefined) {
+                        // Redirect to signup page
+                        return Promise.resolve(false)/*Response.redirect('http://localhost:3000/signup'*/;
                     }
+                    user = dbUser as User;
                     return Promise.resolve(true);
                 }
             }
