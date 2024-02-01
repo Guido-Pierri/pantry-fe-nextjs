@@ -5,7 +5,7 @@ const apiUrl =/* process.env.SQL_DATABASE || */'http://localhost:8080';
 
 export async function getSession() {
     const session = await auth()
-    return session
+    return session?.user
 }
 
 export async function fetchPantry(): Promise<PantryDto> {
@@ -57,8 +57,10 @@ export async function searchItems(query: string, currentPage: number): Promise<S
 
 export async function searchPaginatedItems(query: string, page?: number, itemsPerPage?: number): Promise<SearchPage> {
     console.log('query', query);
+    const pageToFetch = page || 0;
+    const size = itemsPerPage || 10;
     const session = await getSession()
-    const res = await fetch(`${apiUrl}/api/v2/search/paginated/parameter/${query}?page=${page}&size=${itemsPerPage}`, {
+    const res = await fetch(`${apiUrl}/api/v2/search/paginated/parameter/${query}?page=${pageToFetch}&size=${size}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -110,6 +112,7 @@ export async function fetchPantryByUserId(user_id: string): Promise<Promise<Pant
         });
     console.log('Response Status:', res.status);
     const data = await res.json();
+    console.log('data', data)
     if (!res.ok) {
         // This will activate the closest `error.js` Error Boundary
         throw new Error('Failed to fetch data')
