@@ -65,8 +65,9 @@ import type {NextAuthConfig} from "next-auth"
 import Credentials from 'next-auth/providers/credentials';
 import bcrypt from 'bcryptjs';
 import {z} from 'zod';
-import type {User} from '@/app/lib/definitions';
+import {DatabaseError, User} from '@/app/lib/definitions';
 import authConfig from "@/auth.config";
+import {redirect} from "next/navigation";
 
 const apiUrl = process.env.SQL_DATABASE;
 
@@ -79,22 +80,18 @@ async function getUser(email: string, token?: string, provider?: string): Promis
                     'Content-Type': 'application/json',
                 },
             });
-        if (user.status === 401) {
-            console.log('status 401')
-            const user = await fetch(`${apiUrl}/api/v1/users/email/${email}`,
-                {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                });
-            //Error('Failed to fetch user. status 401');
+        if (user.status === 404) {
+            console.log('user not found')
+            //redirect('/signup')
+            //return undefined;
+            throw new DatabaseError('Failed to fetch user', 404);
         }
         return await user.json();
     } catch (error) {
-        console.error('Failed to fetch user:', error);
-        throw new Error('Failed to fetch user.');
+        if (error instanceof DatabaseError) {
+            //console.error('Failed to fetch user:', error);
+            throw new DatabaseError('Failed to fetch user', 404);
+        }
     }
 }
 
@@ -140,25 +137,7 @@ export const config = {
             }
             return true;
         },
-        async signIn({user, account}) {
-            console.log('account in signIn', account)
-            console.log('user in signIn', user)
-            if (account?.provider === 'google') {
-                if (user && user.email) {
-                    const dbUser = await getUser(user.email);
-                    user = dbUser as User;
-                    if (!dbUser) {
-                        console.log('expired auth token')
-                        return Promise.resolve(false);
-                    }
-                    return Promise.resolve(true);
-                }
-            }
-            if (account?.provider === 'credentials') {
 
-            }
-            return true;
-        },
         async session({token, session, user}) {
             // Add property to session, like an access_token from a provider.
             console.log('session in session start', session)
@@ -185,20 +164,25 @@ export const config = {
 
             console.log('token in jwt', token)
             console.log('user in jwt', user)
-            const dbUser = await getUser(token?.email as string);
             if (account?.provider === 'google') {
-                if (user) {
-                    token.user = user as User;
-                    //workaround for setting the token in the session from the database user info
-                    token.accessToken = dbUser?.token as string;
-                    token.provider = account?.provider;
-                    console.log('account in jwt', account)
+                const dbUser = await getUser(token?.email as string);
+                if (dbUser) {
 
+                    if (user) {
+                        token.user = user as User;
+                        //workaround for setting the token in the session from the database user info
+                        token.accessToken = dbUser?.token as string;
+                        token.provider = account?.provider;
+                        console.log('account in jwt', account)
+
+                    }
 
                 }
             }
             //FIXME:
             if (account?.provider === 'credentials') {
+                const dbUser = await getUser(token?.email as string);
+
                 if (user) {
                     token.user = dbUser as User;
                     token.accessToken = dbUser?.token;

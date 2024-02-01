@@ -1,5 +1,7 @@
 import {signIn, signOut} from "@/auth"
 import {Button} from "@/app/ui/button"
+import {AuthError} from "next-auth";
+import {redirect} from "next/navigation";
 
 export function SignIn({
                            provider,
