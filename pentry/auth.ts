@@ -305,9 +305,10 @@ export const config = {
             return Promise.resolve(session)
         },
         async jwt({token, user, account}) {
+
             console.log('token in jwt', token)
+            const dbUser = await getUser(user?.email as string);
             if (account?.provider === 'google') {
-                const dbUser = await getUser(user?.email as string);
                 if (user) {
                     token.user = user as User;
                     //workaround for setting the token in the session from the database user info
@@ -318,10 +319,11 @@ export const config = {
 
                 }
             }
+            //FIXME:
             if (account?.provider === 'credentials') {
                 if (user) {
-                    token.user = user as User;
-                    token.accessToken = user?.token;
+                    token.user = dbUser as User;
+                    token.accessToken = dbUser?.token;
                 }
 
 
