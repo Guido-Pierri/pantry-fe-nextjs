@@ -22,22 +22,24 @@ export default async function SideNav() {
             >Pantry Partner
 
             </Link>
-            <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2">
+            <div className="flex grow flex-row justify-evenly space-x-2 md:flex-col md:space-x-0 md:space-y-2">
                 <NavLinks/>
                 <div className="hidden h-auto w-full grow rounded-md bg-gray-50 md:block"></div>
+                {isAdmin ? (
+                    <Link
+                        className="flex flex-col grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3"
+                        href={'/dashboard/admin-page'}>
+                        <ClipboardIcon className="w-6"/>
+                        <div className="">Admin Page</div>
+                    </Link>) : null}
+                {/*//TODO: show a button or link to profile page*/}
                 <form
                     action={async () => {
                         'use server';
                         await signOut();
                     }}
                 >
-                    {isAdmin ? (
-                        <button
-                            className="flex flex-col w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3">
-                            <ClipboardIcon className="w-6"/>
-                            <div className="">Admin Page</div>
-                        </button>) : null}
-                    {/*//TODO: show a button or link to profile page*/}
+
                     <button
                         className="flex flex-col w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3">
                         <PowerIcon className="w-6"/>
