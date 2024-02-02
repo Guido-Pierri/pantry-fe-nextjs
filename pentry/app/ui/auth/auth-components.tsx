@@ -1,7 +1,7 @@
 import {signIn, signOut} from "@/auth"
 import {Button} from "@/app/ui/button"
-import {AuthError} from "next-auth";
-import {redirect} from "next/navigation";
+import React from "react";
+
 
 export function SignIn({
                            provider,

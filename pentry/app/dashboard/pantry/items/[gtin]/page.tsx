@@ -5,10 +5,12 @@
 }*/
 import Item from "@/app/ui/dashboard/Item";
 import {fetchItemByGtin} from "@/app/lib/data";
+import item from "@/app/ui/dashboard/Item";
 
 export default async function Page({params}: { params: { gtin: string } }) {
     const gtin = params.gtin;
     const item = await fetchItemByGtin(gtin);
+    if (!item) return null
     console.log('item in component', item)
     return (
         <div>
