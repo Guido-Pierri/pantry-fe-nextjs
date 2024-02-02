@@ -177,9 +177,8 @@ export const config = {
             //FIXME:
             if (account?.provider === 'credentials') {
                 const dbUser = await getUser(token?.email as string);
-
                 if (user) {
-                    token.user = dbUser as User;
+                    token.user = user as User;
                     token.accessToken = dbUser?.token;
                 }
 

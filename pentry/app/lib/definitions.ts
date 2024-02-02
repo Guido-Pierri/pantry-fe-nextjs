@@ -10,6 +10,7 @@ declare module "next-auth" {
         token?: string;
         refreshToken?: string;
         provider?: string;
+        roles?: string;
     }
 
 }
