@@ -1,6 +1,7 @@
-import {auth, getUser, signIn, signOut} from "@/auth"
+import {signIn, signOut} from "@/auth"
 import {Button} from "@/app/ui/button"
-import {redirect} from "next/navigation";
+import React from "react";
+
 
 export function SignIn({
                            provider,
@@ -9,22 +10,7 @@ export function SignIn({
         <form
             action={async () => {
                 "use server"
-
-
-                /* if (provider === 'google') {
-                     try {
-                         console.log('inside sign in')*/
-                await signIn(provider);
-                /*
-
-                                    } catch (e: any) {
-                                        console.log('e.message', e.message)
-                                        if (e) {
-                                            redirect('/signup')
-                                        }
-                                    }
-                                }
-                                        */
+                await signIn(provider)
             }}
         >
             <Button>Sign In</Button>

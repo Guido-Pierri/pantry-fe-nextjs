@@ -7,7 +7,7 @@ import {auth, signIn} from '@/auth';
 import {AuthError} from 'next-auth';
 import {stringify} from "yaml";
 import bcrypt from "bcryptjs";
-import {User} from "@/app/lib/definitions";
+import {DatabaseError, User} from "@/app/lib/definitions";
 
 const apiUrl = process.env.SQL_DATABASE;
 
@@ -79,12 +79,18 @@ export async function authenticate(
         await signIn('credentials', formData);
     } catch (error) {
         if (error instanceof AuthError) {
+            console.log('error type', error.type)
             switch (error.type) {
                 case 'CredentialsSignin':
                     return 'Invalid credentials.';
+                case 'CallbackRouteError':
+                    return /*redirect('/signup')*/'User not found.';
                 default:
                     return 'Something went wrong.';
             }
+        }
+        if (error instanceof DatabaseError) {
+            redirect('/signup')
         }
         throw error;
     }

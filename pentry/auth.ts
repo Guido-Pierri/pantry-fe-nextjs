@@ -5,8 +5,9 @@ import Google from "next-auth/providers/google"
 import Credentials from 'next-auth/providers/credentials';
 import bcrypt from 'bcryptjs';
 import {z} from 'zod';
-import type {User} from '@/app/lib/definitions';
+import {DatabaseError, User} from '@/app/lib/definitions';
 import authConfig from "@/auth.config";
+import {redirect} from "next/navigation";
 import {newGoogleUser} from "@/app/lib/actions";
 
 const apiUrl = process.env.SQL_DATABASE;
@@ -22,13 +23,16 @@ export async function getUser(email: string, token?: string, provider?: string):
             });
         if (user.status === 404) {
             console.log('user not found')
-            return undefined;
+            //redirect('/signup')
+            //return undefined;
+            throw new DatabaseError('Failed to fetch user', 404);
         }
-
         return await user.json();
     } catch (error) {
-        console.error('Failed to fetch user:', error);
-        throw new Error('Failed to fetch user.');
+        if (error instanceof DatabaseError) {
+            //console.error('Failed to fetch user:', error);
+            throw new DatabaseError('Failed to fetch user', 404);
+        }
     }
 }
 
@@ -81,10 +85,10 @@ export const config = {
                 if (parsedCredentials.success) {
                     const {email, password} = parsedCredentials.data;
 
-                    const user = await getUser(email, undefined, 'credentials');
+                    const user = await getUser(email);
                     console.log('user in authorize', user)
                     if (!user) return null;
-
+                    console.log('user.password', user.password)
                     const passwordsMatch = await bcrypt.compare(password, user.password);
                     console.log('passwordsMatch', passwordsMatch)
                     //console.log('user in log in',user)
@@ -101,11 +105,12 @@ export const config = {
         authorized({auth, request: {nextUrl}}) {
             const isLoggedIn = !!auth?.user;
             const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
-            const isOnSignUp = nextUrl.pathname.startsWith('/signup');
+            //TODO:check if needed
+            //const isOnSignUp = nextUrl.pathname.startsWith('/signup');
             if (isOnDashboard) {
                 if (isLoggedIn) return true;
                 return false; // Redirect unauthenticated users to login page
-            } else if (isLoggedIn && !isOnSignUp) {
+            } else if (isLoggedIn /*&& !isOnSignUp*/) {
                 return Response.redirect(new URL('/dashboard', nextUrl));
             }
             return true;
@@ -172,6 +177,7 @@ export const config = {
             //FIXME:
             if (account?.provider === 'credentials') {
                 const dbUser = await getUser(token?.email as string);
+
                 if (user) {
                     token.user = dbUser as User;
                     token.accessToken = dbUser?.token;
