@@ -85,10 +85,10 @@ export const config = {
                 if (parsedCredentials.success) {
                     const {email, password} = parsedCredentials.data;
 
-                    const user = await getUser(email, undefined, 'credentials');
+                    const user = await getUser(email);
                     console.log('user in authorize', user)
                     if (!user) return null;
-
+                    console.log('user.password', user.password)
                     const passwordsMatch = await bcrypt.compare(password, user.password);
                     console.log('passwordsMatch', passwordsMatch)
                     //console.log('user in log in',user)
