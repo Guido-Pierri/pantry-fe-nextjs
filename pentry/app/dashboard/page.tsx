@@ -14,12 +14,15 @@ import {cookies} from "next/headers";
 export default async function Page() {
     const session = await auth()
     const token = session?.token;
-    if (!session) {
+    /*if (!session) {
         redirect('/login')
-    }
-    console.log('user', session?.user)
+    }*/
+    /*if (session.dbUser === undefined) {
+        redirect('/signup')
+    }*/
+    console.log('user in dashboard', session?.user)
     const userEmail = session?.user?.email as string
-    console.log('user session', session?.user)
+    console.log('user session in dashboard', session?.user)
     if (!token) return null
     //const databaseUser = await fetchUserByEmail(userEmail)
     //TODO: fix this, replace with env variable
@@ -30,10 +33,10 @@ export default async function Page() {
     }*/
     const databaseUser = session?.dbUser
     //const {firstName, lastName, id, email} = await fetchUserByEmail(userEmail)
-    if (!databaseUser) {
+    /*if (!databaseUser) {
         redirect('/signup')
-    }
-    if (!databaseUser) return null
+    }*/
+    //if (!databaseUser) return null
     const items = await fetchPantryByUserId(databaseUser?.id as string)
     console.log('items', items)
     if (!items) return (<div>loading...</div>)

@@ -92,6 +92,7 @@ export async function fetchItemByGtin(gtin: string): Promise<Item> {
         }, cache: "no-store",
 
     });
+
     return await res.json();
 }
 
