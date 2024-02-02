@@ -4,7 +4,7 @@ import {auth} from "@/auth";
 
 export default async function Page({params}: { params: { gtin: string } }) {
     const session = await auth()
-    console.log('session', session)
+    console.log('session in save-items', session)
     const token = session?.token;
     const userEmail = session?.user?.email
     const gtin = params.gtin;

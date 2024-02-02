@@ -1,62 +1,3 @@
-/*
-import NextAuth, {NextAuthConfig} from 'next-auth';
-import Credentials from 'next-auth/providers/credentials';
-import bcrypt from 'bcryptjs';
-import {z} from 'zod';
-import type {User} from '@/app/lib/definitions';
-//import {authConfig} from './auth.config';
-import Google from "next-auth/providers/google";
-import GitHub from "next-auth/providers/github";
-
-const apiUrl = process.env.SQL_DATABASE || 'http://localhost:8000';
-
-async function getUser(email: string): Promise<User | undefined> {
-    try {
-        const user = await fetch(`${apiUrl}/api/v1/users/email/${email}`);
-        return await user.json();
-    } catch (error) {
-        console.error('Failed to fetch user:', error);
-        throw new Error('Failed to fetch user.');
-    }
-}
-
-export const config = {
-
-    providers: [Google({}), GitHub,
-        Credentials({
-            async authorize(credentials) {
-                const parsedCredentials = z
-                    .object({email: z.string().email(), password: z.string().min(6)})
-                    .safeParse(credentials);
-                console.log('parsedCredentials', parsedCredentials)
-                if (parsedCredentials.success) {
-                    const {email, password} = parsedCredentials.data;
-
-                    const user = await getUser(email);
-                    console.log('user in authorize', user)
-                    if (!user) return null;
-
-                    const passwordsMatch = await bcrypt.compare(password, user.password);
-                    console.log('passwordsMatch', passwordsMatch)
-                    //console.log('user in log in',user)
-                    console.log('user in log in', user)
-                    if (passwordsMatch) return user;
-                }
-
-                console.log('Invalid credentials');
-                return null;
-            },
-        }),
-    ], callbacks: {
-        authorized({request, auth}) {
-            const {pathname} = request.nextUrl
-            if (pathname === "/middleware-example") return !!auth
-            return true
-        },
-    },
-} satisfies NextAuthConfig
-
-export const {handlers, auth, signIn, signOut} = NextAuth(config)*/
 import type {NextAuthConfig} from "next-auth"
 import NextAuth from "next-auth"
 import GitHub from "next-auth/providers/github"
@@ -66,32 +7,63 @@ import bcrypt from 'bcryptjs';
 import {z} from 'zod';
 import type {User} from '@/app/lib/definitions';
 import authConfig from "@/auth.config";
-import {redirect} from "next/navigation";
+import {newGoogleUser} from "@/app/lib/actions";
 
 const apiUrl = process.env.SQL_DATABASE;
 
 export async function getUser(email: string, token?: string, provider?: string): Promise<User | undefined> {
     try {
-        const response = await fetch(`${apiUrl}/api/v1/users/email/${email}`,
+        const user = await fetch(`${apiUrl}/api/v1/users/email/${email}`,
             {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
-        if (response.status === 404) {
+        if (user.status === 404) {
+            console.log('user not found')
             return undefined;
         }
-        // Check if the response is not empty
-        if (response.ok) {
-            return await response.json();
-        } else {
-            console.error('Failed to fetch user:', response.statusText);
-            throw new Error('Failed to fetch user.');
-        }
+
+        return await user.json();
     } catch (error) {
         console.error('Failed to fetch user:', error);
         throw new Error('Failed to fetch user.');
+    }
+}
+
+async function checkUser(email: string) {
+    try {
+        const user = await fetch(`${apiUrl}/api/v1/users/check-email/${email}`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+        const data = await user.json();
+        console.log('user in checkUser', data.exists);
+        return data.exists;
+    } catch (error) {
+        console.error('Failed to fetch user:', error);
+        throw new Error('Failed to fetch user.');
+    }
+}
+
+async function getGoogleUser(email: string) {
+    try {
+        const res = await fetch(`${apiUrl}/api/v1/users/fetch-logged-in-user/${email}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        const data = await res.json();
+        console.log('res in getGoogleUser', data)
+        return data;
+    } catch (e) {
+        console.error('Failed to fetch Google user:', e);
+        throw new Error('Failed to fetch Google user.');
     }
 }
 
@@ -129,63 +101,108 @@ export const config = {
         authorized({auth, request: {nextUrl}}) {
             const isLoggedIn = !!auth?.user;
             const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
+            const isOnSignUp = nextUrl.pathname.startsWith('/signup');
             if (isOnDashboard) {
                 if (isLoggedIn) return true;
                 return false; // Redirect unauthenticated users to login page
-            } else if (isLoggedIn) {
+            } else if (isLoggedIn && !isOnSignUp) {
                 return Response.redirect(new URL('/dashboard', nextUrl));
             }
             return true;
         },
-        async signIn({user, account}) {
+        /*async signIn({user, account}) {
             console.log('account in signIn', account)
             console.log('user in signIn', user)
-            if (account?.provider === 'google') {
+            if (user?.email) {
+
+                const dbUser = await getUser(user.email);
+                if (!dbUser) {
+                    console.log('expired auth token')
+                    return '/newUser';
+                }
+            }
+
+            /!*if (account?.provider === 'google') {
                 if (user && user.email) {
-                    console.log('user?.email', user?.email)
-                    const dbUser = await getUser(user?.email);
-                    if (dbUser === undefined) {
-                        // Redirect to signup page
-                        return Promise.resolve(false)/*Response.redirect('http://localhost:3000/signup'*/;
-                    }
                     user = dbUser as User;
                     return Promise.resolve(true);
                 }
-            }
+            }*!/
             if (account?.provider === 'credentials') {
 
             }
             return true;
+        },*/
+        async signIn({user, account, profile, email, credentials}) {
+            if (account?.provider === 'google') {
+                if (profile?.email) {
+                    const dbUser = await checkUser(profile?.email);
+                    //console.log('await checkUser(profile?.email)', await checkUser(profile?.email))
+                    if (dbUser === false) {
+                        if (profile?.email && profile?.given_name && profile?.family_name) {
+                            const formData = new FormData();
+                            formData.append('email', profile?.email);
+                            formData.append('firstName', profile?.given_name);
+                            formData.append('lastName', profile?.family_name);
+                            formData.append('username', profile?.email);
+                            await newGoogleUser(formData);
+                        }
+                    }
+                }
+            }
+            return true;
         },
+        /*pages: {
+            signIn: '/signin',
+            error: '/auth/error',
+            verifyRequest: '/auth/verify-request',
+            newUser: '/new-user'
+        },*/
         async session({token, session, user}) {
             // Add property to session, like an access_token from a provider.
-            console.log('session in session start', session)
-            console.log('user in session start', user)
-            if (token?.token) {
+            /*console.log('session in session start', session)
+            console.log('user in session start', user)*/
+            //const dbUser = await getUser(session.user.email);
+            /* console.log('dbUser in session', dbUser)
+             if (!dbUser) {
+                 console.log('expired auth token')
+                 //session.expires = '0';
+                 return Promise.resolve(session);
+             }*/
+            if (token?.token && session?.user) {
                 session.token = token.token as string;
             }
             session.token = token.accessToken as string;
             session.refreshToken = token.refreshToken as string;
             session.user = token.user as User;
-            console.log('session in session', session)
-            if (session.user) {
-                const dbUser = await getUser(session.user.email, session.token);
-                if (!dbUser) {
-                    console.log('expired auth token')
-                    //session.expires = '0';
-                    return Promise.resolve(session);
+            session.dbUser = token.user as User;
+
+            //console.log('session in session', session)
+            /*if (session.user) {
+
                 }
-                session.dbUser = dbUser;
-            }
+
+             */
+            //console.log('session in session end', session)
             return Promise.resolve(session)
         },
         async jwt({token, user, account}) {
 
-            console.log('token in jwt', token)
+            /*console.log('token in jwt', token)
             console.log('user in jwt', user)
-            const dbUser = await getUser(token?.email as string);
+            console.log('account in jwt', account)*/
             if (account?.provider === 'google') {
+                const dbUser = await getGoogleUser(token?.email as string);
+                console.log('await getGoogleUser(token?.email as string)', await getGoogleUser(token?.email as string))
+                console.log('dbUser in jwt', dbUser)
+                token.accessToken = dbUser?.token as string;
+                token.user = dbUser as User;
+
+            }
+            /*
                 if (user) {
+                    const dbUser = await getUser(token?.email as string);
+
                     token.user = user as User;
                     //workaround for setting the token in the session from the database user info
                     token.accessToken = dbUser?.token as string;
@@ -194,9 +211,10 @@ export const config = {
 
 
                 }
-            }
+            }*/
             //FIXME:
             if (account?.provider === 'credentials') {
+                const dbUser = await getUser(token?.email as string);
                 if (user) {
                     token.user = dbUser as User;
                     token.accessToken = dbUser?.token;
@@ -204,7 +222,7 @@ export const config = {
 
 
             }
-
+            //console.log('token in end of jwt', token)
             return token;
         },
     },
