@@ -110,29 +110,7 @@ export const config = {
             }
             return true;
         },
-        /*async signIn({user, account}) {
-            console.log('account in signIn', account)
-            console.log('user in signIn', user)
-            if (user?.email) {
 
-                const dbUser = await getUser(user.email);
-                if (!dbUser) {
-                    console.log('expired auth token')
-                    return '/newUser';
-                }
-            }
-
-            /!*if (account?.provider === 'google') {
-                if (user && user.email) {
-                    user = dbUser as User;
-                    return Promise.resolve(true);
-                }
-            }*!/
-            if (account?.provider === 'credentials') {
-
-            }
-            return true;
-        },*/
         async signIn({user, account, profile, email, credentials}) {
             if (account?.provider === 'google') {
                 if (profile?.email) {
@@ -152,23 +130,7 @@ export const config = {
             }
             return true;
         },
-        /*pages: {
-            signIn: '/signin',
-            error: '/auth/error',
-            verifyRequest: '/auth/verify-request',
-            newUser: '/new-user'
-        },*/
         async session({token, session, user}) {
-            // Add property to session, like an access_token from a provider.
-            /*console.log('session in session start', session)
-            console.log('user in session start', user)*/
-            //const dbUser = await getUser(session.user.email);
-            /* console.log('dbUser in session', dbUser)
-             if (!dbUser) {
-                 console.log('expired auth token')
-                 //session.expires = '0';
-                 return Promise.resolve(session);
-             }*/
             if (token?.token && session?.user) {
                 session.token = token.token as string;
             }
@@ -178,11 +140,6 @@ export const config = {
             session.dbUser = token.user as User;
 
             //console.log('session in session', session)
-            /*if (session.user) {
-
-                }
-
-             */
             //console.log('session in session end', session)
             return Promise.resolve(session)
         },
