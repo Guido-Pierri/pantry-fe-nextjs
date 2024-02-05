@@ -53,7 +53,7 @@ export default function Form({users, roles}: {
                             name="firstName"
                             required={true}
                             className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10
-    text-sm outline-2 placeholder:text-gray-500"
+                                        text-sm outline-2 placeholder:text-gray-500"
                             value={firstName}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFirstName(e.target.value)}
                         />

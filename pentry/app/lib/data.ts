@@ -163,7 +163,8 @@ export async function fetchUserByEmail(email: string, token: string, refreshToke
     const firstName = data.firstName;
     const lastName = data.lastName;
     const userEmail = data.email;
-    return {id, firstName, lastName, email: userEmail, password: '', roles: data.roles}
+    const authProvider = data.authProvider;
+    return {id, firstName, lastName, email: userEmail, password: '', roles: data.roles, authProvider: authProvider}
 
 
 }
