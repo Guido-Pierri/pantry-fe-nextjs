@@ -186,7 +186,7 @@ export async function registerUser(prevState: string | undefined, formData: Form
     //return something; // replace 'something' with the actual value you want to return
 }
 
-export async function registerUserByAdim(formData: FormData) {
+export async function registerUserByAdmin(formData: FormData) {
     const entries = Object.fromEntries(formData);
     /*const rawFormData = {
         firstName: formData.get('firstName'),
@@ -232,17 +232,17 @@ export async function registerUserByAdim(formData: FormData) {
             console.log('userId', userId)
             const pantry = await createPantry(userId)
             console.log('pantry', pantry)
+            revalidatePath('/dashboard/admin-page');
             return message
         }
-        // Test it out:
 
     }
 }
 
-export async function deleteUser(userId: Key) {
+export async function deleteUser(id: string) {
     const session = await auth()
     const token = session?.token
-    const res = await fetch(`${apiUrl}/api/v1/users/delete/${userId}`, {
+    const res = await fetch(`${apiUrl}/api/v1/users/delete/${id}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -252,6 +252,36 @@ export async function deleteUser(userId: Key) {
     console.log('Response Status:', res.status);
     const data = await res.json();
     console.log('data', data)
-    return data
+    revalidatePath('/dashboard/admin-page');
+
 }
 
+export async function updateUser(id: string, formData: FormData) {
+    const session = await auth()
+    const token = session?.token
+    console.log('id', id)
+    console.log('formData', formData)
+
+    const req = {
+        ...formData,
+        firstName: formData.get('firstName'),
+        lastName: formData.get('lastName'),
+        email: formData.get('email'),
+        roles: formData.get('roles'),
+    }
+    const res = await fetch(`${apiUrl}/api/v1/users/update/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(req)
+
+    });
+    console.log('Response Status:', res.status);
+    const data = await res.json();
+    console.log('data', data)
+    revalidatePath('/dashboard/admin-page');
+    revalidatePath('/dashboard');
+
+}

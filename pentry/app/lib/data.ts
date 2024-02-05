@@ -196,3 +196,16 @@ export async function fetchAllRoles(): Promise<string[]> {
 
     return res.json();
 }
+
+export async function fetchUserById(id: string): Promise<User> {
+    const session = await auth()
+    const res = await fetch(`${apiUrl}/api/v1/users/${id}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session?.token}`
+        },
+    });
+
+    return res.json();
+}

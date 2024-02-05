@@ -8,7 +8,7 @@ import {
     UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import {Button} from '@/app/ui/button';
-import {registerUserByAdim} from "@/app/lib/actions";
+import {registerUserByAdmin} from "@/app/lib/actions";
 import {useFormState} from "react-dom";
 import React, {useState} from "react";
 
@@ -36,7 +36,7 @@ export default function Form({users, roles}: {
         formData.append('confirmPassword', confirmPassword);
         formData.append('roles', role);
 
-        const formAction = registerUserByAdim.bind(null, formData);
+        const formAction = registerUserByAdmin.bind(null, formData);
         formAction();
     };
     return (
