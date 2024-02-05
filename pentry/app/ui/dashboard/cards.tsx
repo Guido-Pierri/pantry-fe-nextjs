@@ -3,7 +3,7 @@ import {
     ClockIcon,
     UserGroupIcon,
     InboxIcon,
-    ListBulletIcon, MagnifyingGlassIcon, ClipboardDocumentListIcon, ShoppingCartIcon
+    ListBulletIcon, MagnifyingGlassIcon, ClipboardDocumentListIcon, ShoppingCartIcon, PlusIcon
 } from '@heroicons/react/24/outline';
 import {lusitana} from '@/app/ui/fonts';
 import Link from "next/link";
@@ -16,7 +16,8 @@ const iconMap = {
     pending: ClockIcon,*/
     items: ShoppingCartIcon,
     search: MagnifyingGlassIcon,
-    recipes: ClipboardDocumentListIcon
+    recipes: ClipboardDocumentListIcon,
+    addItem: PlusIcon
 };
 
 export default async function CardWrapper() {
@@ -41,7 +42,7 @@ export function Card(
         {
             title: string;
             value: number | string;
-            type: 'items' | 'search' | 'recipes'/*  | 'collected'*/;
+            type: 'items' | 'search' | 'recipes' | 'addItem';
             item?: Item;
         }) {
     const Icon = iconMap[type];

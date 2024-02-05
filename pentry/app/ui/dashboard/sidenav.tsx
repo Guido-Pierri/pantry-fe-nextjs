@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import NavLinks from '@/app/ui/dashboard/nav-links';
-import {ClipboardIcon, PowerIcon} from '@heroicons/react/24/outline';
+import {ClipboardIcon, PowerIcon, UserCircleIcon} from '@heroicons/react/24/outline';
 import {auth, signOut} from '@/auth';
 import {croissant} from "@/app/ui/fonts";
-import {Session, User} from "next-auth";
+import {Session} from "next-auth";
+import {User} from "@/app/lib/definitions";
 
 export default async function SideNav() {
     const session = await auth();
@@ -23,15 +24,22 @@ export default async function SideNav() {
 
             </Link>
             <div className="flex grow flex-row justify-evenly space-x-2 md:flex-col md:space-x-0 md:space-y-2">
-                <NavLinks/>
+                <NavLinks roles={roles}/>
                 <div className="hidden h-auto w-full grow rounded-md bg-gray-50 md:block"></div>
-                {isAdmin ? (
+                {/*{isAdmin ? (
                     <Link
                         className="flex flex-col grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3"
                         href={'/dashboard/admin-page'}>
                         <ClipboardIcon className="w-6"/>
                         <div className="">Admin Page</div>
                     </Link>) : null}
+                {isUser ? (
+                    <Link
+                        className="flex flex-col grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3"
+                        href={'/dashboard/profile-page'}>
+                        <UserCircleIcon className="w-6"/>
+                        <div className="">Profile Page</div>
+                    </Link>) : null}*/}
                 {/*//TODO: show a button or link to profile page*/}
                 <form
                     action={async () => {

@@ -163,6 +163,34 @@ export async function fetchUserByEmail(email: string, token: string, refreshToke
     const firstName = data.firstName;
     const lastName = data.lastName;
     const userEmail = data.email;
-    return {id, firstName, lastName, email: userEmail, password: ''};
+    return {id, firstName, lastName, email: userEmail, password: '', roles: data.roles}
 
+
+}
+
+export async function fetchAllUsers(): Promise<User[]> {
+    const session = await auth()
+
+    const res = await fetch(`${apiUrl}/api/v1/users/all`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session?.token}`
+        },
+    });
+
+    return res.json();
+}
+
+export async function fetchAllRoles(): Promise<string[]> {
+    const session = await auth()
+    const res = await fetch(`${apiUrl}/api/v1/users/all-roles`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session?.token}`
+        },
+    });
+
+    return res.json();
 }
