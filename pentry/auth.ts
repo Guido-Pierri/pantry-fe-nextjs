@@ -7,12 +7,11 @@ import bcrypt from 'bcryptjs';
 import {z} from 'zod';
 import {DatabaseError, User} from '@/app/lib/definitions';
 import authConfig from "@/auth.config";
-import {redirect} from "next/navigation";
 import {newGoogleUser} from "@/app/lib/actions";
 
 const apiUrl = process.env.SQL_DATABASE;
 
-export async function getUser(email: string, token?: string, provider?: string): Promise<User | undefined> {
+export async function getUser(email: string): Promise<User | undefined> {
     try {
         const user = await fetch(`${apiUrl}/api/v1/users/email/${email}`,
             {
@@ -117,9 +116,11 @@ export const config = {
         },
 
         async signIn({user, account, profile, email, credentials}) {
+            console.log('account in signIn', account)
             if (account?.provider === 'google') {
                 if (profile?.email) {
                     const dbUser = await checkUser(profile?.email);
+                    console.log('dbUser in signIn', dbUser)
                     //console.log('await checkUser(profile?.email)', await checkUser(profile?.email))
                     if (dbUser === false) {
                         if (profile?.email && profile?.given_name && profile?.family_name) {

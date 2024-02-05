@@ -1,14 +1,12 @@
 'use server';
 
-import {z} from 'zod';
 import {revalidatePath} from 'next/cache';
 import {redirect} from 'next/navigation';
 import {auth, signIn} from '@/auth';
 import {AuthError} from 'next-auth';
 import {stringify} from "yaml";
 import bcrypt from "bcryptjs";
-import {DatabaseError, User} from "@/app/lib/definitions";
-import {Key} from "react";
+import {DatabaseError} from "@/app/lib/definitions";
 
 const apiUrl = process.env.SQL_DATABASE;
 
@@ -120,12 +118,15 @@ export async function createPantry(id: number) {
 }
 
 export async function newGoogleUser(formData: FormData) {
+    console.log('inside newGoogleUser')
     console.log('formData', formData)
     const user = {
         firstName: formData.get('firstName'),
         lastName: formData.get('lastName'),
         email: formData.get('email'),
         username: formData.get('username'),
+        roles: 'USER',
+        authProvider: 'google'
     }
     const res = await fetch(`${apiUrl}/api/v1/users/create`, {
         method: 'POST',
@@ -162,9 +163,8 @@ export async function registerUser(prevState: string | undefined, formData: Form
                 authProvider: 'credentials'
 
             }
-            const req = {
-                ...user
-            }
+
+            const req = {user}
             const res = await fetch(`${apiUrl}/api/v1/users/create`, {
                 method: 'POST',
                 headers: {
