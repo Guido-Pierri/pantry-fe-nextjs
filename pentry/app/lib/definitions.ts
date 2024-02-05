@@ -10,6 +10,7 @@ declare module "next-auth" {
         token?: string;
         refreshToken?: string;
         provider?: string;
+        roles?: string;
     }
 
 }
@@ -49,6 +50,8 @@ export type User = {
     email: string;
     password: string;
     accessToken?: string;
+    roles: string;
+    authProvider: string;
     token?: string;
 };
 export type ItemForm = {
@@ -100,3 +103,9 @@ export class DatabaseError extends Error {
         this.name = 'DatabaseError';
     }
 }
+
+export type UserField = {
+    id: string;
+    firstName: string;
+    lastName: string;
+};

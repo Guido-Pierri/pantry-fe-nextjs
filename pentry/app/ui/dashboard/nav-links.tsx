@@ -5,7 +5,7 @@ import {
     HomeIcon,
     DocumentDuplicateIcon,
     MagnifyingGlassIcon,
-    CubeIcon, ClipboardIcon, RectangleStackIcon
+    CubeIcon, ClipboardIcon, RectangleStackIcon, PlusIcon, UserCircleIcon
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import {usePathname} from 'next/navigation';
@@ -13,7 +13,7 @@ import clsx from 'clsx';
 
 // ...
 
-export default function NavLinks() {
+export default function NavLinks({roles}: { roles: string }) {
     const pathname = usePathname();
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
@@ -29,6 +29,18 @@ export default function NavLinks() {
             icon: RectangleStackIcon,
         },
         {
+            name: 'Profile',
+            href: '/dashboard/profile-page',
+            icon: UserCircleIcon,
+            roles: 'USER',
+        },
+        {
+            name: 'Admin Page',
+            href: '/dashboard/admin-page',
+            icon: ClipboardIcon,
+            roles: 'ADMIN',
+        },
+        /*{
             name: 'Search',
             href: '/dashboard/search',
             icon: MagnifyingGlassIcon
@@ -36,8 +48,8 @@ export default function NavLinks() {
         {
             name: 'Add',
             href: '/dashboard/add-item',
-            icon: CubeIcon
-        },
+            icon: PlusIcon
+        },*/
         /*{
             name: 'Recipes',
             href: '/dashboard/recipes',
@@ -47,6 +59,9 @@ export default function NavLinks() {
     return (
         <>
             {links.map((link) => {
+                if (link.roles && link.roles !== roles) {
+                    return null;
+                }
                 const LinkIcon = link.icon;
                 return (
                     <Link
