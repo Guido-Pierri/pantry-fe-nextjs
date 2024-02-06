@@ -165,7 +165,17 @@ export async function fetchUserByEmail(email: string, token: string, refreshToke
     const userEmail = data.email;
     const roles = data.roles;
     const authProvider = data.authProvider;
-    return {id, firstName, lastName, email: userEmail, password: '', roles: roles, authProvider: authProvider}
+    const imageUrl = data.imageUrl;
+    return {
+        id,
+        firstName,
+        lastName,
+        email: userEmail,
+        imageUrl: imageUrl,
+        password: '',
+        roles: roles,
+        authProvider: authProvider
+    }
 
 
 }

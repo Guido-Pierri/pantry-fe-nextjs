@@ -1,5 +1,6 @@
 import {DeleteUser, UpdateUser} from "@/app/ui/admin-page/users/buttons";
 import {fetchAllUsers} from "@/app/lib/data";
+import Image from "next/image";
 
 export default async function UsersTable({
                                              /*  query,
@@ -58,22 +59,13 @@ export default async function UsersTable({
                         <thead className="rounded-lg text-left text-sm font-normal">
                         <tr>
                             <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                                Customer
+                                User
                             </th>
                             <th scope="col" className="px-3 py-5 font-medium">
                                 Email
                             </th>
                             <th scope="col" className="px-3 py-5 font-medium">
-                                Amount
-                            </th>
-                            <th scope="col" className="px-3 py-5 font-medium">
-                                Date
-                            </th>
-                            <th scope="col" className="px-3 py-5 font-medium">
-                                Status
-                            </th>
-                            <th scope="col" className="relative py-3 pl-6 pr-3">
-                                <span className="sr-only">Edit</span>
+                                Role
                             </th>
                         </tr>
                         </thead>
@@ -85,16 +77,17 @@ export default async function UsersTable({
                             >
                                 <td className="whitespace-nowrap py-3 pl-6 pr-3">
                                     <div className="flex items-center gap-3">
-                                        {/*<Image
-                                            src={user.image_url}
+                                        <Image
+                                            src={user?.imageUrl?.includes('https', 0) ? user?.imageUrl : 'https://i.pravatar.cc/28'}
                                             className="rounded-full"
                                             width={28}
                                             height={28}
-                                            alt={`${invoice.name}'s profile picture`}
-                                        />*/}
+                                            alt={`${user?.firstName}'s profile picture`}
+                                        />
                                         <p>{user.firstName}</p>
                                     </div>
                                 </td>
+
                                 <td className="whitespace-nowrap px-3 py-3">
                                     {user.email}
                                 </td>

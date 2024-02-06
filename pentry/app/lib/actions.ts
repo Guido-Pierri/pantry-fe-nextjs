@@ -124,6 +124,7 @@ export async function newGoogleUser(formData: FormData) {
         firstName: formData.get('firstName'),
         lastName: formData.get('lastName'),
         email: formData.get('email'),
+        imageUrl: formData.get('imageUrl'),
         username: formData.get('username'),
         roles: 'USER',
         authProvider: 'google'
