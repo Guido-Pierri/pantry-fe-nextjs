@@ -48,6 +48,7 @@ export type User = {
     firstName: string;
     lastName: string;
     email: string;
+    imageUrl: string;
     password: string;
     accessToken?: string;
     roles: string;

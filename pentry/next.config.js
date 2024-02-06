@@ -10,6 +10,18 @@ const nextConfig = {
                 port: '',
                 pathname: '/media/**',
             },
+            {
+                protocol: 'https',
+                hostname: 'lh3.googleusercontent.com',
+                port: '',
+                pathname: '/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'i.pravatar.cc',
+                port: '',
+                pathname: '/**',
+            }
         ],
     },
 }
