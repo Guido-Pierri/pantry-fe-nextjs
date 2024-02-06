@@ -116,7 +116,11 @@ export const config = {
         },
 
         async signIn({user, account, profile, email, credentials}) {
+            console.log('user in signIn', user)
             console.log('account in signIn', account)
+            console.log('profile in signIn', profile)
+            console.log('email in signIn', email)
+            console.log('credentials in signIn', credentials)
             if (account?.provider === 'google') {
                 if (profile?.email) {
                     const dbUser = await checkUser(profile?.email);
@@ -129,6 +133,7 @@ export const config = {
                             formData.append('firstName', profile?.given_name);
                             formData.append('lastName', profile?.family_name);
                             formData.append('username', profile?.email);
+                            formData.append('imageUrl', profile?.picture);
                             await newGoogleUser(formData);
                         }
                     }
@@ -177,8 +182,11 @@ export const config = {
             }*/
             //FIXME:
             if (account?.provider === 'credentials') {
-                const dbUser = await getUser(token?.email as string);
+                console.log('token in jwt', token)
+                console.log('user in jwt', user)
+
                 if (user) {
+                    const dbUser = user as User;
                     token.user = user as User;
                     token.accessToken = dbUser?.token;
                 }
