@@ -53,12 +53,14 @@ async function checkUser(email: string) {
     }
 }
 
-async function getGoogleUser(email: string) {
+async function getGoogleUser(email: string, token: string) {
+    console.log('token in getGoogleUser', token)
     try {
         const res = await fetch(`${apiUrl}/api/v1/users/fetch-logged-in-user/${email}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Oauth2 ${token}`
             },
         });
         const data = await res.json();
@@ -160,8 +162,8 @@ export const config = {
             console.log('user in jwt', user)
             console.log('account in jwt', account)*/
             if (account?.provider === 'google') {
-                const dbUser = await getGoogleUser(token?.email as string);
-                console.log('await getGoogleUser(token?.email as string)', await getGoogleUser(token?.email as string))
+                const dbUser = await getGoogleUser(token?.email as string, account?.id_token as string);
+                console.log('await getGoogleUser(token?.email as string)', await getGoogleUser(token?.email as string, account?.id_token as string))
                 console.log('dbUser in jwt', dbUser)
                 token.accessToken = dbUser?.token as string;
                 token.user = dbUser as User;
