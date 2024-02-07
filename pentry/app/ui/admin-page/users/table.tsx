@@ -2,14 +2,8 @@ import {DeleteUser, UpdateUser} from "@/app/ui/admin-page/users/buttons";
 import {fetchAllUsers} from "@/app/lib/data";
 import Image from "next/image";
 
-export default async function UsersTable({
-                                             /*  query,
-                                               currentPage,*/
-                                         }: {
-    /*query: string;
-    currentPage: number;*/
-}) {
-    const users = await fetchAllUsers(/*query, currentPage*/);
+export default async function UsersTable() {
+    const users = await fetchAllUsers();
 
     return (
         <div className="mt-6 flow-root">
@@ -24,15 +18,15 @@ export default async function UsersTable({
                                 <div className="flex items-center justify-between border-b pb-4">
                                     <div>
                                         <div className="mb-2 flex items-center">
-                                            {/*<Image
-                                                src={invoice.image_url}
-                                                className="mr-2 rounded-full"
+                                            <Image
+                                                src={user?.imageUrl?.includes('https', 0) ? user?.imageUrl : 'https://i.pravatar.cc/28'}
+                                                className="rounded-full"
                                                 width={28}
                                                 height={28}
-                                                alt={`${invoice.name}'s profile picture`}
-                                            />*/}
-                                            <p>{user.firstName}</p>
-                                            <p>{user.lastName}</p>
+                                                alt={`${user?.firstName}'s profile picture`}
+                                            />
+                                            <p className={'ml-2'}>{user.firstName}</p>
+                                            <p className={'ml-1'}>{user.lastName}</p>
 
                                         </div>
                                         <p className="text-sm text-gray-500">{user.email}</p>
