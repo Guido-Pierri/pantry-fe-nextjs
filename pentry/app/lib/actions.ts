@@ -260,8 +260,6 @@ export async function deleteUser(id: string) {
 export async function updateUser(id: string, formData: FormData) {
     const session = await auth()
     const token = session?.token
-    console.log('id', id)
-    console.log('formData', formData)
 
     const req = {
         ...formData,
@@ -279,10 +277,54 @@ export async function updateUser(id: string, formData: FormData) {
         body: JSON.stringify(req)
 
     });
-    console.log('Response Status:', res.status);
-    const data = await res.json();
-    console.log('data', data)
+    if (res.status === 400) {
+        console.log(res.status)
+        return null
+    }
+    //const data = await res.json();
+    //console.log('data', data)
     revalidatePath('/dashboard/admin-page');
     revalidatePath('/dashboard');
+    redirect('/dashboard/admin-page');
 
+}
+
+export async function updateUserProfile(id: string, formData: FormData) {
+    const session = await auth()
+    const token = session?.token
+    const password = formData.get('password')
+    const confirmPassword = formData.get('confirmPassword')
+    if (typeof password === "string" && typeof confirmPassword === "string") {
+        if (password !== confirmPassword) {
+            return 'Passwords do not match'
+        }
+
+        const req = {
+            ...formData,
+            firstName: formData.get('firstName'),
+            lastName: formData.get('lastName'),
+            email: formData.get('email'),
+            password: await bcrypt.hash(password, 10),
+        }
+        console.log('req', req)
+        console.log('id', id)
+        const res = await fetch(`${apiUrl}/api/v1/users/update-user-profile/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(req)
+
+        });
+        if (res.status === 400) {
+            console.log(res.status)
+            return null
+        }
+        //const data = await res.json();
+        //console.log('data', data)
+        revalidatePath('/dashboard');
+        redirect('/dashboard');
+
+    }
 }

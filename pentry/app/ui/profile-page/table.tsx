@@ -1,25 +1,14 @@
-'use client';
+import {DeleteUser, UpdateUser} from "@/app/ui/admin-page/users/buttons";
+import {fetchAllUsers, fetchUserById} from "@/app/lib/data";
+import Image from "next/image";
+import {Button} from "@/app/ui/button";
+import Link from "next/link";
+import {EnvelopeIcon, KeyIcon, UserCircleIcon} from "@heroicons/react/24/outline";
+import {updateUser, updateUserProfile} from "@/app/lib/actions";
 
-import {User, UserField, /*InvoiceForm*/} from '@/app/lib/definitions';
-import {
-    CheckIcon,
-    ClockIcon,
-    CurrencyDollarIcon, EnvelopeIcon, KeyIcon,
-    UserCircleIcon,
-} from '@heroicons/react/24/outline';
-import Link from 'next/link';
-import {Button} from '@/app/ui/button';
-import {updateUser} from "@/app/lib/actions";
-
-export default function EditUserForm({
-                                         user,
-                                     }: {
-    /*
-        user: UserForm;
-    */
-    user: User;
-}) {
-    const updateUserWithId = updateUser.bind(null, user.id);
+export default async function UsersTable({id}: { id: string }) {
+    const user = await fetchUserById(id);
+    const updateUserWithId = updateUserProfile.bind(null, user.id);
 
     return (
         <form action={updateUserWithId}>
@@ -114,6 +103,7 @@ export default function EditUserForm({
 
                 {/*
                 TODO: Add password and confirm password fields
+                */}
                 <div className="mb-4">
                     <label htmlFor="password" className="mb-2 block text-sm font-medium">
                         Edit password
@@ -153,49 +143,9 @@ export default function EditUserForm({
                         </div>
 
                     </div>
-                </div>*/}
+                </div>
                 {/* Invoice Status */}
-                <fieldset>
-                    <legend className="mb-2 block text-sm font-medium">
-                        Set the user role
-                    </legend>
-                    <div className="rounded-md border border-gray-200 bg-white px-[14px] py-3">
-                        <div className="flex gap-4">
-                            <div className="flex items-center">
-                                <input
-                                    id="user"
-                                    name="roles"
-                                    type="radio"
-                                    value="USER"
-                                    defaultChecked={user.roles === 'USER'}
-                                    className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-white focus:ring-2"
-                                />
-                                <label
-                                    htmlFor="user"
-                                    className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-blue-300 px-3 py-1.5 text-xs font-medium text-white"
-                                >
-                                    USER {/*<ClockIcon className="h-4 w-4"/>*/}
-                                </label>
-                            </div>
-                            <div className="flex items-center">
-                                <input
-                                    id="admin"
-                                    name="roles"
-                                    type="radio"
-                                    value="ADMIN"
-                                    defaultChecked={user.roles === 'ADMIN'}
-                                    className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
-                                />
-                                <label
-                                    htmlFor="admin"
-                                    className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-green-500 px-3 py-1.5 text-xs font-medium text-white"
-                                >
-                                    ADMIN {/*<CheckIcon className="h-4 w-4"/>*/}
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </fieldset>
+
             </div>
             <div className="mt-6 flex justify-end gap-4">
                 <Link
