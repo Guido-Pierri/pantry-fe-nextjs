@@ -13,8 +13,8 @@ import {useFormState} from "react-dom";
 import React, {useState} from "react";
 
 export default function Form({users, roles}: {
-    users: UserField[],
-    roles: string[]
+    users: UserField[] | null
+    roles: string[] | null
 }) {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -143,7 +143,7 @@ export default function Form({users, roles}: {
                         <option value="" disabled>
                             Select a role
                         </option>
-                        {roles.map((role) => (
+                        {roles?.map((role) => (
                             <option key={role} value={role}>
                                 {role}
 
