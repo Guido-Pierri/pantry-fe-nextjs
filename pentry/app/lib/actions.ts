@@ -2,7 +2,7 @@
 
 import {revalidatePath} from 'next/cache';
 import {redirect} from 'next/navigation';
-import {auth, signIn} from '@/auth';
+import {auth, signIn, signOut} from '@/auth';
 import {AuthError} from 'next-auth';
 import {stringify} from "yaml";
 import bcrypt from "bcryptjs";
@@ -327,4 +327,9 @@ export async function updateUserProfile(id: string, formData: FormData) {
         redirect('/dashboard');
 
     }
+
+}
+
+export async function signOutUser() {
+    await signOut()
 }

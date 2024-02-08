@@ -5,7 +5,9 @@ import {
     fetchPantryByUserId, fetchUserById,
 } from '@/app/lib/data';
 import Link from "next/link";
-import {auth} from "@/auth";
+import {auth, signOut} from "@/auth";
+import {signOutUser} from "@/app/lib/actions";
+import {ArrowRightEndOnRectangleIcon, PowerIcon} from "@heroicons/react/24/outline";
 
 
 export default async function Page() {
@@ -15,7 +17,7 @@ export default async function Page() {
     const databaseUser = session?.dbUser
     const user = await fetchUserById(databaseUser?.id as string)
 
-    //if (!databaseUser) return null
+
     const items = await fetchPantryByUserId(databaseUser?.id as string)
     console.log('items', items)
     if (!items) return (<div>loading...</div>)

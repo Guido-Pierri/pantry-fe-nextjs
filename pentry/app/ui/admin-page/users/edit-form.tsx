@@ -1,10 +1,8 @@
 'use client';
 
-import {User, UserField, /*InvoiceForm*/} from '@/app/lib/definitions';
+import {User, /*InvoiceForm*/} from '@/app/lib/definitions';
 import {
-    CheckIcon,
-    ClockIcon,
-    CurrencyDollarIcon, EnvelopeIcon, KeyIcon,
+    EnvelopeIcon,
     UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
@@ -14,12 +12,12 @@ import {updateUser} from "@/app/lib/actions";
 export default function EditUserForm({
                                          user,
                                      }: {
-    /*
-        user: UserForm;
-    */
-    user: User;
+    user: User | null;
 }) {
-    const updateUserWithId = updateUser.bind(null, user.id);
+    if (!user) {
+        return null;
+    }
+    const updateUserWithId = updateUser.bind(null, user?.id);
 
     return (
         <form action={updateUserWithId}>
@@ -61,7 +59,7 @@ export default function EditUserForm({
                                 id="firstName"
                                 name="firstName"
                                 type="text"
-                                defaultValue={user.firstName}
+                                defaultValue={user?.firstName}
                                 placeholder="Enter first name"
                                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                             />
@@ -81,7 +79,7 @@ export default function EditUserForm({
                                 id="lastName"
                                 name="lastName"
                                 type="text"
-                                defaultValue={user.lastName}
+                                defaultValue={user?.lastName}
                                 placeholder="Enter last name"
                                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                             />
@@ -101,7 +99,7 @@ export default function EditUserForm({
                                 id="email"
                                 name="email"
                                 type="email"
-                                defaultValue={user.email}
+                                defaultValue={user?.email}
                                 placeholder="Enter email"
                                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                             />
@@ -167,7 +165,7 @@ export default function EditUserForm({
                                     name="roles"
                                     type="radio"
                                     value="USER"
-                                    defaultChecked={user.roles === 'USER'}
+                                    defaultChecked={user?.roles === 'USER'}
                                     className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-white focus:ring-2"
                                 />
                                 <label
@@ -183,7 +181,7 @@ export default function EditUserForm({
                                     name="roles"
                                     type="radio"
                                     value="ADMIN"
-                                    defaultChecked={user.roles === 'ADMIN'}
+                                    defaultChecked={user?.roles === 'ADMIN'}
                                     className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
                                 />
                                 <label
@@ -199,7 +197,7 @@ export default function EditUserForm({
             </div>
             <div className="mt-6 flex justify-end gap-4">
                 <Link
-                    href="/admin-page"
+                    href="/dashboard/admin-page"
                     className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
                 >
                     Cancel

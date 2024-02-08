@@ -72,6 +72,22 @@ async function getGoogleUser(email: string, token: string) {
     }
 }
 
+async function isTokenExpired(token: string) {
+    console.log('token in isTokenExpired', token)
+    const res = await fetch(`${apiUrl}/api/v1/users/check-token`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    console.log('res.status', res.status)
+    if (res.status === 403) {
+        return true;
+
+    } else return false;
+}
+
 export const config = {
     ...authConfig,
     providers: [
@@ -106,10 +122,13 @@ export const config = {
         authorized({auth, request: {nextUrl}}) {
             const isLoggedIn = !!auth?.user;
             const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
+            console.log('auth', auth)
+            const isToken = !!auth?.user?.token;
+            console.log('isToken', isToken)
             //TODO:check if needed
             //const isOnSignUp = nextUrl.pathname.startsWith('/signup');
             if (isOnDashboard) {
-                if (isLoggedIn) return true;
+                if (isLoggedIn/* && isToken*/) return true;
                 return false; // Redirect unauthenticated users to login page
             } else if (isLoggedIn /*&& !isOnSignUp*/) {
                 return Response.redirect(new URL('/dashboard', nextUrl));
@@ -118,15 +137,17 @@ export const config = {
         },
 
         async signIn({user, account, profile, email, credentials}) {
-            console.log('user in signIn', user)
+            /*console.log('user in signIn', user)
             console.log('account in signIn', account)
             console.log('profile in signIn', profile)
             console.log('email in signIn', email)
-            console.log('credentials in signIn', credentials)
+            console.log('credentials in signIn', credentials)*/
             if (account?.provider === 'google') {
                 if (profile?.email) {
                     const dbUser = await checkUser(profile?.email);
-                    console.log('dbUser in signIn', dbUser)
+                    /*
+                                        console.log('dbUser in signIn', dbUser)
+                    */
                     //console.log('await checkUser(profile?.email)', await checkUser(profile?.email))
                     if (dbUser === false) {
                         if (profile?.email && profile?.given_name && profile?.family_name) {
@@ -144,27 +165,35 @@ export const config = {
             return true;
         },
         async session({token, session, user}) {
+            /*console.log('token in session', token)
+            console.log('session in session', session)*/
             if (token?.token && session?.user) {
                 session.token = token.token as string;
             }
             session.token = token.accessToken as string;
-            session.refreshToken = token.refreshToken as string;
             session.user = token.user as User;
             session.dbUser = token.user as User;
 
             //console.log('session in session', session)
-            //console.log('session in session end', session)
+            /*
+                        console.log('session in session end', session)
+            */
+            if (await isTokenExpired(session.token)) {
+                session.token = null;
+            }
+            console.log('session in session', session)
             return Promise.resolve(session)
         },
+
         async jwt({token, user, account}) {
 
             /*console.log('token in jwt', token)
-            console.log('user in jwt', user)
-            console.log('account in jwt', account)*/
+            console.log('user in jwt', user)*/
+
             if (account?.provider === 'google') {
                 const dbUser = await getGoogleUser(token?.email as string, account?.id_token as string);
-                console.log('await getGoogleUser(token?.email as string)', await getGoogleUser(token?.email as string, account?.id_token as string))
-                console.log('dbUser in jwt', dbUser)
+                /*console.log('await getGoogleUser(token?.email as string)', await getGoogleUser(token?.email as string, account?.id_token as string))
+                console.log('dbUser in jwt', dbUser)*/
                 token.accessToken = dbUser?.token as string;
                 token.user = dbUser as User;
 
@@ -184,15 +213,21 @@ export const config = {
             }*/
             //FIXME:
             if (account?.provider === 'credentials') {
-                console.log('token in jwt', token)
-                console.log('user in jwt', user)
+                /*console.log('token in jwt', token)
+                console.log('user in jwt', user)*/
+
 
                 if (user) {
                     const dbUser = user as User;
                     token.user = user as User;
                     token.accessToken = dbUser?.token;
                 }
-
+                if (await isTokenExpired(token?.accessToken as string)) {
+                    /*
+                                        console.log('token expired')
+                    */
+                    return null;
+                }
 
             }
             //console.log('token in end of jwt', token)
