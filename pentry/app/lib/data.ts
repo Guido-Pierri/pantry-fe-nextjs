@@ -56,7 +56,7 @@ export async function searchItems(query: string, currentPage: number): Promise<S
     return data;
 }
 
-export async function searchPaginatedItems(query: string, page?: number, itemsPerPage?: number): Promise<SearchPage> {
+export async function searchPaginatedItems(query: string, page?: number, itemsPerPage?: number): Promise<Promise<SearchPage> | null> {
     console.log('query', query);
     const pageToFetch = page || 0;
     const size = itemsPerPage || 10;
@@ -181,7 +181,7 @@ export async function fetchUserByEmail(email: string, token: string, refreshToke
 
 }
 
-export async function fetchAllUsers(): Promise<User[]> {
+export async function fetchAllUsers(): Promise<Promise<User[]> | null> {
     const session = await auth()
 
     const res = await fetch(`${apiUrl}/api/v1/users/all`, {
@@ -199,7 +199,7 @@ export async function fetchAllUsers(): Promise<User[]> {
     return res.json();
 }
 
-export async function fetchAllRoles(): Promise<string[]> {
+export async function fetchAllRoles(): Promise<Promise<string[]> | null> {
     const session = await auth()
     const res = await fetch(`${apiUrl}/api/v1/users/all-roles`, {
         method: 'GET',
@@ -212,7 +212,7 @@ export async function fetchAllRoles(): Promise<string[]> {
     return res.json();
 }
 
-export async function fetchUserById(id: string): Promise<User> {
+export async function fetchUserById(id: string): Promise<Promise<User> | null> {
     const session = await auth()
     const res = await fetch(`${apiUrl}/api/v1/users/${id}`, {
         method: 'GET',
