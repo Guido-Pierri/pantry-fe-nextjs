@@ -8,7 +8,8 @@ import {updateUser, updateUserProfile} from "@/app/lib/actions";
 
 export default async function UsersTable({id}: { id: string }) {
     const user = await fetchUserById(id);
-    const updateUserWithId = updateUserProfile.bind(null, user.id);
+    if (!user) return null;
+    const updateUserWithId = updateUserProfile.bind(null, user?.id);
 
     return (
         <form action={updateUserWithId}>
@@ -50,7 +51,7 @@ export default async function UsersTable({id}: { id: string }) {
                                 id="firstName"
                                 name="firstName"
                                 type="text"
-                                defaultValue={user.firstName}
+                                defaultValue={user?.firstName}
                                 placeholder="Enter first name"
                                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                             />
@@ -70,7 +71,7 @@ export default async function UsersTable({id}: { id: string }) {
                                 id="lastName"
                                 name="lastName"
                                 type="text"
-                                defaultValue={user.lastName}
+                                defaultValue={user?.lastName}
                                 placeholder="Enter last name"
                                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                             />
@@ -90,7 +91,7 @@ export default async function UsersTable({id}: { id: string }) {
                                 id="email"
                                 name="email"
                                 type="email"
-                                defaultValue={user.email}
+                                defaultValue={user?.email}
                                 placeholder="Enter email"
                                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                             />
@@ -114,7 +115,7 @@ export default async function UsersTable({id}: { id: string }) {
                                 id="password"
                                 name="password"
                                 type="password"
-                                defaultValue={user.password}
+                                defaultValue={user?.password}
                                 placeholder="Enter password"
                                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                             />
@@ -134,7 +135,7 @@ export default async function UsersTable({id}: { id: string }) {
                                 id="confirmPassword"
                                 name="confirmPassword"
                                 type="password"
-                                defaultValue={user.password}
+                                defaultValue={user?.password}
                                 placeholder="Confirm password"
                                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                             />
