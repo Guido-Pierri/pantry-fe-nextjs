@@ -1,5 +1,6 @@
 import {Item, PantryDto, SearchItem, SearchPage, User,} from './definitions';
 import {auth} from "@/auth";
+import {redirect} from "next/navigation";
 
 const apiUrl =/* process.env.SQL_DATABASE || */'http://localhost:8080';
 
@@ -71,9 +72,8 @@ export async function searchPaginatedItems(query: string, page?: number, itemsPe
 
     console.log('Response Status:', res.status);
 
-    if (!res.ok) {
-        // This will activate the closest `error.js` Error Boundary
-        throw new Error('Failed to fetch data');
+    if (res.status === 403) {
+        return null;
     }
 
     const data = await res.json();
@@ -111,13 +111,14 @@ export async function fetchPantryByUserId(user_id: string): Promise<Promise<Pant
 
             },
         });
+    if (res.status === 403) {
+        // This will activate the closest `error.js` Error Boundary
+        //throw new Error('Failed to fetch data')
+        return null;
+    }
     console.log('Response Status:', res.status);
     const data = await res.json();
     console.log('data', data)
-    if (!res.ok) {
-        // This will activate the closest `error.js` Error Boundary
-        throw new Error('Failed to fetch data')
-    }
     const id = data.id;
     const userId = data.userId;
     const items = data.items;
@@ -190,7 +191,11 @@ export async function fetchAllUsers(): Promise<User[]> {
             'Authorization': `Bearer ${session?.token}`
         },
     });
-
+    if (res.status === 403) {
+        // This will activate the closest `error.js` Error Boundary
+        //throw new Error('Failed to fetch data')
+        return null;
+    }
     return res.json();
 }
 
@@ -216,6 +221,9 @@ export async function fetchUserById(id: string): Promise<User> {
             'Authorization': `Bearer ${session?.token}`
         },
     });
-
+    console.log('Response Status:', res.status);
+    if (res.status === 403) {
+        return null;
+    }
     return res.json();
 }

@@ -12,6 +12,7 @@ export default async function Results({
     currentPage: number;
 }) {
     const page: SearchPage = await searchPaginatedItems(query, currentPage);
+    if (!page) return null;
     const items = page.content;
     console.log("items", items);
     return (
