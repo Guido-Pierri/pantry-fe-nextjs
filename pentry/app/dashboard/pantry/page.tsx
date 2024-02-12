@@ -22,30 +22,16 @@ export default async function Page() {
     console.log('pantry?.items', pantry?.items)
     return (
         <main>
-            <Breadcrumbs
-                breadcrumbs={[
-                    {label: 'Dashboard', href: '/dashboard'},
-                    {
-                        label: 'My Pantry',
-                        href: '/dashboard/pantry',
-                        active: true,
-                    },
-                ]}/>
+
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 text-blue-400">
                 {pantry?.items ? (pantry.items.map((item: Item) =>
-                    <Link key={item.id} href={`/dashboard/pantry/items/${item.gtin}`}>
-                        <Card title={item.name}
-                              value={"Expires: " + item.expirationDate}
-                              type="items"
-                              item={item}/></Link>
+
+                    <Card title={item.name}
+                          value={"Expires: " + item.expirationDate}
+                          type="items"
+                          item={item}/>
                 )) : null}
 
-                {/*<div className={'flex flex-col'}>
-
-                    <Link href={'/dashboard/add-item'}>start adding items to your pantry</Link>
-                    <Link href={'/dashboard/search'}>or search for items</Link>
-
-                </div>*/}
             </div>
         </main>
     )

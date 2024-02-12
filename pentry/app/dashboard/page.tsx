@@ -32,7 +32,7 @@ export default async function Page() {
                                                       value={''}
                                                       type="items"/></Link>}
                 {<Link href={"/dashboard/recipes"}><Card title="Recipes" value={''} type="recipes"/></Link>}
-                {<Link href={"/dashboard/add-item"}><Card title="Add an item" value={''} type="addItem"/></Link>}
+                {<Link href={"/dashboard/pantry/add-item"}><Card title="Add an item" value={''} type="addItem"/></Link>}
                 {<Link href={"/dashboard/search"}><Card title="Search" value={''} type="search"/></Link>}
 
             </div>

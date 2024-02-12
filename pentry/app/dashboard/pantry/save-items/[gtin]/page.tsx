@@ -1,5 +1,5 @@
 import {fetchItemByGtin, fetchPantryByUserId} from "@/app/lib/data";
-import AddItem from "@/app/ui/dashboard/addItem";
+import AddItem from "@/app/ui/pantry/addItem";
 import {auth} from "@/auth";
 
 export default async function Page({params}: { params: { gtin: string } }) {
