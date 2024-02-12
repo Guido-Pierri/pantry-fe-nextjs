@@ -5,6 +5,7 @@ import {
     fetchPantryByUserId,
 } from '@/app/lib/data';
 import {auth} from "@/auth";
+import Breadcrumbs from "@/app/ui/dashboard/breadcrumbs";
 
 export default async function Page() {
     const session = await auth()
@@ -21,6 +22,15 @@ export default async function Page() {
     console.log('pantry?.items', pantry?.items)
     return (
         <main>
+            <Breadcrumbs
+                breadcrumbs={[
+                    {label: 'Dashboard', href: '/dashboard'},
+                    {
+                        label: 'My Pantry',
+                        href: '/dashboard/pantry',
+                        active: true,
+                    },
+                ]}/>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 text-blue-400">
                 {pantry?.items ? (pantry.items.map((item: Item) =>
                     <Link key={item.id} href={`/dashboard/pantry/items/${item.gtin}`}>
