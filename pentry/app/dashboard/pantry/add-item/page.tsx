@@ -22,10 +22,10 @@ export default async function Page({searchParams}: {
     return (
         <><Breadcrumbs
             breadcrumbs={[
-                {label: 'Dashboard', href: '/dashboard'},
+                {label: 'My Pantry', href: '/dashboard/pantry'},
                 {
                     label: 'Add Item',
-                    href: '/dashboard/add-item',
+                    href: '/dashboard/pantry/add-item',
                     active: true,
                 },
             ]}/>

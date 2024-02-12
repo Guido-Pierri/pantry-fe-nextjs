@@ -35,7 +35,6 @@ export default function AddItem({pantryId, gtin, item}: {
                 {formAction ? (<form action={formAction} className={'flex flex-col rounded-md '}>
                     {image && name ? (
                         <>
-                            <h2>{name}</h2>
                             <Image className={''} src={image} alt={name} width={500} height={500}/>
                         </>) : null}
                     {!item?.name && category ? (<><label htmlFor={"name"}>Enter name</label>
@@ -47,7 +46,9 @@ export default function AddItem({pantryId, gtin, item}: {
 
                     {/*<label htmlFor={"quantity"}>Quantity</label>
                     <input id={"quantity"} name={"quantity"} type={"text"}/>*/}
-                    <label htmlFor={"expirationDate"}>Set the expiration date</label>
+                    <div className={'font-bold text-l bg-gray-100 rounded-md mt-2'}>Save this item to your pantry?
+                    </div>
+                    <label className={'mt-2'} htmlFor={"expirationDate"}>Set the expiration date</label>
                     <input placeholder={'Expiration date'} id={"expirationDate"} name={"expirationDate"} type={"date"}
                            required={true}/>
 
