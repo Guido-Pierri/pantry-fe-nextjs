@@ -12,25 +12,30 @@ export default async function Page() {
         return null
     }
     const token = session?.token;
+    console.log('token', token)
     const userEmail = session?.user?.email
     if (!token || !userEmail) return null
     const userFromDatabase = session?.dbUser
     const id = userFromDatabase?.id as string
-    const items = await fetchPantryByUserId(id)
+    const pantry = await fetchPantryByUserId(id)
+    console.log('pantry?.items', pantry?.items)
     return (
         <main>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 text-blue-400">
-                {items?.items ? items.items.map((item: Item) =>
-                    <Link key={item.id} href="/dashboard/pantry">
+                {pantry?.items ? (pantry.items.map((item: Item) =>
+                    <Link key={item.id} href={`/dashboard/pantry/items/${item.gtin}`}>
                         <Card title={item.name}
                               value={"Expires: " + item.expirationDate}
                               type="items"
-                              item={item}/></Link>) : <div className={'flex flex-col'}>
+                              item={item}/></Link>
+                )) : null}
+
+                {/*<div className={'flex flex-col'}>
 
                     <Link href={'/dashboard/add-item'}>start adding items to your pantry</Link>
                     <Link href={'/dashboard/search'}>or search for items</Link>
 
-                </div>}
+                </div>*/}
             </div>
         </main>
     )

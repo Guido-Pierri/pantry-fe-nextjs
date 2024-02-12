@@ -45,7 +45,6 @@ async function checkUser(email: string) {
                 },
             });
         const data = await user.json();
-        console.log('user in checkUser', data.exists);
         return data.exists;
     } catch (error) {
         console.error('Failed to fetch user:', error);
@@ -54,7 +53,6 @@ async function checkUser(email: string) {
 }
 
 async function getGoogleUser(email: string, token: string) {
-    console.log('token in getGoogleUser', token)
     try {
         const res = await fetch(`${apiUrl}/api/v1/users/fetch-logged-in-user/${email}`, {
             method: 'GET',
@@ -64,7 +62,6 @@ async function getGoogleUser(email: string, token: string) {
             },
         });
         const data = await res.json();
-        console.log('res in getGoogleUser', data)
         return data;
     } catch (e) {
         console.error('Failed to fetch Google user:', e);
@@ -73,7 +70,6 @@ async function getGoogleUser(email: string, token: string) {
 }
 
 async function isTokenExpired(token: string) {
-    console.log('token in isTokenExpired', token)
     const res = await fetch(`${apiUrl}/api/v1/users/check-token`, {
         method: 'GET',
         headers: {
@@ -98,18 +94,13 @@ export const config = {
                 const parsedCredentials = z
                     .object({email: z.string().email(), password: z.string().min(6)})
                     .safeParse(credentials);
-                console.log('parsedCredentials', parsedCredentials)
                 if (parsedCredentials.success) {
                     const {email, password} = parsedCredentials.data;
 
                     const user = await getUser(email);
-                    console.log('user in authorize', user)
                     if (!user) return null;
-                    console.log('user.password', user.password)
                     const passwordsMatch = await bcrypt.compare(password, user.password);
-                    console.log('passwordsMatch', passwordsMatch)
                     //console.log('user in log in',user)
-                    console.log('user in log in', user)
                     if (passwordsMatch) return user;
                 }
 
@@ -122,9 +113,7 @@ export const config = {
         authorized({auth, request: {nextUrl}}) {
             const isLoggedIn = !!auth?.user;
             const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
-            console.log('auth', auth)
             const isToken = !!auth?.user?.token;
-            console.log('isToken', isToken)
             //TODO:check if needed
             //const isOnSignUp = nextUrl.pathname.startsWith('/signup');
             if (isOnDashboard) {
@@ -137,11 +126,7 @@ export const config = {
         },
 
         async signIn({user, account, profile, email, credentials}) {
-            /*console.log('user in signIn', user)
-            console.log('account in signIn', account)
-            console.log('profile in signIn', profile)
-            console.log('email in signIn', email)
-            console.log('credentials in signIn', credentials)*/
+
             if (account?.provider === 'google') {
                 if (profile?.email) {
                     const dbUser = await checkUser(profile?.email);
@@ -181,7 +166,6 @@ export const config = {
             if (await isTokenExpired(session.token)) {
                 session.token = null;
             }
-            console.log('session in session', session)
             return Promise.resolve(session)
         },
 

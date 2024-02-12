@@ -1,4 +1,4 @@
-import Breadcrumbs from "@/app/ui/admin-page/users/breadcrumbs";
+import Breadcrumbs from "@/app/ui/dashboard/breadcrumbs";
 import {fetchAllUsers, fetchUserByEmail, fetchUserById} from "@/app/lib/data";
 import Form from "@/app/ui/admin-page/users/edit-form";
 

@@ -36,12 +36,23 @@ export type Item = {
     name: string;
     quantity: number;
     expirationDate: string;
-    gtin: string;
+    gtin?: string;
     brand: string;
     category: string;
     image: string;
     userId: string;
 
+}
+export type CustomItem = {
+    id: string;
+    name: string;
+    gtin: string;
+    quantity: number;
+    expirationDate: string;
+    brand: string;
+    category: string;
+    image: string;
+    userId: string;
 }
 export type User = {
     id: string;

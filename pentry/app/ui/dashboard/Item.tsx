@@ -1,13 +1,9 @@
-import {fetchItemByGtin} from "@/app/lib/data";
-import {Item} from "@/app/lib/definitions";
-import Image from "next/image";
+import {CustomItem} from "@/app/lib/definitions";
 import {Button} from "@/app/ui/button";
-import {ArrowRightIcon} from "@heroicons/react/20/solid";
 import Link from "next/link";
 import {Card} from "@/app/ui/dashboard/cards";
-//import { useNavigate } from 'react-router-dom'
-//type Props = { item: any; daysBetween: any; today: any }
-const Item = ({item}: { item: Item }) => {
+
+const Item = ({item}: { item: CustomItem }) => {
 
     console.log('item in  UI component', item)
     return (
