@@ -26,7 +26,7 @@ export default async function Page() {
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 text-blue-400">
                 {pantry?.items ? (pantry.items.map((item: Item) =>
 
-                    <Card title={item.name}
+                    <Card key={item.id} title={item.name}
                           value={"Expires: " + item.expirationDate}
                           type="items"
                           item={item}/>
