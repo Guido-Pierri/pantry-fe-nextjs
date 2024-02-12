@@ -85,7 +85,7 @@ export function ItemCard({
             <div>
                 <h1>{item.Varumarke}</h1>
             </div>
-            <Link href={`/dashboard/pantry/items/${item.GTIN}`} key={item.GTIN}>
+            <Link href={`/dashboard/pantry/add-item/items/${item.GTIN}`} key={item.GTIN}>
                 <h2>{item.Artikelbenamning}</h2>
             </Link>
         </div>

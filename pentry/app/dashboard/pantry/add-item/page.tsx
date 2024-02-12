@@ -3,7 +3,7 @@ import {auth} from "@/auth";
 import {fetchCategories} from "@/app/lib/data";
 import Breadcrumbs from "@/app/ui/dashboard/breadcrumbs";
 import SearchBar from "@/app/ui/searchBar";
-import Results from "@/app/ui/search/results";
+import Results from "@/app/ui/pantry/results";
 
 export default async function Page({searchParams}: {
     searchParams?: {

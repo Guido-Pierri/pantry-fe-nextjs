@@ -1,4 +1,4 @@
-import AddItem from "@/app/ui/dashboard/addItem";
+import AddItem from "@/app/ui/pantry/addItem";
 import {auth} from "@/auth";
 import {fetchPantryByUserId} from "@/app/lib/data";
 import {useSession} from "next-auth/react";
