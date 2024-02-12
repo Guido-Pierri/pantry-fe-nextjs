@@ -12,7 +12,11 @@ export default async function CreateForm({categories}: { categories: string[] | 
 
     const [errorMessage, dispatch] = useFormState(saveCustomItem, undefined);
     return <form action={dispatch}>
-        <div className={'flex flex-col'}>
+        <div className={'flex flex-col mt-6'}>
+            <div className={'text-xl font-bold'}>
+                Add a custom item to your pantry
+
+            </div>
 
             <label htmlFor={"name"}>Enter name</label>
             <input id={"name"} name={"name"} type={"text"} placeholder={'Item name'} required={true}/>

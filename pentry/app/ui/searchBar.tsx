@@ -54,8 +54,8 @@ export default function SearchBar({placeholder}: { placeholder: string }) {
             <MagnifyingGlassIcon
                 className="absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900"/>
             <div>
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                        onClick={() => handleClick()}>Submit
+                <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 ml-2 rounded-md"
+                        onClick={() => handleClick()}>Search
                 </button>
             </div>
         </div>

@@ -12,9 +12,11 @@ export default function AddItem({pantryId, gtin, item}: {
     function SubmitButton() {
         const {pending} = useFormStatus();
         return (
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type={"submit"}
-                    aria-disabled={pending}>
-                add item
+            <button
+                className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 mt-2 rounded ml-auto"
+                type={"submit"}
+                aria-disabled={pending}>
+                Add item
             </button>
         );
     }
@@ -28,13 +30,14 @@ export default function AddItem({pantryId, gtin, item}: {
         const formAction = saveSearchItem.bind(null, pantryId, name, gtin, image, category, brand,);
 
         return (
-            <div className={'flex flex-col justify-center items-center'}>
-                {image && name ? (
-                    <>
-                        <h2>{name}</h2>
-                        <Image className={'rounded'} src={image} alt={name} width={500} height={500}/>
-                    </>) : null}
-                {formAction ? (<form action={formAction} className={'flex flex-col'}>
+            <div className={'flex flex-col justify-center items-center '}>
+
+                {formAction ? (<form action={formAction} className={'flex flex-col rounded-md '}>
+                    {image && name ? (
+                        <>
+                            <h2>{name}</h2>
+                            <Image className={''} src={image} alt={name} width={500} height={500}/>
+                        </>) : null}
                     {!item?.name && category ? (<><label htmlFor={"name"}>Enter name</label>
                         <input id={"name"} name={"name"} type={"text"} required={true}/>
                         <label htmlFor={"category"}>Category</label>
@@ -44,7 +47,7 @@ export default function AddItem({pantryId, gtin, item}: {
 
                     {/*<label htmlFor={"quantity"}>Quantity</label>
                     <input id={"quantity"} name={"quantity"} type={"text"}/>*/}
-                    <label htmlFor={"expirationDate"}></label>
+                    <label htmlFor={"expirationDate"}>Set the expiration date</label>
                     <input placeholder={'Expiration date'} id={"expirationDate"} name={"expirationDate"} type={"date"}
                            required={true}/>
 
