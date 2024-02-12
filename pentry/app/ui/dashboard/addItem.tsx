@@ -1,5 +1,5 @@
 'use client';
-import {createItem} from "@/app/lib/actions";
+import {saveSearchItem} from "@/app/lib/actions";
 import {useFormStatus} from "react-dom";
 import {Item} from "@/app/lib/definitions";
 import Image from "next/image";
@@ -23,8 +23,9 @@ export default function AddItem({pantryId, gtin, item}: {
     const name = item?.name;
     const category = item?.category;
     const brand = item?.brand;
+    console.log('item', item, 'pantryId', pantryId, 'gtin', gtin, 'category', category, 'brand', brand, 'image', image, 'name', name)
     if (name != undefined && image != undefined && pantryId != undefined && gtin != undefined && category != undefined && brand != undefined) {
-        const formAction = createItem.bind(null, pantryId, name, gtin, image, category, brand,);
+        const formAction = saveSearchItem.bind(null, pantryId, name, gtin, image, category, brand,);
 
         return (
             <div className={'flex flex-col justify-center items-center'}>
@@ -53,4 +54,5 @@ export default function AddItem({pantryId, gtin, item}: {
 
         );
     }
+
 }

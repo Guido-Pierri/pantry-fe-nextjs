@@ -1,19 +1,24 @@
-import AddItem from "@/app/ui/dashboard/addItem";
+import CreateForm from '@/app/ui/add-item/create-form'
 import {auth} from "@/auth";
-import {fetchPantryByUserId} from "@/app/lib/data";
-import {useSession} from "next-auth/react";
+import {fetchCategories} from "@/app/lib/data";
+import Breadcrumbs from "@/app/ui/dashboard/breadcrumbs";
 
 export default async function Page() {
-    const session = await auth()
-    const userEmail = session?.user?.email as string
-    const token = session?.token;
-    if (!token) return null
-    const userFromDatabase = session?.dbUser
-    const id = userFromDatabase?.id as string
-    const pantry = await fetchPantryByUserId(id)
-    const pantryId = pantry?.id
-    console.log('session', session)
+    const session = await auth();
+    const categories = await fetchCategories() || undefined
+    if (!session?.token) {
+        return null
+    }
     return (
-        <AddItem pantryId={pantryId}/>
-    );
+        <><Breadcrumbs
+            breadcrumbs={[
+                {label: 'Dashboard', href: '/dashboard'},
+                {
+                    label: 'Add Item',
+                    href: '/dashboard/add-item',
+                    active: true,
+                },
+            ]}/><CreateForm categories={categories}/></>
+    )
+
 }

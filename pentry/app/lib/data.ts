@@ -1,4 +1,4 @@
-import {Item, PantryDto, SearchItem, SearchPage, User,} from './definitions';
+import {CustomItem, Item, PantryDto, SearchItem, SearchPage, User,} from './definitions';
 import {auth} from "@/auth";
 import {redirect} from "next/navigation";
 
@@ -34,7 +34,7 @@ export async function searchItems(query: string, currentPage: number): Promise<S
     console.log('inside searchItems');
     console.log('query', query);
     const session = await getSession()
-    const res = await fetch(`${apiUrl}/api/v2/search/parameter/${query}`, {
+    const res = await fetch(`${apiUrl}/api/v1/search/parameter/${query}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ export async function searchPaginatedItems(query: string, page?: number, itemsPe
     const pageToFetch = page || 0;
     const size = itemsPerPage || 10;
     const session = await getSession()
-    const res = await fetch(`${apiUrl}/api/v2/search/paginated/parameter/${query}?page=${pageToFetch}&size=${size}`, {
+    const res = await fetch(`${apiUrl}/api/v1/search/paginated/parameter/${query}?page=${pageToFetch}&size=${size}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -82,9 +82,9 @@ export async function searchPaginatedItems(query: string, page?: number, itemsPe
     return data;
 }
 
-export async function fetchItemByGtin(gtin: string): Promise<Item> {
+export async function fetchItemByGtin(gtin: string): Promise<CustomItem> {
     const session = await auth()
-    const res = await fetch(`${apiUrl}/api/v2/search/product/${gtin}`, {
+    const res = await fetch(`${apiUrl}/api/v1/search/product/${gtin}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -225,5 +225,18 @@ export async function fetchUserById(id: string): Promise<Promise<User> | null> {
     if (res.status === 403) {
         return null;
     }
+    return res.json();
+}
+
+export async function fetchCategories(): Promise<Promise<string[]> | null> {
+    const session = await auth()
+    const res = await fetch(`${apiUrl}/api/v1/pantry/categories`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session?.token}`
+        },
+    });
+    console.log(res.status)
     return res.json();
 }

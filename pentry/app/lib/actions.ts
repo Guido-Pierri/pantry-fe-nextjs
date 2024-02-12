@@ -7,20 +7,19 @@ import {AuthError} from 'next-auth';
 import {stringify} from "yaml";
 import bcrypt from "bcryptjs";
 import {DatabaseError} from "@/app/lib/definitions";
+import {fetchPantryByUserId} from "@/app/lib/data";
 
 const apiUrl = process.env.SQL_DATABASE;
 
 export async function searchItem(prevState: string | undefined, formData: FormData) {
     try {
-        const res = await fetch(`${apiUrl}/api/v2/search/parameter/${formData.get('search')}`, {
+        const res = await fetch(`${apiUrl}/api/v1/search/parameter/${formData.get('search')}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json', // Set the correct Content-Type header
             },
         });
-        console.log('Response Status:', res.status);
         const data = await res.json();
-        console.log('data', data)
         revalidatePath('/search')
         return {message: stringify(data)}
 
@@ -30,8 +29,7 @@ export async function searchItem(prevState: string | undefined, formData: FormDa
     }
 }
 
-export async function createItem(pantryId: number, name: string, gtin: string, image: string, category: string, brand: string, formData: FormData) {
-    console.log('apiUrl in createItem', apiUrl)
+export async function saveSearchItem(pantryId: number, name: string, gtin: string, image: string, category: string, brand: string, formData: FormData) {
     console.log('pantryId', pantryId)
     console.log('formData', formData)
     const quantity = "1"
@@ -47,7 +45,6 @@ export async function createItem(pantryId: number, name: string, gtin: string, i
             name: name || formData.get('name'),
             quantity: quantity || formData.get('quantity'),
             expirationDate: formData.get('expirationDate'),
-            gtin: gtin || formData.get('gtin'),
             brand: brand || formData.get('brand'),
             image: image || formData.get('image'),
             category: category || formData.get('category'),
@@ -67,6 +64,49 @@ export async function createItem(pantryId: number, name: string, gtin: string, i
     return {message: stringify(data)}*/
 
 
+}
+
+export async function saveCustomItem(state: null | undefined, formData: FormData): Promise<Promise<any> | Promise<string>> {
+    console.log('formData in saveCustomItem', formData)
+    const quantity = "1"
+    const session = await auth()
+    const token = session?.token
+    const userId = session?.user.id
+    console.log('userId', userId)
+    if (userId === undefined) {
+        return 'No user id found. Please sign in.'
+    }
+    const pantry = await fetchPantryByUserId(userId)
+    const pantryId = pantry?.id
+    const body = {
+        name: formData.get('name'),
+        quantity: '1',
+        expirationDate: formData.get('expirationDate'),
+        brand: 'Custom',
+        image: 'https://picsum.photos/id/493/200',
+        category: formData.get('category'),
+        pantryId: pantryId,
+    }
+    console.log('body', body)
+    const res = await fetch(`${apiUrl}/api/v1/pantry/create-item`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(body),
+    });
+    console.log('Response Status:', res.status);
+    if (res.status === 403) {
+        return 'Error'
+    }
+    revalidatePath('/dashboard')
+    //redirect('/dashboard')
+
+
+    /*
+    * FIXME: Revalidate data
+    */
 }
 
 export async function authenticate(
@@ -148,14 +188,14 @@ export async function newGoogleUser(formData: FormData) {
 }
 
 export async function registerUser(prevState: string | undefined, formData: FormData) {
-    console.log('formData', formData)
+    console.log('formData in registerUser', formData)
     const password = formData.get('password')
     const confirmPassword = formData.get('confirmPassword')
     if (typeof password === "string" && typeof confirmPassword === "string") {
         if (password !== confirmPassword) {
             return 'Passwords do not match'
         } else {
-            const user = {
+            const req = {
                 firstName: formData.get('firstName'),
                 lastName: formData.get('lastName'),
                 email: formData.get('email'),
@@ -164,8 +204,6 @@ export async function registerUser(prevState: string | undefined, formData: Form
                 authProvider: 'credentials'
 
             }
-
-            const req = {user}
             const res = await fetch(`${apiUrl}/api/v1/users/create`, {
                 method: 'POST',
                 headers: {
@@ -289,7 +327,7 @@ export async function updateUser(id: string, formData: FormData) {
 
 }
 
-export async function updateUserProfile(id: string, formData: FormData) {
+export async function updateUserProfile(id: string | undefined, formData: FormData) {
     const session = await auth()
     const token = session?.token
     const password = formData.get('password')

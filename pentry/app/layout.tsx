@@ -5,7 +5,12 @@ import {inter, lusitana} from '@/app/ui/fonts';
 import {croissant} from '@/app/ui/fonts';
 
 import ReactDOM from "react-dom";
-//const inter = Inter({ subsets: ['latin'] })
+import {Inter} from "next/font/google";
+
+/*const inter = Inter({
+    subsets: ['latin'],
+    display: 'swap',
+})*/
 
 export const metadata: Metadata = {
     title: 'Pantry Partner',

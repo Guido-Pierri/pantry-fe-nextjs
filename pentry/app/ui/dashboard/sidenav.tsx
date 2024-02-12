@@ -12,9 +12,7 @@ export default async function SideNav() {
     const roles = user?.roles;
     const isAdmin = roles === 'ADMIN';
     const isUser = roles === 'USER';
-    console.log('user in sidenav', user)
-    console.log('roles in sidenav', roles)
-    console.log('session in sidenav', session)
+
     /*if (!session?.token) return null;*/
 
     return (

@@ -1,5 +1,5 @@
 import Form from '@/app/ui/admin-page/users/create-form';
-import Breadcrumbs from '@/app/ui/admin-page/users/breadcrumbs';
+import Breadcrumbs from '@/app/ui/dashboard/breadcrumbs';
 import {fetchAllRoles, fetchAllUsers} from '@/app/lib/data';
 
 export default async function Page() {

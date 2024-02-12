@@ -7,7 +7,7 @@ import {
 } from '@heroicons/react/24/outline';
 import {lusitana} from '@/app/ui/fonts';
 import Link from "next/link";
-import {Item, SearchItem} from "@/app/lib/definitions";
+import {CustomItem, Item, SearchItem} from "@/app/lib/definitions";
 import Image from "next/image";
 
 const iconMap = {
@@ -43,7 +43,7 @@ export function Card(
             title: string;
             value: number | string;
             type: 'items' | 'search' | 'recipes' | 'addItem';
-            item?: Item;
+            item?: CustomItem | Item | undefined;
         }) {
     const Icon = iconMap[type];
 
