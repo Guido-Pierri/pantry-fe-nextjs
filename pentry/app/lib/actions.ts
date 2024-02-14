@@ -4,30 +4,11 @@ import {revalidatePath} from 'next/cache';
 import {redirect} from 'next/navigation';
 import {auth, signIn, signOut} from '@/auth';
 import {AuthError} from 'next-auth';
-import {stringify} from "yaml";
 import bcrypt from "bcryptjs";
 import {DatabaseError} from "@/app/lib/definitions";
 import {fetchPantryByUserId} from "@/app/lib/data";
 
 const apiUrl = process.env.SQL_DATABASE;
-
-export async function searchItem(prevState: string | undefined, formData: FormData) {
-    try {
-        const res = await fetch(`${apiUrl}/api/v1/search/parameter/${formData.get('search')}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json', // Set the correct Content-Type header
-            },
-        });
-        const data = await res.json();
-        revalidatePath('/search')
-        return {message: stringify(data)}
-
-    } catch (error) {
-        console.error('Failed to fetch data:', error);
-        throw new Error('Failed to fetch data.');
-    }
-}
 
 export async function saveSearchItem(pantryId: number, name: string, gtin: string, image: string, category: string, brand: string, formData: FormData) {
     console.log('pantryId', pantryId)
@@ -157,7 +138,7 @@ export async function createPantry(id: number) {
     }
 }
 
-export async function newGoogleUser(formData: FormData) {
+export async function createGoogleUser(formData: FormData) {
     console.log('inside newGoogleUser')
     console.log('formData', formData)
     const user = {
@@ -199,7 +180,7 @@ export async function registerUser(prevState: string | undefined, formData: Form
                 firstName: formData.get('firstName'),
                 lastName: formData.get('lastName'),
                 email: formData.get('email'),
-                password: await bcrypt.hash(password, 10),
+                password: formData.get('password'),
                 roles: 'USER',
                 authProvider: 'credentials'
 
@@ -222,19 +203,10 @@ export async function registerUser(prevState: string | undefined, formData: Form
             redirect('/login')
         }
     }
-    //return something; // replace 'something' with the actual value you want to return
 }
 
 export async function registerUserByAdmin(formData: FormData) {
     const entries = Object.fromEntries(formData);
-    /*const rawFormData = {
-        firstName: formData.get('firstName'),
-        lastName: formData.get('lastName'),
-        email: formData.get('email'),
-        password: formData.get('password'),
-        confirmPassword: formData.get('confirmPassword'),
-        roles: formData.get('roles')
-    };*/
     console.log(entries);
     console.log(typeof entries.firstName);
     const password = formData.get('password')
@@ -248,7 +220,7 @@ export async function registerUserByAdmin(formData: FormData) {
                 firstName: formData.get('firstName'),
                 lastName: formData.get('lastName'),
                 email: formData.get('email'),
-                password: await bcrypt.hash(password, 10),
+                password: password,
                 roles: formData.get('roles'),
                 authProvider: formData.get('authProvider')
             }
@@ -359,8 +331,6 @@ export async function updateUserProfile(id: string | undefined, formData: FormDa
             console.log(res.status)
             return null
         }
-        //const data = await res.json();
-        //console.log('data', data)
         revalidatePath('/dashboard');
         redirect('/dashboard');
 

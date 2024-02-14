@@ -24,7 +24,7 @@ export default async function Page() {
     return (
         <main>
             <h1 className={`${croissant.className} mb-4 text-xl md:text-2xl`}>
-                {`${user?.firstName} ${user?.lastName}`}'s Dashboard
+                {`${user?.firstName} ${user?.lastName}`}&apos;s Dashboard
             </h1>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 text-blue-400">
 

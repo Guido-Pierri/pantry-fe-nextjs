@@ -9,27 +9,6 @@ export async function getSession() {
     return session?.user
 }
 
-export async function fetchPantry(): Promise<PantryDto> {
-
-    const res: Response = await fetch(`${apiUrl}/api/v1/pantry/1`,
-        {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-    console.log('Response Status:', res.status);
-    const data = await res.json();
-    if (!res.ok) {
-        // This will activate the closest `error.js` Error Boundary
-        throw new Error('Failed to fetch data')
-    }
-    const id = data.id;
-    const userId = data.userId;
-    const items = data.items;
-    return {id, userId, items}
-}
-
 export async function searchItems(query: string, currentPage: number): Promise<SearchItem[]> {
     console.log('inside searchItems');
     console.log('query', query);
