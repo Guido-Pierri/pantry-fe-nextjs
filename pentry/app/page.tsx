@@ -7,11 +7,11 @@ export default function Home() {
         <main className="flex min-h-screen flex-col items-center justify-between p-24">
             <div className="flex flex-col items-center justify-center">
 
-                <h1 className={`${croissant.className} text-4xl font-bold  text-center mt-8 text-blue-400`}>
-                    Welcome to Pantry Partner!
+                <h1 className={`${croissant.className} text-2xl font-bold  text-center mt-8 text-blue-400`}>
+                    Pantry Partner!
                 </h1>
-                <p className="text-xl text-center mt-4 ">
-                    manage groceries and minimize food waste
+                <p className="text-l text-center mt-4 ">
+                    Manage groceries and minimize food waste
                 </p>
 
                 <Link
