@@ -106,9 +106,7 @@ export const config = {
                     console.log('password', password)
                     const user = await getUser(email, password);
                     if (!user) return null;
-                    const passwordsMatch = await bcrypt.compare(password, user.password);
-                    //console.log('user in log in',user)
-                    if (passwordsMatch) return user;
+                    return user;
                 }
 
                 console.log('Invalid credentials');
