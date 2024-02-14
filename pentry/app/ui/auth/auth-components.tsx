@@ -13,7 +13,7 @@ export function SignIn({
                 await signIn(provider)
             }}
         >
-            <Button>Sign In</Button>
+            <Button>Log In</Button>
         </form>
     )
 }

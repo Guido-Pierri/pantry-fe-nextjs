@@ -19,10 +19,11 @@ export default async function LoginPage() {
                         Login
                     </div>
                 </div>
-                Don&apos;t have an account? <Link href="/signup">Sign up</Link>
+                Don&apos;t have an account? <Link className={'text-blue-500 font-extrabold'} href="/signup">Sign
+                up</Link>
                 <LoginForm/>
-                Sign in with Google
-                <SignIn provider={'google'}>Sign in with Google</SignIn>
+                Log in with Google
+                <SignIn provider={'google'}>Log in with Google</SignIn>
             </div>
         </main>
     );
