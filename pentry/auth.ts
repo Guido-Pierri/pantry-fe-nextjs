@@ -7,18 +7,24 @@ import bcrypt from 'bcryptjs';
 import {z} from 'zod';
 import {DatabaseError, User} from '@/app/lib/definitions';
 import authConfig from "@/auth.config";
-import {newGoogleUser} from "@/app/lib/actions";
+import {createGoogleUser} from "@/app/lib/actions";
+import {stringify} from "node:querystring";
 
 const apiUrl = process.env.SQL_DATABASE;
 
-export async function getUser(email: string): Promise<User | undefined> {
+export async function getUser(email: string, password: string): Promise<User | undefined> {
+    console.log('inside getUser')
     try {
-        const user = await fetch(`${apiUrl}/api/v1/users/email/${email}`,
+        console.log('inside try')
+
+        const req = {password: password}
+        const user = await fetch(`${apiUrl}/api/v1/users/login/${email}`,
             {
-                method: 'GET',
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                body: JSON.stringify(req)
             });
         if (user.status === 404) {
             console.log('user not found')
@@ -35,15 +41,16 @@ export async function getUser(email: string): Promise<User | undefined> {
     }
 }
 
-async function checkUser(email: string) {
+async function checkUser(token: string) {
     try {
-        const user = await fetch(`${apiUrl}/api/v1/users/check-email/${email}`,
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
+        const user = await fetch(`${apiUrl}/api/v1/users/check-email`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'text/plain',
+            },
+            body: token
+        });
+        console.log('user', user)
         const data = await user.json();
         return data.exists;
     } catch (error) {
@@ -96,8 +103,8 @@ export const config = {
                     .safeParse(credentials);
                 if (parsedCredentials.success) {
                     const {email, password} = parsedCredentials.data;
-
-                    const user = await getUser(email);
+                    console.log('password', password)
+                    const user = await getUser(email, password);
                     if (!user) return null;
                     const passwordsMatch = await bcrypt.compare(password, user.password);
                     //console.log('user in log in',user)
@@ -128,13 +135,14 @@ export const config = {
         async signIn({user, account, profile, email, credentials}) {
 
             if (account?.provider === 'google') {
-                if (profile?.email) {
-                    const dbUser = await checkUser(profile?.email);
+                if (profile?.email && account?.id_token) {
+                    console.log('token', account.id_token)
+                    const isDbUser = await checkUser(account?.id_token);
                     /*
                                         console.log('dbUser in signIn', dbUser)
                     */
                     //console.log('await checkUser(profile?.email)', await checkUser(profile?.email))
-                    if (dbUser === false) {
+                    if (isDbUser === false) {
                         if (profile?.email && profile?.given_name && profile?.family_name) {
                             const formData = new FormData();
                             formData.append('email', profile?.email);
@@ -142,7 +150,7 @@ export const config = {
                             formData.append('lastName', profile?.family_name);
                             formData.append('username', profile?.email);
                             formData.append('imageUrl', profile?.picture);
-                            await newGoogleUser(formData);
+                            await createGoogleUser(formData);
                         }
                     }
                 }
