@@ -1,13 +1,11 @@
-import {Card} from '@/app/ui/dashboard/cards';
+import {Cards} from '@/app/ui/dashboard/cards';
 
-import {croissant, lusitana, redressed} from '@/app/ui/fonts';
 import {
     fetchPantryByUserId, fetchUserById,
 } from '@/app/lib/data';
 import Link from "next/link";
 import {auth, signOut} from "@/auth";
 import {signOutUser} from "@/app/lib/actions";
-import {ArrowRightEndOnRectangleIcon, PowerIcon} from "@heroicons/react/24/outline";
 
 
 export default async function Page() {
@@ -23,17 +21,18 @@ export default async function Page() {
     if (!items) return (<div>loading...</div>)
     return (
         <main>
-            <h1 className={`${croissant.className} mb-4 text-xl md:text-2xl`}>
+            <h1 className={`mb-4 text-xl md:text-2xl`}>
                 {`${user?.firstName} ${user?.lastName}`}&apos;s Dashboard
             </h1>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 text-blue-400">
 
-                {<Link href="/dashboard/pantry"><Card title="My Pantry"
-                                                      value={''}
-                                                      type="items"/></Link>}
-                {<Link href={"/dashboard/recipes"}><Card title="Recipes" value={''} type="recipes"/></Link>}
-                {<Link href={"/dashboard/pantry/add-item"}><Card title="Add an item" value={''} type="addItem"/></Link>}
-                {<Link href={"/dashboard/search"}><Card title="Search" value={''} type="search"/></Link>}
+                {<Link href="/dashboard/pantry"><Cards title="My Pantry"
+                                                       value={''}
+                                                       type="items"/></Link>}
+                {<Link href={"/dashboard/recipes"}><Cards title="Recipes" value={''} type="recipes"/></Link>}
+                {<Link href={"/dashboard/pantry/add-item"}><Cards title="Add an item" value={''}
+                                                                  type="addItem"/></Link>}
+                {<Link href={"/dashboard/search"}><Cards title="Search" value={''} type="search"/></Link>}
 
             </div>
         </main>

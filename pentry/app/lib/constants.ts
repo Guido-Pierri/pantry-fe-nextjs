@@ -1,0 +1,1 @@
+export const ITEM_IMAGE = 'https://picsum.photos/id/493/200';

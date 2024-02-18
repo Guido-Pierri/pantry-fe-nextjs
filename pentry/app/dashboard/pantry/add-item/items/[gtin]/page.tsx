@@ -10,7 +10,7 @@ import {auth} from "@/auth";
 export default async function Page({params}: { params: { gtin: string } }) {
     const gtin = params.gtin;
     const item = await fetchItemByGtin(gtin);
-
+    console.log('item', item, 'gtin', gtin)
     if (!item) return null
     const session = await auth()
     const id = session?.user?.id

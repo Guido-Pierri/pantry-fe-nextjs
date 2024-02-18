@@ -18,18 +18,18 @@ const items = [
         image: "https://www.milk.com/milk.jpg",
         userId: users[0].id,
     },
-    {   name: "Eggs",
+    {
+        name: "Eggs",
         quantity: 1,
         expirationDate: "2021-05-01",
         gtin: "123456789012",
         brand: "Eggs Brand",
         category: "Dairy",
         image: "https://www.eggs.com/eggs.jpg",
-        userId: users[0].id, },
-    ]
+        userId: users[0].id,
+    },
+]
 module.exports = {
     users,
-    //customers,
     items,
-    //revenue,
 };
