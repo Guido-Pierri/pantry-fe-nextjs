@@ -1,48 +1,39 @@
+'use client';
 import {
-    BanknotesIcon,
-    ClockIcon,
-    UserGroupIcon,
-    InboxIcon,
-    ListBulletIcon, MagnifyingGlassIcon, ClipboardDocumentListIcon, ShoppingCartIcon, PlusIcon
+    MagnifyingGlassIcon,
+    ClipboardDocumentListIcon,
+    ShoppingCartIcon,
+    PlusIcon
 } from '@heroicons/react/24/outline';
 import {lusitana} from '@/app/ui/fonts';
 import Link from "next/link";
 import {CustomItem, Item, SearchItem} from "@/app/lib/definitions";
 import Image from "next/image";
+import {Card, CardContent, CardHeader, CardMedia, Typography} from "@mui/material";
+import theme from "@/theme";
+import React, {ReactNode, useState} from "react";
+import AddIcon from "@mui/icons-material/Add";
+import Fab from "@mui/material/Fab";
+import {DatePicker} from '@mui/x-date-pickers/DatePicker';
+import {LocalizationProvider} from "@mui/x-date-pickers";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {DemoContainer} from "@mui/x-date-pickers/internals/demo";
+import {ITEM_IMAGE} from "@/app/lib/constants";
 
 const iconMap = {
-    /*collected: BanknotesIcon,
-    customers: UserGroupIcon,
-    pending: ClockIcon,*/
     items: ShoppingCartIcon,
     search: MagnifyingGlassIcon,
     recipes: ClipboardDocumentListIcon,
-    addItem: PlusIcon
+    addItem: PlusIcon,
+    pantryItem: undefined
 };
 
-export default async function CardWrapper() {
-    return (
-        <>
-            {/* NOTE: comment in this code when you get to this point in the course */}
-
-            {/* <Card title="Collected" value={totalPaidInvoices} type="collected" />
-      <Card title="Pending" value={totalPendingInvoices} type="pending" />
-      <Card title="Total Invoices" value={numberOfInvoices} type="invoices" />
-      <Card
-        title="Total Customers"
-        value={numberOfCustomers}
-        type="customers"
-      /> */}
-        </>
-    );
-}
-
-export function Card(
+export function Cards(
     {title, value, type, item,}:
         {
             title: string;
             value: number | string;
-            type: 'items' | 'search' | 'recipes' | 'addItem';
+            type: 'items' | 'search' | 'recipes' | 'addItem' | 'pantryItem';
             item?: CustomItem | Item | undefined;
         }) {
     const Icon = iconMap[type];
@@ -65,9 +56,6 @@ export function Card(
 }
 
 export function ItemCard({
-                             title,
-                             subtitle,
-                             value,
                              type,
                              item,
                          }: {
@@ -90,4 +78,70 @@ export function ItemCard({
             </Link>
         </div>
     );
+}
+
+export function PantryItemCard({item}: { item: Item }): ReactNode {
+    return <Card key={item.id}>
+        <CardHeader title={item.name}
+                    sx={{
+                        color: 'white',
+                        backgroundColor: theme.palette.primary.main,
+                    }}/>
+        <CardMedia
+            component="img"
+            /*
+                                        height="200"
+            */
+            image={item.image}
+            alt={item.name}></CardMedia>
+        <CardContent>
+            <Typography variant="body2" color="text.secondary">Expires: {item.expirationDate}</Typography>
+        </CardContent>
+    </Card>;
+}
+
+export function AddItemCard({item}: { item: Item }): ReactNode {
+    const image: string | undefined = item?.image || ITEM_IMAGE;
+    const [isExpiryDate, setIsExpiryDate] = useState(false);
+    console.log(isExpiryDate, 'isExpiryDate')
+    return <Card key={item.gtin}>
+        <CardHeader title={item.name}
+                    sx={{
+                        color: 'white',
+                        backgroundColor: theme.palette.primary.main,
+                    }}/>
+        {image ? <CardMedia
+            component="img"
+            image={image}
+            height="100"
+
+            alt={item.name}></CardMedia> : null}
+        <CardContent>
+            {isExpiryDate ? <Fab variant={'extended'} sx={{
+                position: 'absolute',
+                right: '10%',
+                bottom: '30%',
+                color: 'white',
+                backgroundColor: theme.palette.primary.main,
+            }}
+                                 color={'inherit'}
+                                 type={'submit'}
+                                 onClick={() => setIsExpiryDate(true)}>
+
+                <AddIcon/> Save Item
+            </Fab> : null}
+            <Typography>Save this item to your pantry?</Typography>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={['DatePicker']}>
+                    <DatePicker label="Set the expiration date" name={"expirationDate"} disablePast={true}
+                                onChange={() => setIsExpiryDate(true)}/>
+                </DemoContainer>
+            </LocalizationProvider>
+            {/*<label className={'mt-2'} htmlFor={"expirationDate"}>Set the expiration date</label>
+            <input placeholder={'Expiration date'} id={"expirationDate"} name={"expirationDate"} type={"date"}
+                   onInput={() => setIsExpiryDate(true)}
+                   required={true}/>*/}
+
+        </CardContent>
+    </Card>;
 }

@@ -1,11 +1,15 @@
 import type {Metadata} from 'next'
 import './globals.css'
-import React from "react";
+import React from 'react'
 import {inter, lusitana} from '@/app/ui/fonts';
+import {AppRouterCacheProvider} from '@mui/material-nextjs/v14-appRouter';
+
 import {croissant} from '@/app/ui/fonts';
 
 import ReactDOM from "react-dom";
 import {Inter} from "next/font/google";
+import {ThemeProvider} from '@mui/material/styles';
+import theme from "../theme";
 
 /*const inter = Inter({
     subsets: ['latin'],
@@ -25,7 +29,11 @@ export default function RootLayout({
         <html lang="en" className={`${inter.className} antialiased `}>
 
         <body>
-        <div>{children}</div>
+        <AppRouterCacheProvider>
+            <ThemeProvider theme={theme}>
+                <div>{children}</div>
+            </ThemeProvider>
+        </AppRouterCacheProvider>
         </body>
         </html>
     )
