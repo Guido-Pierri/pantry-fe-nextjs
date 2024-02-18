@@ -42,7 +42,7 @@ export default async function Page() {
                           value={"Expires: " + item.expirationDate}
                           type='pantryItem'
                           item={item}/>*/
-                    <PantryItemCard item={item}/>
+                    <PantryItemCard key={item?.id} item={item}/>
                 )) : null}
 
             </div>
