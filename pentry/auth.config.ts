@@ -7,6 +7,5 @@ export default {
     pages: {
         signIn: "/login",
     },
-    providers: [GitHub, Google,
-    ],
+    providers: [GitHub, Google,],
 } satisfies NextAuthConfig

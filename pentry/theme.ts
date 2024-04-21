@@ -14,11 +14,33 @@ const roboto = Roboto({
     subsets: ['latin'],
     display: 'swap',
 });*/
+// declare module '@mui/material/styles' {
+//     interface Theme {
+//         status: {
+//             danger: string;
+//         };
+//     }
+//     // allow configuration using `createTheme`
+//     interface ThemeOptions {
+//         status?: {
+//             danger?: string;
+//         };
+//     }
+// }
+
 const theme = createTheme({
+    // status: {
+    //     danger: 'orange',
+    // },
+
     typography: {
         fontFamily: inter.style.fontFamily,
     },
     palette: {
+        mode: 'light',
+        background: {
+            default: '#f8f8f8',
+        },
         primary: {
             light: '#8dceff',
             main: '#1d76fe',
