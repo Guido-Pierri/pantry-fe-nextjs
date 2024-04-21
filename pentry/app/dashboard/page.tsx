@@ -26,7 +26,7 @@ export default async function Page() {
             </h1>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 text-blue-400">
 
-                {<Link href="/dashboard/pantry"><Cards title="My Pantry"
+                {<Link href={"/dashboard/pantry"}><Cards title="My Pantry"
                                                        value={''}
                                                        type="items"/></Link>}
                 {<Link href={"/dashboard/recipes"}><Cards title="Recipes" value={''} type="recipes"/></Link>}

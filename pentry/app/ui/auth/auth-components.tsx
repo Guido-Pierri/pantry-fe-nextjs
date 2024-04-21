@@ -4,8 +4,10 @@ import React from "react";
 
 
 export function SignIn({
-                           provider,
-                       }: { provider?: string } & React.ComponentPropsWithRef<typeof Button>) {
+                           provider,data,
+                       }:
+                           { provider?: string,
+                               data?:string }) {
     return (
         <form
             action={async () => {
@@ -13,7 +15,7 @@ export function SignIn({
                 await signIn(provider)
             }}
         >
-            <Button>Log In</Button>
+            <Button >{data}</Button>
         </form>
     )
 }
