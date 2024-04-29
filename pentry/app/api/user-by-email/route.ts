@@ -4,7 +4,7 @@ import {redirect} from 'next/navigation';
 import {auth} from "@/auth";
 import {NextRequest, NextResponse} from "next/server";
 
-const apiUrl =/* process.env.SQL_DATABASE || */'http://localhost:8080';
+const apiUrl = process.env.SQL_DATABASE;
 const appUrl = process.env.NEXTAUTH_URL
 
 export async function GET(request: NextRequest) {
