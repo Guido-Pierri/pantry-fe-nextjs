@@ -9,7 +9,8 @@ import {Button} from "@/app/ui/button";
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import {PantryItemCard} from "@/app/ui/dashboard/cards";
-
+import Image from "next/image";
+import pantryPic from '@/app/images/openart-image__Q98JB_e_1714424338694_raw.jpg';
 
 export default async function Page() {
     const session = await auth()
@@ -25,30 +26,33 @@ export default async function Page() {
     console.log('userFromDatabase', userFromDatabase)
     const id = userFromDatabase?.id as string
     const pantry = await fetchPantryByUserId(id)
-    if (pantry?.items.length === 0) {
-        return <p>Your pantry is empty</p>
-    }
+
     console.log('pantry', pantry)
     console.log('pantry?.items', pantry?.items)
     return (
         <main>
-            <div className='grid gap-6 grid-cols-2 md:grid-cols-4'>
-                <Link href={'/dashboard/pantry/add-item'} className={'fixed bottom-10 right-8'}><Fab
-                    color="primary"
-                    aria-label="add"
-                    variant={'extended'}>
-                    <AddIcon/>Add Items
-                </Fab></Link>
-                {pantry?.items ? (pantry.items.map((item: Item) =>
+            {pantry && pantry?.items.length == 0 ? (
 
-                    /*<Card key={item.id} title={item.name}
-                          value={"Expires: " + item.expirationDate}
-                          type='pantryItem'
-                          item={item}/>*/
-                    <PantryItemCard key={item?.id} item={item}/>
-                )) : null}
+                <div className='flex flex-col justify-between items-center md:justify-around'>
+                    <Image
+                        src={pantryPic}
+                        alt={"Empty pantry"}
+                    />
+                    <div className='flex flex-row justify-evenly items-center'>
+                        <div>Your pantry is empty</div>
+                        <Link href={'/dashboard/pantry/add-item'} className={'ml-3 right-8'}><Fab
+                            color="primary"
+                            aria-label="add"
+                            variant={'extended'}>
+                            <AddIcon/>Add Items
+                        </Fab></Link></div>
+                </div>) : null}
 
-            </div>
+            {pantry?.items ? (pantry.items.map((item: Item) =>
+                <PantryItemCard key={item?.id} item={item}/>
+            )) : null}
+
+
         </main>
     )
 }
