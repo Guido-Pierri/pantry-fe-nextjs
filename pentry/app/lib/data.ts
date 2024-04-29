@@ -2,7 +2,7 @@ import {CustomItem, Item, PantryDto, SearchItem, SearchPage, User,} from './defi
 import {auth} from "@/auth";
 import {redirect} from "next/navigation";
 
-const apiUrl =/* process.env.SQL_DATABASE || */'http://localhost:8080';
+const apiUrl = process.env.SQL_DATABASE;
 
 export async function getSession() {
     const session = await auth()
