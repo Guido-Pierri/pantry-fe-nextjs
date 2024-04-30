@@ -25,9 +25,11 @@ export default async function Page() {
     const pantry = await fetchPantryByUserId(id)
     return (
         <div>
-            {pantry && pantry?.items.length == 0 ? (
+            {pantry ? pantry?.items.map((item: Item) =>
+                    <PantryItemCard key={item?.id} item={item}/>
+                )
 
-                <div className='flex flex-col justify-between items-center md:justify-around'>
+                : <div className='flex flex-col justify-between items-center md:justify-around'>
                     <Image
                         src={pantryPic}
                         alt={"Empty pantry"}
@@ -43,11 +45,7 @@ export default async function Page() {
                             variant={'extended'}>
                             <AddIcon/>Add Items
                         </Fab></Link></div>
-                </div>) : <p>Loading...</p>}
-
-            {pantry && pantry?.items.length > 0 ? (pantry.items.map((item: Item) =>
-                <PantryItemCard key={item?.id} item={item}/>
-            )) : null}
+                </div>}
 
 
         </div>
