@@ -101,6 +101,9 @@ export async function fetchPantryByUserId(user_id: string): Promise<Promise<Pant
     const id = data.id;
     const userId = data.userId;
     const items = data.items;
+    if (data.items.length === 0) {
+        return null;
+    }
     return {id, userId, items}
 }
 
