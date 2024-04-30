@@ -24,7 +24,7 @@ export default async function Page() {
     const id = userFromDatabase?.id as string
     const pantry = await fetchPantryByUserId(id)
     return (
-        <main>
+        <div>
             {pantry && pantry?.items.length == 0 ? (
 
                 <div className='flex flex-col justify-between items-center md:justify-around'>
@@ -45,12 +45,12 @@ export default async function Page() {
                         </Fab></Link></div>
                 </div>) : <p>Loading...</p>}
 
-            {pantry && pantry?.items ? (pantry.items.map((item: Item) =>
+            {pantry && pantry?.items.length > 0 ? (pantry.items.map((item: Item) =>
                 <PantryItemCard key={item?.id} item={item}/>
             )) : null}
 
 
-        </main>
+        </div>
     )
 }
 
