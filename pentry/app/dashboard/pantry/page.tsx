@@ -48,7 +48,7 @@ export default async function Page() {
                         </Fab></Link></div>
                 </div>) : null}
 
-            {pantry?.items ? (pantry.items.map((item: Item) =>
+            {pantry && pantry?.items ? (pantry.items.map((item: Item) =>
                 <PantryItemCard key={item?.id} item={item}/>
             )) : null}
 
