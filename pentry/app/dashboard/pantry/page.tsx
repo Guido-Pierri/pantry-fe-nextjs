@@ -18,17 +18,11 @@ export default async function Page() {
         return null
     }
     const token = session?.token;
-    console.log('token', token)
     const userEmail = session?.user?.email
-    console.log('userEmail', userEmail)
     if (!token || !userEmail) return null
     const userFromDatabase = session?.dbUser
-    console.log('userFromDatabase', userFromDatabase)
     const id = userFromDatabase?.id as string
     const pantry = await fetchPantryByUserId(id)
-
-    console.log('pantry', pantry)
-    console.log('pantry?.items', pantry?.items)
     return (
         <main>
             {pantry && pantry?.items.length == 0 ? (
