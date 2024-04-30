@@ -37,6 +37,9 @@ export default async function Page() {
                     <Image
                         src={pantryPic}
                         alt={"Empty pantry"}
+                        priority={true} // {false} | {true}
+                        quality={50}
+
                     />
                     <div className='flex flex-row justify-evenly items-center'>
                         <div>Your pantry is empty</div>
@@ -46,7 +49,7 @@ export default async function Page() {
                             variant={'extended'}>
                             <AddIcon/>Add Items
                         </Fab></Link></div>
-                </div>) : null}
+                </div>) : <p>Loading...</p>}
 
             {pantry && pantry?.items ? (pantry.items.map((item: Item) =>
                 <PantryItemCard key={item?.id} item={item}/>
