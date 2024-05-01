@@ -3,9 +3,7 @@ import {Cards} from '@/app/ui/dashboard/cards';
 import {
     fetchPantryByUserId, fetchUserById,
 } from '@/app/lib/data';
-import Link from "next/link";
-import {auth, signOut} from "@/auth";
-import {JSX} from 'react';
+import {auth} from "@/auth";
 import {User} from "@/app/lib/definitions";
 import RenderDashboard from "@/app/ui/dashboard/RenderDashboard";
 
@@ -19,9 +17,8 @@ export default async function Page() {
     const user = await fetchUserById(databaseUser?.id as string);
     const firstName = user?.firstName ?? '';
     const lastName = user?.lastName ?? '';
-    
+
     return (
         <RenderDashboard firstName={firstName} lastName={lastName}/>
-
     );
 }
