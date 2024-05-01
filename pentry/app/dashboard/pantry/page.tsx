@@ -10,7 +10,7 @@ import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import {PantryItemCard} from "@/app/ui/dashboard/cards";
 import Image from "next/image";
-import pantryPic from '@/app/images/openart-image__Q98JB_e_1714424338694_raw.jpg';
+import pantryPic from '@/app/images/shelving.png';
 
 export default async function Page() {
     const session = await auth()
@@ -29,22 +29,20 @@ export default async function Page() {
                     <PantryItemCard key={item?.id} item={item}/>
                 )
 
-                : <div className='flex flex-col justify-between items-center md:justify-around'>
+                : <div className='flex flex-col justify-between items-center md:justify-around relative'>
+                    <div className={'font-bold text-xl'}>Your pantry is empty</div>
                     <Image
                         src={pantryPic}
                         alt={"Empty pantry"}
                         priority={true} // {false} | {true}
-                        quality={50}
 
                     />
-                    <div className='flex flex-row justify-evenly items-center'>
-                        <div>Your pantry is empty</div>
-                        <Link href={'/dashboard/pantry/add-item'} className={'ml-3 right-8'}><Fab
-                            color="primary"
-                            aria-label="add"
-                            variant={'extended'}>
-                            <AddIcon/>Add Items
-                        </Fab></Link></div>
+                    <Link href={'/dashboard/pantry/add-item'} className={'absolute right-9 top-2/3'}><Fab
+                        color="primary"
+                        aria-label="add"
+                        variant={'extended'}>
+                        <AddIcon/>Add Items
+                    </Fab></Link>
                 </div>}
 
 
