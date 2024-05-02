@@ -2,7 +2,7 @@
 import {
     MagnifyingGlassIcon,
     ClipboardDocumentListIcon,
-    ShoppingCartIcon,
+    RectangleStackIcon,
     PlusIcon
 } from '@heroicons/react/24/outline';
 import {lusitana} from '@/app/ui/fonts';
@@ -21,7 +21,7 @@ import {DemoContainer} from "@mui/x-date-pickers/internals/demo";
 import {ITEM_IMAGE} from "@/app/lib/constants";
 
 const iconMap = {
-    items: ShoppingCartIcon,
+    items: RectangleStackIcon,
     search: MagnifyingGlassIcon,
     recipes: ClipboardDocumentListIcon,
     addItem: PlusIcon,
