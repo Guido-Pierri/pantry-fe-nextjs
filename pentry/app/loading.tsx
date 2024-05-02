@@ -1,4 +1,12 @@
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+
 export default function Loading() {
     // Or a custom loading skeleton component
-    return <p>Loading...</p>
+    return (
+        <Box sx={{display: 'flex'}}>
+            <CircularProgress
+                color={'primary'}/>
+        </Box>
+    );
 }
