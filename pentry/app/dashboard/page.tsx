@@ -6,6 +6,7 @@ import {
 import {auth} from "@/auth";
 import {User} from "@/app/lib/definitions";
 import RenderDashboard from "@/app/ui/dashboard/RenderDashboard";
+import Loading from "@/app/loading";
 
 export default async function Page() {
     const session = await auth()
@@ -19,6 +20,7 @@ export default async function Page() {
     const lastName = user?.lastName ?? '';
 
     return (
-        <RenderDashboard firstName={firstName} lastName={lastName}/>
+        
+        user ? <RenderDashboard firstName={firstName} lastName={lastName}/> : Loading()
     );
 }

@@ -1,34 +1,27 @@
 'use client';
 import {saveSearchItem} from "@/app/lib/actions";
-import {useFormStatus} from "react-dom";
 import {Item} from "@/app/lib/definitions";
-import Image from "next/image";
-import Fab from "@mui/material/Fab";
-import {Add} from "@mui/icons-material";
-import AddIcon from "@mui/icons-material/Add";
-import {Box, Card} from "@mui/material";
-import {blue} from "@mui/material/colors";
-import theme from "@/theme";
+import {Box} from "@mui/material";
 import {AddItemCard} from "@/app/ui/dashboard/cards";
 import {ITEM_IMAGE} from '@/app/lib/constants';
 
 export default function AddItem({pantryId, gtin, item}: {
-    pantryId?: number | undefined,
-    gtin?: string | undefined
-    item?: Item | undefined
+    pantryId: number,
+    gtin: string
+    item: Item
 }) {
 
 
-    const image: string | undefined = item?.image || ITEM_IMAGE;
+    const image: string | undefined = item?.image ?? ITEM_IMAGE;
     const name = item?.name;
     const category = item?.category;
     const brand = item?.brand;
-    if (!pantryId || !gtin || !name || !category || !brand || !image) {
-        return null;
-    }
+    /* if (!pantryId || !gtin || !name || !category || !brand || !image) {
+         return null;
+     }*/
     console.log('item', item, 'pantryId', pantryId, 'gtin', gtin, 'category', category, 'brand', brand, 'image', image, 'name', name)
 
-    const formAction = saveSearchItem.bind(null, pantryId, name, gtin, image, category, brand,);
+    const formAction = saveSearchItem.bind(null, pantryId, name, gtin, image, category, brand);
 
     return (
         <div className={'flex flex-col justify-center items-center '}>

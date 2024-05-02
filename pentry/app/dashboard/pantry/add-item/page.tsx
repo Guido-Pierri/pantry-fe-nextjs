@@ -12,7 +12,7 @@ export default async function Page({searchParams}: {
     };
 }) {
     const session = await auth();
-    const query = searchParams?.query || '';
+    const query = searchParams?.query ?? '';
     const currentPage = Number(searchParams?.page) || 1;
 
     const categories = await fetchCategories() || undefined
