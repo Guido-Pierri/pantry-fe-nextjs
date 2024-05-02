@@ -25,7 +25,7 @@ export default async function Page() {
     const pantry = await fetchPantryByUserId(id)
     return (
         <div>
-            {pantry ? pantry?.items.map((item: Item) =>
+            {pantry && pantry.items.length > 0 ? pantry?.items.map((item: Item) =>
                     <PantryItemCard key={item?.id} item={item}/>
                 )
 

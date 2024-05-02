@@ -58,6 +58,7 @@ export async function saveCustomItem(state: null | undefined, formData: FormData
         return 'No user id found. Please sign in.'
     }
     const pantry = await fetchPantryByUserId(userId)
+    console.log('pantry', pantry)
     const pantryId = pantry?.id
     const body = {
         name: formData.get('name'),
