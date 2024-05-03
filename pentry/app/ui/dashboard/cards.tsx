@@ -80,22 +80,33 @@ export function ItemCard({
     );
 }
 
+const imageStyle = {
+    objectFit: 'contain',
+    paddingTop: '1rem',
+    width: '100%',
+    maxHeight: '500px',
+
+    /* width: '50%',
+     marginLeft: '25%'*/
+};
+const cardHeaderStyle = {
+    color: 'white',
+    backgroundColor: theme.palette.primary.main,
+};
+
 export function PantryItemCard({item}: { item: Item }): ReactNode {
-    return <Card key={item.id}>
+    return <Card key={item.id} sx={{position: 'relative', overflow: 'hidden'}}>
         <CardHeader title={item.name}
-                    sx={{
-                        color: 'white',
-                        backgroundColor: theme.palette.primary.main,
-                    }}/>
+                    sx={cardHeaderStyle}/>
         <CardMedia
             component="img"
-            /*
-                                        height="200"
-            */
             image={item.image}
-            alt={item.name}></CardMedia>
+
+            alt={item.name}
+            sx={imageStyle}/>
+
         <CardContent>
-            <Typography variant="body2" color="text.secondary">Expires: {item.expirationDate}</Typography>
+            <Typography variant="h6" color="secondary.dark">Expires: {item.expirationDate}</Typography>
         </CardContent>
     </Card>;
 }
