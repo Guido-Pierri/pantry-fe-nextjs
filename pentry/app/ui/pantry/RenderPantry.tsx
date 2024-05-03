@@ -25,7 +25,7 @@ export default function RenderPantry({pantry, userFromDatabase}: { pantry: Pantr
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={6}>
                         <Typography sx={{mt: 4, mb: 2}} variant="h5" component="div">
-                            {userFromDatabase?.firstName}'s Pantry
+                            {userFromDatabase?.firstName}&apos;Pantry
                         </Typography>
                         {pantry.items.map((item: Item) =>
                             <List key={item.id} dense={true}>
