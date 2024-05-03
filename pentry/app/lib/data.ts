@@ -1,6 +1,7 @@
 import {CustomItem, Item, PantryDto, SearchItem, SearchPage, User,} from './definitions';
 import {auth} from "@/auth";
 import {redirect} from "next/navigation";
+import {Session} from "next-auth";
 
 const apiUrl = process.env.SQL_DATABASE;
 
@@ -75,6 +76,20 @@ export async function fetchItemByGtin(gtin: string): Promise<CustomItem> {
     return await res.json();
 }
 
+export async function fetchItemById(id: string): Promise<CustomItem> {
+    const session = await auth()
+    const res = await fetch(`${apiUrl}/api/v1/pantry/item/${id}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session?.token}`,
+        }, cache: "no-store",
+
+    });
+
+    return await res.json();
+}
+
 export async function fetchPantryByUserId(user_id: string): Promise<Promise<PantryDto> | Promise<null>> {
     if (!user_id) {
         return null;
@@ -101,7 +116,7 @@ export async function fetchPantryByUserId(user_id: string): Promise<Promise<Pant
     const id = data.id;
     const userId = data.userId;
     const items = data.items;
-   
+
     return {id, userId, items}
 }
 
@@ -220,3 +235,4 @@ export async function fetchCategories(): Promise<Promise<string[]> | null> {
     console.log(res.status)
     return res.json();
 }
+

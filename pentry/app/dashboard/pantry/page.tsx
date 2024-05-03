@@ -1,16 +1,16 @@
 import Link from "next/link";
-import {Item} from "@/app/lib/definitions";
+import {Item, PantryDto} from "@/app/lib/definitions";
 import {
     fetchPantryByUserId,
 } from '@/app/lib/data';
 import {auth} from "@/auth";
-import Breadcrumbs from "@/app/ui/dashboard/breadcrumbs";
-import {Button} from "@/app/ui/button";
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
-import {PantryItemCard} from "@/app/ui/dashboard/cards";
 import Image from "next/image";
 import pantryPic from '@/app/images/shelving.png';
+import {Avatar, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, Typography} from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
+import RenderPantry from "@/app/ui/pantry/RenderPantry";
 
 export default async function Page() {
     const session = await auth()
@@ -22,31 +22,13 @@ export default async function Page() {
     if (!token || !userEmail) return null
     const userFromDatabase = session?.dbUser
     const id = userFromDatabase?.id as string
+    if (!id) return null
     const pantry = await fetchPantryByUserId(id)
+    if (!pantry) return null
+
     return (
-        <div>
-            {pantry && pantry.items.length > 0 ? pantry?.items.map((item: Item) =>
-                    <PantryItemCard key={item?.id} item={item}/>
-                )
+        <RenderPantry pantry={pantry} userFromDatabase={userFromDatabase}/>
 
-                : <div className='flex flex-col justify-between items-center md:justify-around relative'>
-                    <div className={'font-bold text-xl'}>Your pantry is empty</div>
-                    <Image
-                        src={pantryPic}
-                        alt={"Empty pantry"}
-                        priority={true} // {false} | {true}
-
-                    />
-                    <Link href={'/dashboard/pantry/add-item'} className={'absolute right-9 top-2/3'}><Fab
-                        color="primary"
-                        aria-label="add"
-                        variant={'extended'}>
-                        <AddIcon/>Add Items
-                    </Fab></Link>
-                </div>}
-
-
-        </div>
     )
 }
 
