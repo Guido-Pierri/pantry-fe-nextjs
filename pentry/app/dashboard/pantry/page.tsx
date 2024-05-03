@@ -4,13 +4,11 @@ import {
     fetchPantryByUserId,
 } from '@/app/lib/data';
 import {auth} from "@/auth";
-import Breadcrumbs from "@/app/ui/dashboard/breadcrumbs";
-import {Button} from "@/app/ui/button";
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
-import {PantryItemCard} from "@/app/ui/dashboard/cards";
 import Image from "next/image";
 import pantryPic from '@/app/images/shelving.png';
+import {Avatar, Grid, List, ListItem, ListItemAvatar, ListItemText, Typography} from "@mui/material";
 
 export default async function Page() {
     const session = await auth()
@@ -23,11 +21,40 @@ export default async function Page() {
     const userFromDatabase = session?.dbUser
     const id = userFromDatabase?.id as string
     const pantry = await fetchPantryByUserId(id)
+
     return (
         <div>
-            {pantry && pantry.items.length > 0 ? pantry?.items.map((item: Item) =>
-                    <PantryItemCard key={item?.id} item={item}/>
-                )
+            {pantry && pantry.items.length > 0 ?
+                /*<PantryItemCard key={item?.id} item={item}/>*/
+                <Grid container spacing={2}>
+                    <Grid item xs={12} md={6}>
+                        <Typography sx={{mt: 4, mb: 2}} variant="h6" component="div">
+                            {userFromDatabase?.firstName}'s Pantry
+                        </Typography>
+                        {pantry?.items.map((item: Item) =>
+                            <List key={item.id} style={{overflow: 'hidden', position: 'relative'}}>
+                                <ListItem>
+                                    <ListItemAvatar>
+                                        <Avatar style={{overflow: 'hidden', position: 'relative'}}>
+                                            <Link href={`/dashboard/pantry/items/${item.id}`}>
+                                                <Image src={item.image}
+                                                       alt={item.name}
+                                                       fill={true}
+                                                       style={{objectFit: 'cover'}}/>
+
+                                            </Link>
+                                        </Avatar>
+                                    </ListItemAvatar>
+                                    <ListItemText
+                                        primary={`${item.name}`}
+                                        secondary={`Expires: ${item.expirationDate}`}
+                                    />
+                                </ListItem>
+
+                            </List>
+                        )}
+                    </Grid>
+                </Grid>
 
                 : <div className='flex flex-col justify-between items-center md:justify-around relative'>
                     <div className={'font-bold text-xl'}>Your pantry is empty</div>
@@ -44,7 +71,6 @@ export default async function Page() {
                         <AddIcon/>Add Items
                     </Fab></Link>
                 </div>}
-
 
         </div>
     )
