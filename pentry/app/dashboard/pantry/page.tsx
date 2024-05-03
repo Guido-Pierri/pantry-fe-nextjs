@@ -26,12 +26,6 @@ export default async function Page() {
     const pantry = await fetchPantryByUserId(id)
     if (!pantry) return null
 
-    //FIXME: Add delete functionality
-    function deleteItem() {
-        'use client'
-        console.log('delete item')
-    }
-
     return (
         <RenderPantry pantry={pantry} userFromDatabase={userFromDatabase}/>
 

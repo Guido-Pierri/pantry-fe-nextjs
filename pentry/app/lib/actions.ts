@@ -91,6 +91,20 @@ export async function saveCustomItem(state: null | undefined, formData: FormData
     */
 }
 
+export async function deleteItemById(id: string, token: string) {
+    const res = await fetch(`${apiUrl}/api/v1/pantry/delete-item/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    });
+    console.log(res.status)
+    revalidatePath('/dashboard/pantry')
+    return res.status;
+
+}
+
 export async function authenticate(
     prevState: string | undefined,
     formData: FormData,

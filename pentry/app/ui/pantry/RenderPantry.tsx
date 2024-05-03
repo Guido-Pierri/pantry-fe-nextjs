@@ -7,9 +7,17 @@ import Image from "next/image";
 import pantryPic from "@/app/images/shelving.png";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
-import {JSX} from "react";
+import {deleteItemById} from "@/app/lib/actions";
 
 export default function RenderPantry({pantry, userFromDatabase}: { pantry: PantryDto, userFromDatabase: User }) {
+    //FIXME: Add delete functionality
+    async function deleteItem(id: string) {
+        'use client'
+        console.log('delete item')
+        if (!userFromDatabase.token) return
+        await deleteItemById(id, userFromDatabase.token)
+    }
+
     return (
         <>
             {pantry && pantry.items.length > 0 ?
@@ -24,7 +32,7 @@ export default function RenderPantry({pantry, userFromDatabase}: { pantry: Pantr
                                 <ListItem
                                     secondaryAction={
                                         <IconButton edge="end" aria-label="delete">
-                                            <DeleteIcon/>
+                                            <DeleteIcon onClick={() => deleteItem(item.id)}/>
                                         </IconButton>
                                     }
                                 >

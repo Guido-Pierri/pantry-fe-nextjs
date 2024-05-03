@@ -1,6 +1,7 @@
 import {CustomItem, Item, PantryDto, SearchItem, SearchPage, User,} from './definitions';
 import {auth} from "@/auth";
 import {redirect} from "next/navigation";
+import {Session} from "next-auth";
 
 const apiUrl = process.env.SQL_DATABASE;
 
@@ -234,3 +235,4 @@ export async function fetchCategories(): Promise<Promise<string[]> | null> {
     console.log(res.status)
     return res.json();
 }
+
