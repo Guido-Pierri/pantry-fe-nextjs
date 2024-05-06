@@ -71,10 +71,10 @@ export function ItemCard({
     return (
         <div className="rounded-xl bg-gray-50 p-2 shadow-sm">
             <div>
-                <h1>{item.Varumarke}</h1>
+                <h1>{item.brand}</h1>
             </div>
-            <Link href={`/dashboard/pantry/add-item/items/${item.GTIN}`} key={item.GTIN}>
-                <h2>{item.Artikelbenamning}</h2>
+            <Link href={`/dashboard/pantry/add-item/items/${item.gtin}`} key={item.gtin}>
+                <h2>{item.name}</h2>
             </Link>
         </div>
     );
