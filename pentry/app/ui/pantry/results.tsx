@@ -1,30 +1,24 @@
 import {searchPaginatedItems} from "@/app/lib/data";
-import {SearchItem, SearchPage} from "@/app/lib/definitions";
-import {Key, ReactElement, JSXElementConstructor, ReactNode, ReactPortal, PromiseLikeOfReactNode} from "react";
-import Link from "next/link";
+import {SearchPage} from "@/app/lib/definitions";
 import {ItemCard} from "@/app/ui/dashboard/cards";
 
 export default async function Results({
                                           query,
-                                          currentPage,
+                                          currentPage, token
                                       }: {
     query: string;
     currentPage: number;
+    token: string;
 }) {
-    const page: SearchPage | null = await searchPaginatedItems(query, currentPage);
+    const page: SearchPage | null = await searchPaginatedItems(query, token, currentPage);
     if (!page) return null;
     const items = page.content;
     return (
         <div>
             {items &&
-                items.map((item: {
-                    GTIN: Key | null | undefined;
-                    Artikelbenamning: string | undefined;
-                    Artikeltyp: string | undefined;
-                    Varumarke: string | undefined;
-                }) => (
-                    <ItemCard title={item.Artikelbenamning as string} value={item.Varumarke as string} type={"search"}
-                              item={item as SearchItem} key={item.GTIN} subtitle={item.Artikelbenamning}>
+                items.map((item) => (
+                    <ItemCard title={item.name} value={item.brand} type={"search"}
+                              item={item} key={item.gtin} subtitle={item.name}>
 
                     </ItemCard>
 

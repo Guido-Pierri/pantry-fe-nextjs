@@ -3,7 +3,9 @@ import {auth} from "@/auth";
 import {fetchCategories} from "@/app/lib/data";
 import Breadcrumbs from "@/app/ui/dashboard/breadcrumbs";
 import SearchBar from "@/app/ui/searchBar";
-import Results from "@/app/ui/pantry/results";
+import Results from "@/app/ui/search/results";
+import Loading from "@/app/loading";
+import {Suspense} from "react";
 
 export default async function Page({searchParams}: {
     searchParams?: {
@@ -30,7 +32,10 @@ export default async function Page({searchParams}: {
                 },
             ]}/>
             <SearchBar placeholder={'search products...'}/>
-            {(query.length > 0) ? (<Results query={query} currentPage={currentPage}/>) :
+            {(query.length > 0) ?
+                <Suspense fallback={<Loading/>}>
+                    <Results query={query} currentPage={currentPage} token={session.token}/>
+                </Suspense> :
                 <CreateForm categories={categories}/>}</>
     )
 
