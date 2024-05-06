@@ -36,28 +36,35 @@ export async function searchItems(query: string, currentPage: number): Promise<S
     return data;
 }
 
-export async function searchPaginatedItems(query: string, page?: number, itemsPerPage?: number): Promise<Promise<SearchPage> | null> {
+export async function searchPaginatedItems(query: string, token: string, page?: number, itemsPerPage?: number): Promise<Promise<SearchPage> | null> {
     console.log('query', query);
+    console.log('inside searchPaginatedItems')
+    console.log('apiUrl', apiUrl)
     const pageToFetch = page || 0;
-    const size = itemsPerPage || 10;
-    const session = await getSession()
-    const res = await fetch(`${apiUrl}/api/v1/search/paginated/parameter/${query}?page=${pageToFetch}&size=${size}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${session?.token}`
-            , cache: "no-store",
-        },
-    });
+    const size = itemsPerPage || 20;
+    let data = null;
+    try {
 
-    console.log('Response Status:', res.status);
+        const res = await fetch(`${apiUrl}/api/v1/search/paginated/parameter/${query}`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                    ,
+                },
+            });
+        console.log('Response Status:', res.status);
+        data = await res.json();
+        console.log('API Response Data:', data);
 
-    if (res.status === 403) {
-        return null;
+    } catch (error) {
+        console.error('There has been a problem with your fetch operation:', error);
     }
 
-    const data = await res.json();
-    console.log('API Response Data:', data);
+    /* if (res.status === 403) {
+         return null;
+     }*/
 
     return data;
 }
@@ -84,6 +91,7 @@ export async function fetchItemById(id: string): Promise<CustomItem> {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${session?.token}`,
         }, cache: "no-store",
+        mode: 'no-cors'
 
     });
 

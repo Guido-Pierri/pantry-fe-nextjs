@@ -78,15 +78,11 @@ export type ItemForm = {
     userId: string;
 }
 export type SearchItem = {
-    Forpackningsstorlek: string;
-    Varumarke: string;
-    GTIN: string;
-    Artikelbenamning: string;
-    TillverkarensArtikelnummer: string;
-    Hyllkantstext: string;
-    Artikeltyp: string;
-    SkapadDatum: string;
-    SenastAndradDatum: string;
+    name: string;
+    gtin: string;
+    image: string;
+    brand: string;
+    category: string;
 };
 //export type SearchDto = SearchItem[];
 export type SearchPage = {
