@@ -54,9 +54,12 @@ export async function searchPaginatedItems(query: string, token: string, page?: 
                 ,
             },
         });
+    if (res.status === 403) {
+        console.log('res.status', res.status)
+        return null;
+    }
     console.log('Response Status:', res.status);
     console.log('response body:', res.body)
-    console.log('response headers:', res.headers)
     const data = await res.json();
     console.log('API Response Data:', data);
     return data;
