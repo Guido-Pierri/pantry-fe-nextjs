@@ -36,36 +36,29 @@ export async function searchItems(query: string, currentPage: number): Promise<S
     return data;
 }
 
-export async function searchPaginatedItems(query: string, token: string, page?: number, itemsPerPage?: number): Promise<Promise<SearchPage> | null> {
-    console.log('query', query);
+export async function searchPaginatedItems(query: string, token: string, page?: number, size?: number): Promise<Promise<SearchPage> | null> {
     console.log('inside searchPaginatedItems')
-    console.log('apiUrl', apiUrl)
-    const pageToFetch = page || 0;
-    const size = itemsPerPage || 20;
-    let data = null;
-    try {
+    console.log('query', query);
+    console.log('token', token)
+    console.log('page', page)
+    console.log('apiUrl in searchPaginatedItems ', apiUrl)
+    const pageToFetch = page ? (page - 1) : 0;
 
-        const res = await fetch(`${apiUrl}/api/v1/search/paginated/parameter/${query}`,
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                    ,
-                },
-            });
-        console.log('Response Status:', res.status);
-        data = await res.json();
-        console.log('API Response Data:', data);
 
-    } catch (error) {
-        console.error('There has been a problem with your fetch operation:', error);
-    }
-
-    /* if (res.status === 403) {
-         return null;
-     }*/
-
+    const res = await fetch(`${apiUrl}/api/v1/search/paginated/parameter/${query}?page=${pageToFetch}`,
+        {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+                ,
+            },
+        });
+    console.log('Response Status:', res.status);
+    console.log('response body:', res.body)
+    console.log('response headers:', res.headers)
+    const data = await res.json();
+    console.log('API Response Data:', data);
     return data;
 }
 
