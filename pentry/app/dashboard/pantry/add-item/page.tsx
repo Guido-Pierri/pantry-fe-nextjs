@@ -33,9 +33,9 @@ export default async function Page({searchParams}: {
             ]}/>
             <SearchBar placeholder={'search products...'}/>
             {(query.length > 0) ?
-                <Suspense fallback={<Loading/>}>
-                    <Results query={query} currentPage={currentPage} token={session.token}/>
-                </Suspense> :
+
+                <Results query={query} currentPage={currentPage} token={session.token}/>
+                :
                 <CreateForm categories={categories}/>}</>
     )
 

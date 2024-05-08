@@ -8,6 +8,7 @@ import {MagnifyingGlassCircleIcon} from "@heroicons/react/24/outline";
 import {EmojiFoodBeverage, FoodBankOutlined, NoFoodOutlined} from "@mui/icons-material";
 import Image from "next/image";
 import image from '/app/favicon.ico';
+import Pagination from "@/app/ui/search/pagination";
 
 export default async function Page({searchParams}: {
     searchParams?: {
@@ -17,6 +18,7 @@ export default async function Page({searchParams}: {
 }) {
     const query = searchParams?.query ?? '';
     const currentPage = Number(searchParams?.page) ?? 1;
+
     const session = await auth()
     if (!session?.token) {
         return null
@@ -28,6 +30,7 @@ export default async function Page({searchParams}: {
                 <Suspense fallback={<Loading/>}>
                     <Results query={query} currentPage={currentPage} token={session.token}/>
                 </Suspense>
+
                 :
                 <Image src={image} alt={'prantry icon'} width={100} height={100} className={'mt-3'}/>}
 

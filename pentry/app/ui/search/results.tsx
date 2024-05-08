@@ -4,6 +4,7 @@ import Link from "next/link";
 import {Avatar, Grid, List, ListItem, ListItemAvatar, ListItemText} from "@mui/material";
 import Image from "next/image";
 import BrokenImageIcon from "@mui/icons-material/BrokenImage";
+import Pagination from "@/app/ui/search/pagination";
 
 export default async function Results({
                                           query,
@@ -17,8 +18,10 @@ export default async function Results({
     const page: SearchPage | null = await searchPaginatedItems(query, token, currentPage);
     if (!page) return null;
     const items = page.content;
+    const totalPages = page.totalPages;
+    console.log('page', page)
     return (
-        <Grid container spacing={10}>
+        <Grid container spacing={10} columns={2}>
             <Grid item xs={12} md={6}>
                 <List dense={true}>
                     {items &&
@@ -40,6 +43,7 @@ export default async function Results({
                             </Link>
                         ))}
                 </List>
+                <Pagination totalPages={totalPages}/>
             </Grid>
         </Grid>
     )

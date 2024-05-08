@@ -3,16 +3,15 @@ import {MagnifyingGlassIcon} from '@heroicons/react/24/outline';
 import {usePathname, useSearchParams, useRouter} from 'next/navigation';
 import {useDebouncedCallback} from "use-debounce";
 import {useState} from "react";
-import {Backdrop} from "@mui/material";
-import CircularProgress from "@mui/material/CircularProgress";
 
 export default function SearchBar({placeholder}: { placeholder: string }) {
     const searchParams = useSearchParams();
-    const params = new URLSearchParams(searchParams);
     const pathname = usePathname();
     const {replace} = useRouter();
     const [searchQuery, setSearchQuery] = useState('');
     const handleSearch = useDebouncedCallback((term) => {
+        const params = new URLSearchParams(searchParams);
+        //params.set('page', '1');
 
         //const params = new URLSearchParams(searchParams);
         setSearchQuery(term)
@@ -27,6 +26,7 @@ export default function SearchBar({placeholder}: { placeholder: string }) {
 
     const handleClick = () => {
         const params = new URLSearchParams(searchParams);
+        params.set('page', '0');
         console.log('pathname in click', pathname)
         console.log('searchQuery in click', searchQuery)
         console.log('params in click', params)
