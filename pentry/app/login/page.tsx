@@ -1,8 +1,3 @@
-/*
-import AcmeLogo from '@/app/ui/acme-logo';
-import LoginForm from '@/app/ui/login-form';
-*/
-
 import {croissant} from "@/app/ui/fonts";
 import LoginForm from "@/app/ui/login-form";
 import {SignIn} from "@/app/ui/auth/auth-components";
@@ -19,7 +14,8 @@ export default async function LoginPage() {
                         Pantry Partner
                     </h1>
                 </div>
-                Don&apos;t have an account? <Link className={`${croissant.className} text-blue-500 font-extrabold`} href="/signup">Sign
+                Don&apos;t have an account? <Link className={`${croissant.className} text-blue-500 font-extrabold`}
+                                                  href='/signup'>Sign
                 up</Link>
                 <LoginForm/>
                 <SignIn provider={'google'} data={'Log in with Google'}></SignIn>
