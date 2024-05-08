@@ -6,6 +6,11 @@ import SearchBar from "@/app/ui/searchBar";
 import Results from "@/app/ui/search/results";
 import Loading from "@/app/loading";
 import {Suspense} from "react";
+import Link from "next/link";
+import SearchIcon from '@mui/icons-material/Search';
+import Fab from "@mui/material/Fab";
+import {MagnifyingGlassCircleIcon} from "@heroicons/react/24/outline";
+import {Box} from "@mui/material";
 
 export default async function Page({searchParams}: {
     searchParams?: {
@@ -31,12 +36,15 @@ export default async function Page({searchParams}: {
                     active: true,
                 },
             ]}/>
-            <SearchBar placeholder={'search products...'}/>
-            {(query.length > 0) ?
+            <Box flex={'auto'} flexDirection={'column'} alignContent={'center'}>
 
-                <Results query={query} currentPage={currentPage} token={session.token}/>
-                :
-                <CreateForm categories={categories}/>}</>
+                <CreateForm categories={categories}/>
+                <Link href={'/dashboard/search'}><Fab variant="extended">
+                    <SearchIcon/>
+                    Search for a product
+                </Fab></Link>
+            </Box>
+        </>
     )
 
 }
