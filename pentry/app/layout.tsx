@@ -1,20 +1,10 @@
 import type {Metadata} from 'next'
 import './globals.css'
 import React from 'react'
-import {inter, lusitana} from '@/app/ui/fonts';
+import {inter} from '@/app/ui/fonts';
 import {AppRouterCacheProvider} from '@mui/material-nextjs/v14-appRouter';
-
-import {croissant} from '@/app/ui/fonts';
-
-import ReactDOM from "react-dom";
-import {Inter} from "next/font/google";
 import {ThemeProvider} from '@mui/material/styles';
 import theme from "../theme";
-
-/*const inter = Inter({
-    subsets: ['latin'],
-    display: 'swap',
-})*/
 
 export const metadata: Metadata = {
     title: 'Pantry Partner',

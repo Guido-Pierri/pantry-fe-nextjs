@@ -183,10 +183,12 @@ export async function createGoogleUser(formData: FormData) {
     return data
 }
 
-export async function registerUser(prevState: string | undefined, formData: FormData) {
+export async function registerUser(formData: FormData) {
     console.log('formData in registerUser', formData)
     const password = formData.get('password')
     const confirmPassword = formData.get('confirmPassword')
+    console.log('password', password)
+    console.log('confirmPassword', confirmPassword)
     if (typeof password === "string" && typeof confirmPassword === "string") {
         if (password !== confirmPassword) {
             return 'Passwords do not match'
@@ -200,6 +202,7 @@ export async function registerUser(prevState: string | undefined, formData: Form
                 authProvider: 'credentials'
 
             }
+            console.log('req', req)
             const res = await fetch(`${apiUrl}/api/v1/users/create`, {
                 method: 'POST',
                 headers: {
