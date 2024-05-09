@@ -11,10 +11,10 @@ import Fab from "@mui/material/Fab";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function UsersTable({user}: { user: User }) {
+    const [isVisiblePass, setIsVisiblePass] = useState(false);
 
     if (!user) return null;
     const updateUserWithId = updateUserProfile.bind(null, user?.id);
-    const [isVisiblePass, setIsVisiblePass] = useState(false);
     const toggleVisblePass = () => {
         setIsVisiblePass((prev) => !prev)
     };
