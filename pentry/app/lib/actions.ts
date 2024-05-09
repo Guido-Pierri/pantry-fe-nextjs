@@ -285,6 +285,24 @@ export async function deleteUser(id: string) {
 
 }
 
+export async function deleteUserFromProfile(id: string) {
+    const session = await auth()
+    const token = session?.token
+    console.log('inside deleteUserFromProfile')
+    const res = await fetch(`${apiUrl}/api/v1/users/delete/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    });
+    console.log('Response Status:', res.status);
+    const data = await res.json();
+    console.log('data', data)
+    revalidatePath('/dashboard');
+
+}
+
 export async function updateUser(id: string, formData: FormData) {
     const session = await auth()
     const token = session?.token
@@ -326,7 +344,7 @@ export async function updateUserProfile(id: string | undefined, formData: FormDa
         if (password !== confirmPassword) {
             return 'Passwords do not match'
         }
-
+        console.log('formData in updateUserProfile', formData)
         const req = {
             ...formData,
             firstName: formData.get('firstName'),

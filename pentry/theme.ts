@@ -9,24 +9,7 @@ const roboto = Roboto({
     subsets: ['latin'],
     display: 'swap',
 });
-/*const lusitana = Lusitana({
-    weight: ['400', '700'],
-    subsets: ['latin'],
-    display: 'swap',
-});*/
-// declare module '@mui/material/styles' {
-//     interface Theme {
-//         status: {
-//             danger: string;
-//         };
-//     }
-//     // allow configuration using `createTheme`
-//     interface ThemeOptions {
-//         status?: {
-//             danger?: string;
-//         };
-//     }
-// }
+
 
 const theme = createTheme({
     // status: {
@@ -35,6 +18,7 @@ const theme = createTheme({
 
     typography: {
         fontFamily: inter.style.fontFamily,
+
     },
     palette: {
         mode: 'light',
