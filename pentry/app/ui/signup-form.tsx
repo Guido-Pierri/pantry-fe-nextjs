@@ -1,6 +1,6 @@
 'use client';
-import {useFormState, useFormStatus} from "react-dom";
-import {registerUser, registerUserByAdmin} from "@/app/lib/actions";
+import {useFormStatus} from "react-dom";
+import {registerUser} from "@/app/lib/actions";
 import React, {useState} from "react";
 import {ExclamationCircleIcon, EyeIcon, EyeSlashIcon, MagnifyingGlassIcon} from "@heroicons/react/24/outline";
 import {ArrowRightIcon} from "@heroicons/react/20/solid";
@@ -8,14 +8,11 @@ import {Box, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, T
 import Fab from "@mui/material/Fab";
 import {FormControl} from "@mui/base";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
-import theme from "@/theme";
 import {croissant} from "@/app/ui/fonts";
-import Link from "next/link";
 
 
 export default function SignUpForm() {
 
-// Store the token in a state
     const [isVisiblePass, setIsVisiblePass] = useState(false);
     const toggleVisblePass = () => {
         setIsVisiblePass((prev) => !prev)
@@ -63,7 +60,6 @@ export default function SignUpForm() {
                            required={true}
                            fullWidth={true}
                            sx={{marginTop: '1rem'}}
-
                            value={firstName}
                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFirstName(e.target.value)}
 
