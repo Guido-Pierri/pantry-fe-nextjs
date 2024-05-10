@@ -3,6 +3,11 @@ import {MagnifyingGlassIcon} from '@heroicons/react/24/outline';
 import {usePathname, useSearchParams, useRouter} from 'next/navigation';
 import {useDebouncedCallback} from "use-debounce";
 import {useState} from "react";
+import {Box, Button, InputAdornment, TextField, Typography} from "@mui/material";
+import {AccountCircle} from "@mui/icons-material";
+import SearchIcon from "@mui/icons-material/Search";
+import Fab from "@mui/material/Fab";
+import Categories from "@/app/ui/search/categories";
 
 export default function SearchBar({placeholder}: { placeholder: string }) {
     const searchParams = useSearchParams();
@@ -38,31 +43,31 @@ export default function SearchBar({placeholder}: { placeholder: string }) {
         replace(`${pathname}?${params.toString()}`);
 
     }
-
     return (
-        <div className="relative flex flex-1 flex-shrink-0">
-            <label htmlFor="search" className="sr-only">
-                Search:
-            </label>
-            <input
-                className=" peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-blue-400"
+        <Box component="form" display={'flex'} flexDirection={'column'}>
+            <TextField
+                id="input-with-icon-textfield"
+                variant={'outlined'}
+                sx={{width: '100%'}}
                 placeholder={placeholder}
                 onChange={(e) => {
                     handleSearch(e.target.value);
                 }}
                 defaultValue={searchParams.get('query')?.toString()}
-
+                InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <SearchIcon/>
+                        </InputAdornment>
+                    ),
+                }}
             />
-            <MagnifyingGlassIcon
-                className="absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900"/>
-            <div>
-                <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 ml-2 rounded-md"
-                        onClick={() => {
-                            handleClick();
-                        }}>Search
-                </button>
-
-            </div>
-        </div>
+            <Categories/>
+            <Fab variant="extended" color="primary" sx={{width: '100%', mt: '1rem'}}
+                 onClick={() => {
+                     handleClick();
+                 }}>Find
+            </Fab>
+        </Box>
     )
 }
