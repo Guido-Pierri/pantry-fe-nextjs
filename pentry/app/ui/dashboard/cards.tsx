@@ -9,7 +9,7 @@ import {lusitana} from '@/app/ui/fonts';
 import Link from "next/link";
 import {CustomItem, Item, SearchItem} from "@/app/lib/definitions";
 import Image from "next/image";
-import {Card, CardContent, CardHeader, CardMedia, Typography} from "@mui/material";
+import {Box, Card, CardContent, CardHeader, CardMedia, Typography} from "@mui/material";
 import theme from "@/theme";
 import React, {ReactNode, useState} from "react";
 import AddIcon from "@mui/icons-material/Add";
@@ -85,28 +85,27 @@ const imageStyle = {
     paddingTop: '1rem',
     width: '100%',
     maxHeight: '500px',
-
-    /* width: '50%',
-     marginLeft: '25%'*/
 };
 const cardHeaderStyle = {
     color: 'white',
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: 'primary.light',
 };
 
 export function PantryItemCard({item}: { item: Item }): ReactNode {
-    return <Card key={item.id} sx={{position: 'relative', overflow: 'hidden'}}>
-        <CardHeader title={item.name}
-                    sx={cardHeaderStyle}/>
-        <CardMedia
+    const image: string | undefined = item?.image || ITEM_IMAGE;
+    return <Card key={item.id} sx={{position: 'relative', overflow: 'hidden', padding: '1rem'}}>
+        {image ? <CardMedia
             component="img"
             image={item.image}
-
             alt={item.name}
-            sx={imageStyle}/>
+            sx={imageStyle}/> : null}
 
-        <CardContent>
-            <Typography variant="h6" color="secondary.dark">Expires: {item.expirationDate}</Typography>
+        <CardContent sx={{backgroundColor: "primary.contrastText"}}>
+            <Typography variant={"h5"}>
+                {item.name}</Typography>
+            <Typography variant={'h6'}>{item.brand}</Typography>
+            <Typography variant="h6">Quantity: {item.quantity}</Typography>
+            <Typography variant="h6" color="secondary.main">Expires: {item.expirationDate}</Typography>
         </CardContent>
     </Card>;
 }
@@ -115,25 +114,42 @@ export function AddItemCard({item}: { item: Item }): ReactNode {
     const image: string | undefined = item?.image || ITEM_IMAGE;
     const [isExpiryDate, setIsExpiryDate] = useState(false);
     console.log(isExpiryDate, 'isExpiryDate')
-    return <Card key={item.gtin}>
-        <CardHeader title={item.name}
-                    sx={{
-                        color: 'white',
-                        backgroundColor: theme.palette.primary.main,
-                    }}/>
-        {image ? <CardMedia
-            component="img"
-            image={image}
-            height="100"
+    return (
+        <>
+            <Card key={item.gtin}>
 
-            alt={item.name}></CardMedia> : null}
-        <CardContent>
+                {image ? <CardMedia
+                    component="img"
+                    image={item.image}
+                    alt={item.name}
+                    sx={imageStyle}/> : null}
+                <CardContent>
+                    <Typography variant={"h5"}>
+                        {item.name}</Typography>
+
+
+                    {/*<label className={'mt-2'} htmlFor={"expirationDate"}>Set the expiration date</label>
+            <input placeholder={'Expiration date'} id={"expirationDate"} name={"expirationDate"} type={"date"}
+                   onInput={() => setIsExpiryDate(true)}
+                   required={true}/>*/}
+
+                </CardContent>
+            </Card>
+            <Box mt={'1rem'}>
+                <Typography variant={'h6'}>Save this item to your pantry?</Typography>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DemoContainer components={['DatePicker']}>
+                        <DatePicker label="Set the expiration date" name={"expirationDate"} disablePast={true}
+                                    onChange={() => setIsExpiryDate(true)}/>
+                    </DemoContainer>
+                </LocalizationProvider>
+            </Box>
             {isExpiryDate ? <Fab variant={'extended'} sx={{
-                position: 'absolute',
-                right: '10%',
-                bottom: '30%',
+
                 color: 'white',
                 backgroundColor: theme.palette.primary.main,
+                width: '100%',
+                marginTop: '1rem',
             }}
                                  color={'inherit'}
                                  type={'submit'}
@@ -141,18 +157,6 @@ export function AddItemCard({item}: { item: Item }): ReactNode {
 
                 <AddIcon/> Save Item
             </Fab> : null}
-            <Typography>Save this item to your pantry?</Typography>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={['DatePicker']}>
-                    <DatePicker label="Set the expiration date" name={"expirationDate"} disablePast={true}
-                                onChange={() => setIsExpiryDate(true)}/>
-                </DemoContainer>
-            </LocalizationProvider>
-            {/*<label className={'mt-2'} htmlFor={"expirationDate"}>Set the expiration date</label>
-            <input placeholder={'Expiration date'} id={"expirationDate"} name={"expirationDate"} type={"date"}
-                   onInput={() => setIsExpiryDate(true)}
-                   required={true}/>*/}
-
-        </CardContent>
-    </Card>;
+        </>
+    )
 }

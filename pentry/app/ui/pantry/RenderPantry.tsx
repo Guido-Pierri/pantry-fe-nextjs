@@ -1,5 +1,5 @@
 'use client'
-import {Avatar, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, Typography} from "@mui/material";
+import {Avatar, Box, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, Typography} from "@mui/material";
 import {Item, Pantry, PantryDto, User} from "@/app/lib/definitions";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Link from "next/link";
@@ -8,9 +8,11 @@ import pantryPic from "@/app/images/shelving.png";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import {deleteItemById} from "@/app/lib/actions";
+import {useState} from "react";
+import theme from "@/theme";
 
 export default function RenderPantry({pantry, userFromDatabase}: { pantry: PantryDto, userFromDatabase: User }) {
-    //FIXME: Add delete functionality
+
     async function deleteItem(id: string) {
         'use client'
         console.log('delete item')
@@ -18,18 +20,37 @@ export default function RenderPantry({pantry, userFromDatabase}: { pantry: Pantr
         await deleteItemById(id, userFromDatabase.token)
     }
 
+    const calculateExpiring = (date: string) => {
+        const today = new Date()
+        const expiration = new Date(date)
+        const timeDiff = Math.abs(expiration.getTime() - today.getTime());
+        const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        if (diffDays <= 3) {
+            return true
+        }
+    }
     return (
         <>
             {pantry && pantry.items.length > 0 ?
-                /*<PantryItemCard key={item?.id} item={item}/>*/
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={6}>
-                        <Typography sx={{mt: 4, mb: 2}} variant="h5" component="div">
-                            {userFromDatabase?.firstName}&apos;Pantry
+                        <Typography sx={{mb: 2}} variant="h5" component="div">
+                            Your pantry
                         </Typography>
                         {pantry.items.map((item: Item) =>
                             <List key={item.id} dense={true}>
                                 <ListItem
+
+                                    sx={calculateExpiring(item.expirationDate) ? {
+                                        border: `1px solid ${theme.palette.secondary.dark}`,
+                                        backgroundColor: theme.palette.secondary.light,
+                                        borderRadius: '5px',
+                                    } : {
+                                        border: `1px solid ${theme.palette.primary.dark}`,
+                                        backgroundColor: theme.palette.primary.light,
+                                        borderRadius: '5px',
+                                    }}
+
                                     secondaryAction={
                                         <IconButton edge="end" aria-label="delete">
                                             <DeleteIcon onClick={() => deleteItem(item.id)}/>
@@ -51,7 +72,10 @@ export default function RenderPantry({pantry, userFromDatabase}: { pantry: Pantr
                                     <Link href={`/dashboard/pantry/items/${item.id}`}>
                                         <ListItemText
                                             primary={`${item.name}`}
-                                            secondary={`Expires: ${item.expirationDate}`}
+                                            secondary={calculateExpiring(item.expirationDate) ?
+                                                (<Typography color={theme.palette.secondary.main}> This item expires
+                                                    soon!
+                                                </Typography>) : null}
                                             primaryTypographyProps={{variant: 'h6'}}
                                             secondaryTypographyProps={{color: 'secondary.dark'}}
                                         />
@@ -59,7 +83,18 @@ export default function RenderPantry({pantry, userFromDatabase}: { pantry: Pantr
                                 </ListItem>
 
                             </List>
-                        )}
+                        )}<Box display={'flex'} flexDirection={'column'} mt={'1rem'}>
+
+                        <Link href={'/dashboard/pantry/add-item'}>
+                            <Fab
+                                color="primary"
+                                aria-label="add"
+                                variant={'extended'}
+                                sx={{width: '100%'}}
+                            >
+                                <AddIcon/>Add Items
+                            </Fab></Link>
+                    </Box>
                     </Grid>
                 </Grid>
 
@@ -71,12 +106,13 @@ export default function RenderPantry({pantry, userFromDatabase}: { pantry: Pantr
                         priority={true} // {false} | {true}
 
                     />
-                    <Link href={'/dashboard/pantry/add-item'} className={'absolute right-9 top-2/3'}><Fab
-                        color="primary"
-                        aria-label="add"
-                        variant={'extended'}>
-                        <AddIcon/>Add Items
-                    </Fab></Link>
+                    <Link href={'/dashboard/pantry/add-item'} className={'absolute right-9 top-2/3'}>
+                        <Fab
+                            color="primary"
+                            aria-label="add"
+                            variant={'extended'}>
+                            <AddIcon/>Add Items
+                        </Fab></Link>
                 </div>}
 
         </>)
