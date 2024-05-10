@@ -8,9 +8,11 @@ import pantryPic from "@/app/images/shelving.png";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import {deleteItemById} from "@/app/lib/actions";
+import {useState} from "react";
+import theme from "@/theme";
 
 export default function RenderPantry({pantry, userFromDatabase}: { pantry: PantryDto, userFromDatabase: User }) {
-    //FIXME: Add delete functionality
+
     async function deleteItem(id: string) {
         'use client'
         console.log('delete item')
@@ -18,18 +20,35 @@ export default function RenderPantry({pantry, userFromDatabase}: { pantry: Pantr
         await deleteItemById(id, userFromDatabase.token)
     }
 
+    const calculateExpiring = (date: string) => {
+        const today = new Date()
+        const expiration = new Date(date)
+        const timeDiff = Math.abs(expiration.getTime() - today.getTime());
+        const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        if (diffDays <= 3) {
+            return true
+        }
+    }
     return (
         <>
             {pantry && pantry.items.length > 0 ?
-                /*<PantryItemCard key={item?.id} item={item}/>*/
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={6}>
                         <Typography sx={{mt: 4, mb: 2}} variant="h5" component="div">
-                            {userFromDatabase?.firstName}&apos;Pantry
+                            Your pantry
                         </Typography>
                         {pantry.items.map((item: Item) =>
                             <List key={item.id} dense={true}>
                                 <ListItem
+
+                                    sx={calculateExpiring(item.expirationDate) ? {
+                                        border: `1px solid ${theme.palette.secondary.dark}`,
+                                        backgroundColor: theme.palette.secondary.light,
+                                        borderRadius: '5px',
+                                        backgroundColorOpacity: 0.5,
+                                        p: 2
+                                    } : null}
+
                                     secondaryAction={
                                         <IconButton edge="end" aria-label="delete">
                                             <DeleteIcon onClick={() => deleteItem(item.id)}/>
@@ -51,7 +70,10 @@ export default function RenderPantry({pantry, userFromDatabase}: { pantry: Pantr
                                     <Link href={`/dashboard/pantry/items/${item.id}`}>
                                         <ListItemText
                                             primary={`${item.name}`}
-                                            secondary={`Expires: ${item.expirationDate}`}
+                                            secondary={calculateExpiring(item.expirationDate) ?
+                                                (<Typography color={theme.palette.secondary.main}> This item expires
+                                                    soon!
+                                                </Typography>) : null}
                                             primaryTypographyProps={{variant: 'h6'}}
                                             secondaryTypographyProps={{color: 'secondary.dark'}}
                                         />
