@@ -1,5 +1,5 @@
 'use client'
-import {Avatar, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, Typography} from "@mui/material";
+import {Avatar, Box, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, Typography} from "@mui/material";
 import {Item, Pantry, PantryDto, User} from "@/app/lib/definitions";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Link from "next/link";
@@ -34,7 +34,7 @@ export default function RenderPantry({pantry, userFromDatabase}: { pantry: Pantr
             {pantry && pantry.items.length > 0 ?
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={6}>
-                        <Typography sx={{mt: 4, mb: 2}} variant="h5" component="div">
+                        <Typography sx={{mb: 2}} variant="h5" component="div">
                             Your pantry
                         </Typography>
                         {pantry.items.map((item: Item) =>
@@ -45,9 +45,11 @@ export default function RenderPantry({pantry, userFromDatabase}: { pantry: Pantr
                                         border: `1px solid ${theme.palette.secondary.dark}`,
                                         backgroundColor: theme.palette.secondary.light,
                                         borderRadius: '5px',
-                                        backgroundColorOpacity: 0.5,
-                                        p: 2
-                                    } : null}
+                                    } : {
+                                        border: `1px solid ${theme.palette.primary.dark}`,
+                                        backgroundColor: theme.palette.primary.light,
+                                        borderRadius: '5px',
+                                    }}
 
                                     secondaryAction={
                                         <IconButton edge="end" aria-label="delete">
@@ -81,7 +83,18 @@ export default function RenderPantry({pantry, userFromDatabase}: { pantry: Pantr
                                 </ListItem>
 
                             </List>
-                        )}
+                        )}<Box display={'flex'} flexDirection={'column'} mt={'1rem'}>
+
+                        <Link href={'/dashboard/pantry/add-item'}>
+                            <Fab
+                                color="primary"
+                                aria-label="add"
+                                variant={'extended'}
+                                sx={{width: '100%'}}
+                            >
+                                <AddIcon/>Add Items
+                            </Fab></Link>
+                    </Box>
                     </Grid>
                 </Grid>
 
@@ -93,12 +106,13 @@ export default function RenderPantry({pantry, userFromDatabase}: { pantry: Pantr
                         priority={true} // {false} | {true}
 
                     />
-                    <Link href={'/dashboard/pantry/add-item'} className={'absolute right-9 top-2/3'}><Fab
-                        color="primary"
-                        aria-label="add"
-                        variant={'extended'}>
-                        <AddIcon/>Add Items
-                    </Fab></Link>
+                    <Link href={'/dashboard/pantry/add-item'} className={'absolute right-9 top-2/3'}>
+                        <Fab
+                            color="primary"
+                            aria-label="add"
+                            variant={'extended'}>
+                            <AddIcon/>Add Items
+                        </Fab></Link>
                 </div>}
 
         </>)
