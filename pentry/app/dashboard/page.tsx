@@ -19,6 +19,6 @@ export default async function Page() {
 
     return (
 
-        user ? <RenderDashboard firstName={firstName} lastName={lastName}/> : Loading()
+        user ? <RenderDashboard/> : Loading()
     );
 }
