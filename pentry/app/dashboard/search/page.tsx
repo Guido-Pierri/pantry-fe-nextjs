@@ -11,6 +11,10 @@ import image from '/app/favicon.ico';
 import Pagination from "@/app/ui/search/pagination";
 import {SearchPage} from "@/app/lib/definitions";
 import {searchPaginatedItems} from "@/app/lib/data";
+import {Box} from "@mui/material";
+import Breadcrumbs from "@/app/ui/dashboard/breadcrumbs";
+import SimpleDialogDemo from "@/app/ui/search/results";
+import ResultsDialog from "@/app/ui/search/results";
 
 export default async function Page({searchParams}: {
     searchParams?: {
@@ -26,20 +30,20 @@ export default async function Page({searchParams}: {
         return null
     }
     const page: SearchPage | null = await searchPaginatedItems(query, session?.token, currentPage);
-    const totalPages = page?.totalPages as number;
+    const totalPages = page?.totalPages ?? 0;
     return (
-        <div className="flex flex-col items-center justify-center md:h-screen">
-            <SearchBar placeholder={'search products...'}/>
+        <Box display={'flex'} flexDirection={'column'}>
+            <Breadcrumbs
+                breadcrumbs={[{label: 'Dashboard', href: '/dashboard'}, {label: 'Search', href: '/dashboard/search'}]}/>
+            <SearchBar placeholder={'What groceries do you need?'}/>
             {(query && query?.length > 0) ?
                 <><Suspense fallback={<Loading/>}>
-                    <Results page={page as SearchPage}/>
-
+                    <ResultsDialog page={page as SearchPage} totalPages={totalPages}/>
                 </Suspense>
-                    <Pagination totalPages={totalPages}/></>
-                :
-                <Image src={image} alt={'prantry icon'} width={100} height={100} className={'mt-3'}/>}
+                </>
+                : null}
 
-        </div>
+        </Box>
 
 
     );
