@@ -2,7 +2,7 @@
 import {useFormStatus} from "react-dom";
 import {registerUser} from "@/app/lib/actions";
 import React, {useState} from "react";
-import {ExclamationCircleIcon, EyeIcon, EyeSlashIcon, MagnifyingGlassIcon} from "@heroicons/react/24/outline";
+import {ExclamationCircleIcon} from "@heroicons/react/24/outline";
 import {ArrowRightIcon} from "@heroicons/react/20/solid";
 import {Box, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, Typography} from "@mui/material";
 import Fab from "@mui/material/Fab";

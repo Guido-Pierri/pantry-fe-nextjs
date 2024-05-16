@@ -1,5 +1,3 @@
-import {Cards} from '@/app/ui/dashboard/cards';
-
 import {fetchUserById} from '@/app/lib/data';
 import {auth} from "@/auth";
 import {User} from "@/app/lib/definitions";
@@ -14,8 +12,6 @@ export default async function Page() {
     const databaseUser: User = session?.dbUser
     if (!databaseUser) return null
     const user = await fetchUserById(databaseUser?.id);
-    const firstName = user?.firstName ?? '';
-    const lastName = user?.lastName ?? '';
 
     return (
 
