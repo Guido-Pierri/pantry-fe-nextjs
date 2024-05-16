@@ -69,7 +69,7 @@ export function Results(props: SimpleDialogProps) {
                         <CloseIcon/>
                     </IconButton>
                     <Typography sx={{ml: 2, flex: 1}} variant="h6" component="div">
-                        Results for "{query}"
+                        Results for &#34;{query}&#34;
                     </Typography>
                 </Toolbar>
             </AppBar>
