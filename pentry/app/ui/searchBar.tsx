@@ -1,31 +1,34 @@
 'use client';
-import {MagnifyingGlassIcon} from '@heroicons/react/24/outline';
 import {usePathname, useSearchParams, useRouter} from 'next/navigation';
 import {useDebouncedCallback} from "use-debounce";
 import {useState} from "react";
-import {Box, Button, InputAdornment, TextField, Typography} from "@mui/material";
-import {AccountCircle} from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
 import Fab from "@mui/material/Fab";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
 import Categories from "@/app/ui/search/categories";
+import {useContext} from 'react';
+import {OpenDialogContext} from './search/open-dialog-context';
+
 
 export default function SearchBar({placeholder}: { placeholder: string }) {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const {replace} = useRouter();
     const [searchQuery, setSearchQuery] = useState('');
+    const {setOpen} = useContext(OpenDialogContext);
+
     const handleSearch = useDebouncedCallback((term) => {
         const params = new URLSearchParams(searchParams);
-        //params.set('page', '1');
 
-        //const params = new URLSearchParams(searchParams);
         setSearchQuery(term)
         if (term) {
             params.set('query', term);
         } else {
             params.delete('query');
         }
-        //replace(`${pathname}?${params.toString()}`);
+
     }, 300);
 
 
@@ -41,6 +44,10 @@ export default function SearchBar({placeholder}: { placeholder: string }) {
             params.delete('query');
         }
         replace(`${pathname}?${params.toString()}`);
+        if (setOpen) {
+            setOpen(true);
+        }
+
 
     }
     return (
@@ -63,7 +70,11 @@ export default function SearchBar({placeholder}: { placeholder: string }) {
                 }}
             />
             <Categories/>
-            <Fab variant="extended" color="primary" sx={{width: '100%', mt: '1rem'}}
+            <Fab variant="extended" color={'primary'}
+                 sx={{
+                     width: '100%',
+                     mt: '1rem',
+                 }}
                  onClick={() => {
                      handleClick();
                  }}>Find
