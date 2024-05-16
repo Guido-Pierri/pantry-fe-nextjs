@@ -4,11 +4,6 @@ import {auth} from "@/auth";
 import {Suspense} from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import Loading from "@/app/loading";
-import {MagnifyingGlassCircleIcon} from "@heroicons/react/24/outline";
-import {EmojiFoodBeverage, FoodBankOutlined, NoFoodOutlined} from "@mui/icons-material";
-import Image from "next/image";
-import image from '/app/favicon.ico';
-import Pagination from "@/app/ui/search/pagination";
 import {SearchPage} from "@/app/lib/definitions";
 import {searchPaginatedItems} from "@/app/lib/data";
 import {Box} from "@mui/material";
@@ -23,6 +18,7 @@ export default async function Page({searchParams}: {
     };
 }) {
     const query = searchParams?.query ?? '';
+    console.log('query in search page', query)
     const currentPage = Number(searchParams?.page) ?? 1;
 
     const session = await auth()
@@ -38,7 +34,7 @@ export default async function Page({searchParams}: {
             <SearchBar placeholder={'What groceries do you need?'}/>
             {(query && query?.length > 0) ?
                 <><Suspense fallback={<Loading/>}>
-                    <ResultsDialog page={page as SearchPage} totalPages={totalPages}/>
+                    <ResultsDialog page={page as SearchPage} totalPages={totalPages} query={query}/>
                 </Suspense>
                 </>
                 : null}
