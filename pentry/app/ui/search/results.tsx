@@ -49,7 +49,9 @@ export function Results(props: SimpleDialogProps) {
     const handleClose = () => {
         console.log('handle close')
         setSearchQuery('')
-        setOpen(false);
+        if (setOpen) {
+            setOpen(false);
+        }
         console.log('open', open)
     };
     return (
