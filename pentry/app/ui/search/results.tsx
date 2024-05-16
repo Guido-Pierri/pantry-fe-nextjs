@@ -31,6 +31,7 @@ export interface SimpleDialogProps {
 }
 
 export function Results(props: SimpleDialogProps) {
+    const {open, setOpen} = useContext(OpenDialogContext);
     const [searchQuery, setSearchQuery] = useState('');
 
     const {totalPages, query} = props;
@@ -41,7 +42,6 @@ export function Results(props: SimpleDialogProps) {
 
 
 // Inside your component
-    const {open, setOpen} = useContext(OpenDialogContext);
 
     const items = page.content;
     console.log('page', page)
