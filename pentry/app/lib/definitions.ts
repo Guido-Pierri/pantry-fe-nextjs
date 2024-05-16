@@ -83,6 +83,11 @@ export type SearchItem = {
     image: string;
     brand: string;
     category: string;
+    bruteWeight: string;
+    drainedWeight: string;
+    ingredients: string;
+    productClassifications: string;
+    size: string;
 };
 //export type SearchDto = SearchItem[];
 export type SearchPage = {

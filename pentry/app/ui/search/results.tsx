@@ -1,25 +1,20 @@
 'use client';
-import {searchPaginatedItems} from "@/app/lib/data";
 import {SearchPage} from "@/app/lib/definitions";
 import Link from "next/link";
 import {
     Avatar,
-    Box, Button,
+    Box,
     Dialog,
     DialogTitle,
-    Grid,
     List,
     ListItem,
-    ListItemAvatar, ListItemButton,
+    ListItemAvatar,
     ListItemText,
     Typography
 } from "@mui/material";
 import Image from "next/image";
 import BrokenImageIcon from "@mui/icons-material/BrokenImage";
 import image from "@/app/images/404-error.png";
-import {blue} from "@mui/material/colors";
-import AddIcon from "@mui/icons-material/Add";
-import PersonIcon from "@mui/icons-material/Person";
 import {useState} from "react";
 import Pagination from "@/app/ui/search/pagination";
 
@@ -33,10 +28,6 @@ export interface SimpleDialogProps {
 export async function Results(props: SimpleDialogProps) {
     const {open, totalPages} = props;
 
-    const handleClose = () => {
-    };
-
-
     const page = props.page;
     if (!page) return null;
     const items = page.content;
@@ -44,7 +35,7 @@ export async function Results(props: SimpleDialogProps) {
     return (
 
         <Dialog open={open}>
-            <DialogTitle>Set backup account</DialogTitle>
+            <DialogTitle>Results</DialogTitle>
             <List dense={true}>
                 {items.length > 0 ? items?.map((item) => (
 
@@ -83,9 +74,6 @@ export default function ResultsDialog({
     totalPages: number;
 }) {
     const [open, setOpen] = useState(true);
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
 
     const handleClose = () => {
         setOpen(false);
@@ -96,9 +84,6 @@ export default function ResultsDialog({
             <Typography variant="subtitle1" component="div">
             </Typography>
             <br/>
-            <Button variant="outlined" onClick={handleClickOpen}>
-                Open simple dialog
-            </Button>
             <Results
                 open={open}
                 onClose={handleClose}
