@@ -1,60 +1,58 @@
 'use client'
 import {useFormState} from "react-dom";
-import {registerUser, saveCustomItem} from "@/app/lib/actions";
+import {saveCustomItem} from "@/app/lib/actions";
 import Link from "next/link";
-import {Button} from "@/app/ui/button";
+import Button from "@mui/material/Button";
 import React from "react";
 import {ExclamationCircleIcon} from "@heroicons/react/24/outline";
-import {auth} from "@/auth";
-import {getSession} from "next-auth/react";
+import Box from "@mui/material/Box";
+import {Typography} from "@mui/material";
+import TextField from "@mui/material/TextField";
+import MenuItem from '@mui/material/MenuItem';
+import Fab from "@mui/material/Fab";
 
 export default async function CreateForm({categories}: { categories: string[] | undefined }) {
 
     const [errorMessage, dispatch] = useFormState(saveCustomItem, undefined);
-    return <form action={dispatch}>
-        <div className={'flex flex-col mt-6'}>
-            <div className={'text-xl font-bold'}>
+    return <Box component="form" action={dispatch}>
+        <Box /*className={'flex flex-col mt-6'}>*/ flexDirection={'column'} border={"black"}>
+            <Typography variant={'h6'}>
                 Add a custom item to your pantry
+            </Typography>
+            <TextField id={"name"}
+                       name={"name"}
+                       label={"Enter name"}
+                       type={"text"}
+                       placeholder={'Item'}
+                       required={true}
+                       fullWidth={true}
+                       margin={"normal"}/>
+            <TextField id={"category"}
+                       select
+                       name={"category"}
+                       label={"Select a category"}
+                       placeholder={'Category'}
+                       required={true}
+                       fullWidth={true}
+                       margin={"normal"}>
+                {categories?.map((option) => (
+                    <MenuItem key={option?.indexOf(option)} value={option}>
+                        {option}
+                    </MenuItem>
+                ))}
+            </TextField>
+            <TextField id={"expirationDate"}
+                       name={"expirationDate"}
+                       type={"date"}
+                       required={true}
+                       fullWidth={true}
+                       margin={"normal"}/>
 
-            </div>
+        </Box>
+        <Box display={"flex"} justifyContent={'end'} /*className="mt-6 flex justify-end gap-4"*/>
 
-            <label htmlFor={"name"}>Enter name</label>
-            <input id={"name"} name={"name"} type={"text"} placeholder={'Item name'} required={true}/>
-            <label htmlFor={"category"}>Select a Category</label>
-
-
-            <div>
-                <select id={"category"} name={"category"} required={true}
-
-                >
-                    <option value="" disabled>
-                        Choose a Category
-                    </option>
-                    {categories?.map((category) => (
-
-                            <option key={category} value={category}>
-                                {category}</option>
-                        )
-                    )}
-                </select>
-
-            </div>
-
-            <label htmlFor={"expirationDate"}>When does it expire?</label>
-            <input placeholder={'Expiration date'} id={"expirationDate"} name={"expirationDate"}
-                   type={"date"}
-                   required={true}
-            />
-        </div>
-        <div className="mt-6 flex justify-end gap-4">
-            <Link
-                href="/dashboard/admin-page"
-                className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
-            >
-                Cancel
-            </Link>
-            <Button type="submit">Save Item</Button>
-        </div>
+            <Fab variant={'extended'} color={'primary'} type="submit">Save Item</Fab>
+        </Box>
         <div
             className="flex h-8 items-end space-x-1"
 
@@ -64,5 +62,5 @@ export default async function CreateForm({categories}: { categories: string[] | 
                 <p className="text-sm text-red-500">{errorMessage}</p>
             </> : null}
         </div>
-    </form>
+    </Box>
 }
