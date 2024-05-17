@@ -26,6 +26,7 @@ export default async function Page({searchParams}: {
     if (!session?.token) {
         return null
     }
+    console.log('categories', categories)
     return (
         <><Breadcrumbs
             breadcrumbs={[
@@ -39,10 +40,10 @@ export default async function Page({searchParams}: {
             <Box flex={'auto'} flexDirection={'column'} alignContent={'center'}>
 
                 <CreateForm categories={categories}/>
-                <Link href={'/dashboard/search'}><Fab variant="extended">
+                {/*<Link href={'/dashboard/search'}><Fab color={'primary'} variant="extended">
                     <SearchIcon/>
                     Search for a product
-                </Fab></Link>
+                </Fab></Link>*/}
             </Box>
         </>
     )
