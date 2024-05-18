@@ -1,13 +1,12 @@
 'use client';
-import {SearchPage} from "@/app/lib/definitions";
+import {SearchItem, SearchPage} from "@/app/lib/definitions";
 import Link from "next/link";
 import {
     AppBar,
     Avatar,
     Box,
-    Button,
     Dialog,
-    DialogTitle, IconButton,
+    IconButton,
     List,
     ListItem,
     ListItemAvatar,
@@ -18,9 +17,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Image from "next/image";
 import BrokenImageIcon from "@mui/icons-material/BrokenImage";
 import image from "@/app/images/404-error.png";
-import {useState} from "react";
 import Pagination from "@/app/ui/search/pagination";
-import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {useContext} from 'react';
 import {OpenDialogContext} from './open-dialog-context';
 
@@ -32,7 +29,6 @@ export interface SimpleDialogProps {
 
 export function Results(props: SimpleDialogProps) {
     const {open, setOpen} = useContext(OpenDialogContext);
-    const [searchQuery, setSearchQuery] = useState('');
 
     const {totalPages, query} = props;
 
@@ -43,12 +39,11 @@ export function Results(props: SimpleDialogProps) {
 
 // Inside your component
 
-    const items = page.content;
+    const items: SearchItem[] = page?.content;
     console.log('page', page)
     console.log('query in results', query)
     const handleClose = () => {
         console.log('handle close')
-        setSearchQuery('')
         if (setOpen) {
             setOpen(false);
         }
@@ -74,21 +69,22 @@ export function Results(props: SimpleDialogProps) {
                 </Toolbar>
             </AppBar>
             <List dense={true}>
-                {items.length > 0 ? items?.map((item) => (
+                {items?.length > 0 ? items?.map((item) => (
 
                     <Link href={`/dashboard/pantry/add-item/items/${item.gtin}`} key={item.gtin}>
                         <ListItem key={item.gtin}>
                             <ListItemAvatar>
                                 <Avatar>
                                     {item.image ?
-                                        <Image src={item?.image} alt={item.name} width={50}
+                                        <Image src={item?.image} alt={item?.name} width={50}
                                                height={50}/> : <BrokenImageIcon/>}
                                 </Avatar>
                             </ListItemAvatar>
                             <ListItemText
-                                primary={item.name}
-                                secondary={item?.brand ? item.brand : null}
+                                primary={item?.name && item.size ? item?.name + ' ' + item.size : item.name}
+                                secondary={item?.brand ? item?.brand : null}
                             />
+
                         </ListItem>
                     </Link>
                 )) : <Box display={"flex"} flexDirection={'column'} alignItems="center" mt={10}
@@ -99,30 +95,5 @@ export function Results(props: SimpleDialogProps) {
             <Pagination totalPages={totalPages}/>
 
         </Dialog>
-    );
-}
-
-
-export default function ResultsDialog({
-
-                                          page, totalPages, query
-                                      }: {
-    page: SearchPage;
-    totalPages: number;
-    query: string;
-}) {
-
-
-    console.log('query in results dialog', query)
-    return (
-        <div>
-            <Typography variant="subtitle1" component="div">
-            </Typography>
-            <Results
-                page={page}
-                totalPages={totalPages}
-                query={query}
-            />
-        </div>
     );
 }
