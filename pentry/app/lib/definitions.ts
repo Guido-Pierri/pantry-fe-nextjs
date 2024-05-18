@@ -89,7 +89,6 @@ export type SearchItem = {
     productClassifications: string;
     size: string;
 };
-//export type SearchDto = SearchItem[];
 export type SearchPage = {
     content: SearchItem[];
     pageable: {
