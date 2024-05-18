@@ -23,6 +23,9 @@ export default async function Page({searchParams}: {
         return null
     }
     const page = await searchPaginatedItems(query, session?.token, currentPage);
+    if (!page) {
+        return null;
+    }
     const totalPages = page?.totalPages ?? 0;
     return (
         <Box display={'flex'} flexDirection={'column'}>
