@@ -35,10 +35,7 @@ export default function Results(props: SimpleDialogProps) {
     const page = props.page;
 
     if (!page) return null;
-
-
-// Inside your component
-
+    
     const items: SearchItem[] = page?.content;
     console.log('page', page)
     console.log('query in results', query)

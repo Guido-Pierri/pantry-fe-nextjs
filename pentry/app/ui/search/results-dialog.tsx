@@ -1,5 +1,5 @@
 import {SearchPage} from "@/app/lib/definitions";
-import {Results} from "@/app/ui/search/results";
+import Results from "@/app/ui/search/results";
 
 export default function ResultsDialog({
                                           page, totalPages, query
