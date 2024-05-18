@@ -27,7 +27,7 @@ export interface SimpleDialogProps {
     query: string;
 }
 
-export function Results(props: SimpleDialogProps) {
+export default function Results(props: SimpleDialogProps) {
     const {open, setOpen} = useContext(OpenDialogContext);
 
     const {totalPages, query} = props;
