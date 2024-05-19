@@ -1,16 +1,26 @@
 import {SearchPage} from "@/app/lib/definitions";
 import Results from "@/app/ui/search/results";
+import {searchPaginatedItems} from "@/app/lib/data";
+import {auth} from "@/auth";
 
-export default function ResultsDialog({
-                                          page, totalPages, query
-                                      }: Readonly<{
-    page: SearchPage;
-    totalPages: number;
-    query: string;
+export default async function ResultsDialog({
+                                                searchParams
+                                            }: Readonly<{
+    searchParams?: {
+        page?: string;
+        query?: string;
+    };
 }>) {
 
+    const session = await auth()
+    if (!session?.token) {
+        return null
+    }
+    const currentPage = Number(searchParams?.page) ?? 1;
+    const query = searchParams?.query ?? '';
+    const page = await searchPaginatedItems(query, session?.token, currentPage);
+    const totalPages: number = page?.totalPages ?? 0;
 
-    console.log('query in results dialog', query)
     return (
         <div>
             <Results

@@ -7,7 +7,7 @@ import {
 } from '@heroicons/react/24/outline';
 import {lusitana} from '@/app/ui/fonts';
 import Link from "next/link";
-import {CustomItem, Item, SearchItem} from "@/app/lib/definitions";
+import {CustomItem, Ingredient, Item, Recipe, SearchItem} from "@/app/lib/definitions";
 import Image from "next/image";
 import {Box, Card, CardContent, CardHeader, CardMedia, Typography} from "@mui/material";
 import theme from "@/theme";
@@ -108,6 +108,31 @@ export function PantryItemCard({item}: { item: Item }): ReactNode {
             <Typography variant="h6" color="secondary.main">Expires: {item.expirationDate}</Typography>
         </CardContent>
     </Card>;
+}
+
+export function RecipeCard({recipe}: { recipe: Recipe }): ReactNode {
+    const image: string | undefined = recipe?.image || ITEM_IMAGE;
+    const title: string = recipe?.title || 'Recipe';
+    const ingredients: Ingredient[] = recipe?.usedIngredients || [];
+    console.log('recipe', recipe, 'ingredients', ingredients)
+    return (
+        <Card key={recipe.id} sx={{position: 'relative', overflow: 'hidden', padding: '1rem'}}>
+            {image ? <CardMedia
+                component="img"
+                image={recipe.image}
+                alt={recipe.title}
+                sx={imageStyle}/> : null}
+
+            <CardContent sx={{backgroundColor: "primary.contrastText"}}>
+                <Typography variant={"h5"}>
+                    {title}</Typography>
+                <Typography variant="h6">Ingredients:</Typography>
+                {recipe.usedIngredients.map((ingredient: Ingredient) => (
+                    <Typography key={ingredient.id} variant="h6">{ingredient.name}</Typography>
+                ))}
+            </CardContent>
+        </Card>
+    )
 }
 
 export function AddItemCard({item}: { item: Item }): ReactNode {

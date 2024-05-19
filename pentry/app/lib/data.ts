@@ -1,7 +1,5 @@
-import {CustomItem, Item, PantryDto, SearchItem, SearchPage, User,} from './definitions';
+import {CustomItem, Item, PantryDto, RecipeCollection, SearchItem, SearchPage, User,} from './definitions';
 import {auth} from "@/auth";
-import {redirect} from "next/navigation";
-import {Session} from "next-auth";
 
 const apiUrl = process.env.SQL_DATABASE;
 
@@ -36,7 +34,7 @@ export async function searchItems(query: string, currentPage: number): Promise<S
     return data;
 }
 
-export async function searchPaginatedItems(query: string, token: string, page?: number, size?: number): Promise<Promise<SearchPage> | null> {
+export async function searchPaginatedItems(query: string, token: string, page?: number, size?: number) {
     console.log('inside searchPaginatedItems')
     console.log('query', query);
     console.log('token', token)
@@ -240,3 +238,22 @@ export async function fetchCategories(): Promise<Promise<string[]> | null> {
     return res.json();
 }
 
+export async function fetchRecipes(ingredients: string): Promise<Promise<RecipeCollection>> {
+    console.log('ingredients', ingredients)
+
+    const apiKey = process.env.SPOONACULAR_API_KEY
+    console.log('apiKey', apiKey)
+    const urlApi = process.env.SPOONACULAR_API_URL
+    console.log('urlApi', urlApi)
+    const number = 10
+    const url = `${urlApi}/recipes/findByIngredients?ingredients=${ingredients}&number=${number}`
+    console.log('url', url)
+    const res = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': `${apiKey}`
+        },
+    });
+    return res.json();
+}
