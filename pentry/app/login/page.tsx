@@ -3,23 +3,39 @@ import LoginForm from "@/app/ui/login-form";
 import {SignIn} from "@/app/ui/auth/auth-components";
 import {auth} from "@/auth";
 import Link from "next/link";
+import Box from "@mui/material/Box";
+import {Typography} from "@mui/material";
+import theme from "@/theme";
+import {blue} from "@mui/material/colors";
+import Fab from "@mui/material/Fab";
+import Button from "@mui/material/Button";
 
 export default async function LoginPage() {
     const session = await auth()
     if (!session?.user) return (
-        <main className="flex items-center justify-center md:h-screen">
-            <div className="relative mx-auto flex w-full max-w-[400px] flex-col space-y-2.5 p-4 md:-mt-32">
-                <div className="flex h-20 w-full items-end rounded-lg bg-blue-500 p-3 md:h-36">
-                    <h1 className={`${croissant.className} w-32 text-white md:w-36`}>
+        <Box /*className="flex items-center justify-center md:h-screen"*/>
+            <Box /*className="relative mx-auto flex w-full max-w-[400px] flex-col space-y-2.5 p-4 md:-mt-32"*/>
+                <Box display={'flex'} flexDirection={'row'} justifyContent={'center'} alignItems={'center'}
+                     sx={{
+                         borderRadius: "1rem",
+                         padding: 3,
+                         margin: '1rem',
+                         backgroundColor: 'primary.main',
+                     }} /*className="flex h-20 w-full items-end rounded-lg bg-blue-500 p-3 md:h-36"*/>
+                    <Typography fontSize={32} color={'white'}
+                                fontFamily={croissant.style.fontFamily}/*w-32 text-white md:w-36`*/>
                         Pantry Partner
-                    </h1>
-                </div>
-                Don&apos;t have an account? <Link className={`${croissant.className} text-blue-500 font-extrabold`}
-                                                  href='/signup'>Sign
-                up</Link>
+                    </Typography>
+                </Box>
                 <LoginForm/>
-                <SignIn provider={'google'} data={'Log in with Google'}></SignIn>
-            </div>
-        </main>
+            </Box>
+            <SignIn provider={'google'}></SignIn>
+            <Box display={'flex'} flexDirection={'row'} justifyContent={'center'} mt={'1rem'}
+                 alignItems={'center'}>
+
+                <Typography>Don&apos;t have an account?</Typography>
+                <Button size={"small"} href={'/signup'} color={'primary'}>Sign up</Button>
+            </Box>
+        </Box>
     );
 }
