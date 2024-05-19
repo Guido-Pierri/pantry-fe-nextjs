@@ -1,12 +1,8 @@
-import Recipes from "@/app/ui/recipes/recipes";
 import Box from "@mui/material/Box";
-import {Card, CardContent, ImageList, ImageListItem, List, ListItem, Typography} from "@mui/material";
+import {ImageList} from "@mui/material";
 import {fetchRecipes} from "@/app/lib/data";
-import {Key} from "react";
 import {Recipe, RecipeCollection} from "@/app/lib/definitions";
 import {RecipeCard} from "@/app/ui/dashboard/cards";
-import openaiTest from "@/app/openai-test";
-import OpenAiTest from "@/app/openai-test";
 
 export default async function Page() {
     /* const recipes = [
