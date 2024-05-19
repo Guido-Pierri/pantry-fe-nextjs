@@ -121,3 +121,33 @@ export type UserField = {
     firstName: string;
     lastName: string;
 };
+
+export type Recipe = {
+    id: number;
+    title: string;
+    image: string;
+    imageType: string;
+    usedIngredientCount: number;
+    missedIngredientCount: number;
+    missedIngredients: Ingredient[];
+    usedIngredients: Ingredient[];
+    unusedIngredients: any[];  // Adjust the type accordingly if there are more details available for unused ingredients
+    likes: number;
+};
+
+export type Ingredient = {
+    id: number;
+    amount: number;
+    unit: string;
+    unitLong: string;
+    unitShort: string;
+    aisle: string;
+    name: string;
+    original: string;
+    originalName: string;
+    meta: string[];
+    image: string;
+    extendedName?: string;  // Optional field for extended names where applicable
+};
+
+export type RecipeCollection = Recipe[];
