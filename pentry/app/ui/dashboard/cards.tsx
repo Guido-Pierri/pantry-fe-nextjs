@@ -128,7 +128,7 @@ export function RecipeCard({recipe}: { recipe: Recipe }): ReactNode {
                     {title}</Typography>
                 <Typography variant="h6">Ingredients:</Typography>
                 {recipe.usedIngredients.map((ingredient: Ingredient) => (
-                    <Typography variant="h6">{ingredient.name}</Typography>
+                    <Typography key={ingredient.id} variant="h6">{ingredient.name}</Typography>
                 ))}
             </CardContent>
         </Card>
