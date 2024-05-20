@@ -3,12 +3,19 @@ import {useFormStatus} from "react-dom";
 import {registerUser} from "@/app/lib/actions";
 import React, {useState} from "react";
 import {ExclamationCircleIcon} from "@heroicons/react/24/outline";
-import {ArrowRightIcon} from "@heroicons/react/20/solid";
-import {Box, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, Typography} from "@mui/material";
-import Fab from "@mui/material/Fab";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import InputLabel from "@mui/material/InputLabel";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+
+import InputAdornment from "@mui/material/InputAdornment";
 import {FormControl} from "@mui/base";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
-import {croissant} from "@/app/ui/fonts";
+import Button from "@mui/material/Button";
+import ReportGmailerrorredIcon from "@mui/icons-material/ReportGmailerrorred";
 
 
 export default function SignUpForm() {
@@ -43,54 +50,50 @@ export default function SignUpForm() {
     };
 
     return (
-
         <Box
-            component="form" onSubmit={handleSubmit} flexDirection={'column'} sx={{alignItems: 'flex-start'}}
+            component="form" onSubmit={handleSubmit} flexDirection={'column'}
             m={'1rem'}>
-            <div
-                className={`${croissant.className} text-3xl text-white mb-2 flex h-20 items-end justify-center rounded-md bg-blue-600 p-4 md:h-40`}
-            >Pantry Partner
-
-            </div>
-            <Typography variant={'h5'}>Sign up to Pantry partner</Typography>
-            <div>
+            <Typography variant={'h6'}>Sign up to Pantry partner</Typography>
+            <FormControl>
+                <InputLabel sx={{marginTop: '1rem'}} htmlFor="firstName">Enter First Name</InputLabel>
                 <TextField id="firstName"
-                           label="First name"
                            variant="outlined"
                            required={true}
                            fullWidth={true}
-                           sx={{marginTop: '1rem'}}
+                           placeholder={'First Name'}
                            value={firstName}
                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFirstName(e.target.value)}
 
                 />
-            </div>
-            <div>
+            </FormControl>
+            <FormControl>
+                <InputLabel sx={{marginTop: '1rem'}} htmlFor="lastName">Enter Last Name</InputLabel>
                 <TextField id="lastName"
-                           label="Last name"
                            variant="outlined"
                            required={true}
                            fullWidth={true}
-                           sx={{marginTop: '1rem'}}
+                           placeholder={'Last Name'}
                            value={lastName}
                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLastName(e.target.value)}
 
                 />
-            </div>
-            <div>
+            </FormControl>
+            <FormControl>
+                <InputLabel sx={{marginTop: '1rem'}}
+                            htmlFor="password">Enter Email</InputLabel>
                 <TextField id="email"
-                           label="Email"
                            variant="outlined"
                            required={true}
                            fullWidth={true}
-                           sx={{marginTop: '1rem'}}
                            value={email}
+                           placeholder={'Email'}
                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
 
                 />
-            </div>
+            </FormControl>
             <FormControl>
-                <InputLabel htmlFor="password">Password</InputLabel>
+                <InputLabel sx={{marginTop: '1rem'}} htmlFor="password">Enter Password</InputLabel>
+
                 <OutlinedInput
                     id="password"
                     type={isVisiblePass ? 'text' : 'password'}
@@ -106,7 +109,6 @@ export default function SignUpForm() {
                             </IconButton>
                         </InputAdornment>
                     }
-                    label="Password"
                     fullWidth={true}
                     value={password}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
@@ -114,7 +116,7 @@ export default function SignUpForm() {
                 />
             </FormControl>
             <FormControl>
-                <InputLabel htmlFor="confirmPassword">Confirm Password</InputLabel>
+                <InputLabel sx={{marginTop: '1rem'}} htmlFor="confirmPassword">Confirm Password</InputLabel>
                 <OutlinedInput
                     id="confirmPassword"
                     type={isVisiblePass ? 'text' : 'password'}
@@ -130,7 +132,6 @@ export default function SignUpForm() {
                             </IconButton>
                         </InputAdornment>
                     }
-                    label="Confirm password"
                     fullWidth={true}
                     value={confirmPassword}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmPassword(e.target.value)}
@@ -139,18 +140,16 @@ export default function SignUpForm() {
             </FormControl>
             <SignupButton/>
 
-            <div
-                className="flex h-8 items-end space-x-1"
+            <Box
                 aria-live="polite"
                 aria-atomic="true"
             >
                 {errorMessage && (
-                    <>
-                        <ExclamationCircleIcon className="h-5 w-5 text-red-500"/>
-                        <p className="text-sm text-red-500">{errorMessage}</p>
-                    </>
-                )}
-            </div>
+                    <Box display={'flex'} flexDirection={'row'} justifyContent={"center"}>
+                        <ReportGmailerrorredIcon color={"error"}/>
+                        <Typography color={'error'}>{errorMessage}</Typography>
+                    </Box>)}
+            </Box>
         </Box>
     );
 }
@@ -158,9 +157,12 @@ export default function SignUpForm() {
 function SignupButton() {
     const {pending} = useFormStatus();
     return (
-        <Fab variant={'extended'} color={'primary'} sx={{marginTop: '1rem', minWidth: 'fit-content'}} type={'submit'}
-             aria-disabled={pending}>
-            Sign up <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50"/>
-        </Fab>
+        <Button variant={'contained'} color={'primary'} fullWidth={true}
+                sx={{marginTop: '1rem', minWidth: 'fit-content'}}
+                type={'submit'}
+                aria-disabled={pending}>
+            Sign up <ArrowForwardIcon sx={{marginLeft: '1rem'}}/>
+        </Button>
+
     );
 }
