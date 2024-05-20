@@ -29,6 +29,7 @@ export default async function LoginPage() {
                 </Box>
                 <LoginForm/>
             </Box>
+            <Typography textAlign={'center'}>Or sign in with</Typography>
             <SignIn provider={'google'}></SignIn>
             <Box display={'flex'} flexDirection={'row'} justifyContent={'center'} mt={'1rem'}
                  alignItems={'center'}>
