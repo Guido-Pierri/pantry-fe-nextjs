@@ -1,20 +1,43 @@
-import Link from "next/link";
+'use client';
 import {croissant} from "@/app/ui/fonts";
 import {ArrowRightEndOnRectangleIcon} from "@heroicons/react/24/outline";
+import {Typography} from "@mui/material";
+import {useEffect} from "react";
+import {useRouter} from "next/navigation";
+import {Box, Link} from '@mui/material';
 
 export default function Home() {
+    const router = useRouter();
+
+    useEffect(() => {
+        setTimeout(() => {
+            router.push('/dashboard');
+        }, 3000);
+    }, []);
     return (
-        <main className="flex min-h-screen flex-col items-center justify-between p-24">
-            <div className="flex flex-col items-center justify-center">
-
-                <Link className={`${croissant.className} text-2xl font-bold  text-center mt-8 text-blue-400`} href={"/dashboard"}>
-                    Pantry Partner!
+        <Box sx={{
+            display: 'flex',
+            minHeight: '100vh',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            p: 24
+        }}>
+            <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+                <Link href="/dashboard" sx={{
+                    typography: 'h2',
+                    color: 'primary.main',
+                    fontFamily: croissant.style.fontFamily,
+                    mt: 8,
+                    textAlign: 'center',
+                    textDecoration: 'none',
+                }}>
+                    Pantry Partner
                 </Link>
-                <p className="text-l text-center mt-4 ">
+                <Typography sx={{mt: 4, textAlign: 'center'}}>
                     Manage groceries and minimize food waste
-                </p>
-
-            </div>
-        </main>
+                </Typography>
+            </Box>
+        </Box>
     )
 }
