@@ -17,7 +17,7 @@ export function SignIn({
                  await signIn(provider)
              }}
         >
-            <Button variant={'contained'} type={'submit'} fullWidth={true}> Log in with Google</Button>
+            <Button variant={'contained'} type={'submit'} fullWidth={true}>Google</Button>
         </Box>
     )
 }
