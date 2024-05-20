@@ -2,7 +2,7 @@
 import {Avatar, Box, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, Typography} from "@mui/material";
 import {Item, Pantry, PantryDto, User} from "@/app/lib/definitions";
 import DeleteIcon from "@mui/icons-material/Delete";
-import Link from "next/link";
+import Link from "@mui/material/Link";
 import Image from "next/image";
 import pantryPic from "@/app/images/shelving.png";
 import Fab from "@mui/material/Fab";
@@ -98,22 +98,27 @@ export default function RenderPantry({pantry, userFromDatabase}: { pantry: Pantr
                     </Grid>
                 </Grid>
 
-                : <div className='flex flex-col justify-between items-center md:justify-around relative'>
-                    <div className={'font-bold text-xl'}>Your pantry is empty</div>
+                : <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    position: 'relative'
+                }}>
+                    <Typography variant="h5" component="div" sx={{fontWeight: 'bold'}}>
+                        Your pantry is empty
+                    </Typography>
                     <Image
                         src={pantryPic}
-                        alt={"Empty pantry"}
-                        priority={true} // {false} | {true}
-
+                        alt="Empty pantry"
+                        priority
                     />
-                    <Link href={'/dashboard/pantry/add-item'} className={'absolute right-9 top-2/3'}>
-                        <Fab
-                            color="primary"
-                            aria-label="add"
-                            variant={'extended'}>
-                            <AddIcon/>Add Items
-                        </Fab></Link>
-                </div>}
+                    <Link href="/dashboard/pantry/add-item">
+                        <Fab color="primary" aria-label="add" variant="extended">
+                            <AddIcon/> Add Items
+                        </Fab>
+                    </Link>
+                </Box>}
 
         </>)
 }
