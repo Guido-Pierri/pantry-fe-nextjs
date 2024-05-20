@@ -1,85 +1,57 @@
 'use client';
-
-import {lusitana} from '@/app/ui/fonts';
-import {
-    AtSymbolIcon,
-    KeyIcon,
-    ExclamationCircleIcon,
-} from '@heroicons/react/24/outline';
-import {ArrowRightIcon} from '@heroicons/react/20/solid';
 import Button from '@mui/material/Button';
 import {useFormState, useFormStatus} from 'react-dom';
 import {authenticate} from '@/app/lib/actions';
 import Box from "@mui/material/Box";
 import {Typography} from "@mui/material";
+import TextField from "@mui/material/TextField";
+import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 export default function LoginForm() {
     const [errorMessage, dispatch] = useFormState(authenticate, undefined);
 
     return (
         <Box component={"form"} action={dispatch} className="space-y-3">
-            <div className="flex-1 rounded-lg px-6 pb-4 pt-8">
-                <Typography /*className={`${lusitana.className} mb-3 text-2xl`}*/>
+            <Box padding={'1.5rem'}>
+                <Typography>
                     Please log in to continue.
                 </Typography>
-                <div className="w-full">
-                    <div>
-                        <label
-                            className="mb-3 mt-5 block text-xs font-medium text-gray-900"
-                            htmlFor="email"
-                        >
-                            Email
-                        </label>
-                        <div className="relative">
-                            <input
-                                className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
-                                id="email"
-                                type="email"
-                                name="email"
-                                placeholder="Enter your email address"
-                                required
-                            />
-                            <AtSymbolIcon
-                                className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900"/>
-                        </div>
-                    </div>
-                    <div className="mt-4">
-                        <label
-                            className="mb-3 mt-5 block text-xs font-medium text-gray-900"
-                            htmlFor="password"
-                        >
-                            Password
-                        </label>
-                        <div className="relative">
-                            <input
-                                className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
-                                id="password"
-                                type="password"
-                                name="password"
-                                placeholder="Enter password"
-                                required
-                                minLength={6}
-                            />
-                            <KeyIcon
-                                className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900"/>
-                        </div>
-                    </div>
-                </div>
+                <Box mt={'1.5rem'}>
+                    <TextField
+                        id={'email'}
+                        type={'email'}
+                        name={'email'}
+                        placeholder={'Enter your email address'}
+                        required={true}
+                        fullWidth={true}
+                    >
+                    </TextField>
+                    <TextField sx={{marginTop: '1rem'}}
+                               id={'password'}
+                               type={'password'}
+                               name={'password'}
+                               placeholder={'Enter your password'}
+                               required={true}
+                               fullWidth={true}
+                    >
+                    </TextField>
+                </Box>
                 <LoginButton/>
 
-                <div
-                    className="flex h-8 items-end space-x-1"
+                <Box
                     aria-live="polite"
                     aria-atomic="true"
                 >
                     {errorMessage && (
-                        <>
-                            <ExclamationCircleIcon className="h-5 w-5 text-red-500"/>
-                            <p className="text-sm text-red-500">{errorMessage}</p>
-                        </>
-                    )}
-                </div>
-            </div>
+                        <Box display={'flex'} flexDirection={'row'} justifyContent={"center"}>
+                            <ReportGmailerrorredIcon color={"error"}/>
+                            <Typography color={'error'}>errorMessage</Typography>
+                        </Box>)}
+
+
+                </Box>
+            </Box>
         </Box>
     );
 }
@@ -89,7 +61,7 @@ function LoginButton() {
 
     return (
         <Button variant={'contained'} type={'submit'} fullWidth={true} aria-disabled={pending} sx={{marginTop: '1rem'}}>
-            Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50"/>
+            Sign in <ArrowForwardIcon sx={{marginLeft: '1rem'}}/>
         </Button>
     );
 }
