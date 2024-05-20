@@ -9,6 +9,7 @@ import {
     User,
 } from './definitions';
 import {auth} from "@/auth";
+import {revalidatePath} from "next/cache";
 
 const apiUrl = process.env.SQL_DATABASE;
 
@@ -276,7 +277,7 @@ export async function fetchMyKitchenRecipes(ingredients: string[]): Promise<Prom
     const limit = 3
     const url = `${urlApi}?limit=${limit}`
     console.log('url', url)
-    const body = JSON.stringify({queryIngredients: ingredientsArray});
+    const body = JSON.stringify({availableIngredients: ingredientsArray});
     console.log('body', body)
     const res = await fetch(url, {
         method: 'POST',
@@ -285,6 +286,7 @@ export async function fetchMyKitchenRecipes(ingredients: string[]): Promise<Prom
         },
         body: body
     });
+    revalidatePath('/dashboard/recipies')
     return res.json();
 }
 

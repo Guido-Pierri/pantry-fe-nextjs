@@ -36,15 +36,8 @@ export async function saveSearchItem(pantryId: number, name: string, gtin: strin
     console.log('Response Status:', res.status);
     const data = await res.json();
     console.log('data', data)
+    revalidatePath('/dashboard/pantry')
     redirect('/dashboard/pantry')
-
-    /*
-    * FIXME: Revalidate data
-    */
-    /*revalidatePath('/add')
-    return {message: stringify(data)}*/
-
-
 }
 
 export async function saveCustomItem(state: null | undefined, formData: FormData): Promise<Promise<any> | Promise<string>> {
@@ -83,7 +76,7 @@ export async function saveCustomItem(state: null | undefined, formData: FormData
         return 'Error'
     }
     revalidatePath('/dashboard')
-    //redirect('/dashboard')
+    redirect('/dashboard')
 
 
     /*
