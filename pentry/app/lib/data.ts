@@ -1,4 +1,13 @@
-import {CustomItem, Item, PantryDto, RecipeCollection, SearchItem, SearchPage, User,} from './definitions';
+import {
+    CustomItem,
+    Item,
+    MyKitchenRecipesApiResponse,
+    PantryDto,
+    RecipeCollection,
+    SearchItem,
+    SearchPage, TranslationResponse,
+    User,
+} from './definitions';
 import {auth} from "@/auth";
 
 const apiUrl = process.env.SQL_DATABASE;
@@ -211,6 +220,7 @@ export async function fetchAllRoles(): Promise<Promise<string[]> | null> {
 
 export async function fetchUserById(id: string): Promise<Promise<User> | null> {
     const session = await auth()
+    console.log('session?.token', session?.token)
     const res = await fetch(`${apiUrl}/api/v1/users/${id}`, {
         method: 'GET',
         headers: {
@@ -257,3 +267,86 @@ export async function fetchRecipes(ingredients: string): Promise<Promise<RecipeC
     });
     return res.json();
 }
+
+export async function fetchMyKitchenRecipes(ingredients: string[]): Promise<Promise<MyKitchenRecipesApiResponse>> {
+    console.log('ingredients', ingredients)
+    const ingredientsArray = ingredients.map((item) => item.toLowerCase().replace(/\s+/g, '')).slice(0, 3);
+    const urlApi = process.env.MYKITCHENRECIPES_API_URL
+    console.log('urlApi', urlApi)
+    const limit = 3
+    const url = `${urlApi}?limit=${limit}`
+    console.log('url', url)
+    const body = JSON.stringify({queryIngredients: ingredientsArray});
+    console.log('body', body)
+    const res = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: body
+    });
+    return res.json();
+}
+
+export async function fetchPantryCategories(): Promise<Promise<string[]>> {
+    console.log('inside fetchPantryCategories')
+    const session = await auth()
+    console.log('session?.token', session?.token)
+    const res = await fetch(`${apiUrl}/api/v1/pantry/article-categories`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session?.token}`
+        },
+    });
+    console.log('Response Status:', res.status);
+    if (res.status === 403) {
+        return [];
+    }
+    return res.json();
+}
+
+
+export async function translateText(text: string): Promise<TranslationResponse> {
+    const {v4: uuidv4} = require('uuid');
+
+    const key = "6e4fc531bb7e4fc0ba0157b155bc04bf";
+    const endpoint = "https://api.cognitive.microsofttranslator.com";
+    const location = "swedencentral";
+    const url = `${endpoint}/translate?api-version=3.0&from=en&to=sv`;
+
+    const headers = {
+        'Ocp-Apim-Subscription-Key': key,
+        'Ocp-Apim-Subscription-Region': location,
+        'Content-type': 'application/json',
+        'X-ClientTraceId': uuidv4().toString(),
+    };
+
+    const body = JSON.stringify([
+        {
+            'text': text
+        }
+    ]);
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: headers,
+            body: body,
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('Translated text:', data?.[0]?.translations?.[0]?.text);
+        console.log('stringified:', JSON.stringify(data, null, 4));
+        return data;
+    } catch (error) {
+        console.error('Error translating text:', error);
+        return [];
+    }
+}
+
+
