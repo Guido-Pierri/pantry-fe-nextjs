@@ -21,7 +21,6 @@ export default async function Page({params}: { params: { gtin: string } }) {
     const pantry = await fetchPantryByUserId(id)
     const pantryId: number = pantry?.id as number
     return (
-
         <AddItem gtin={gtin} pantryId={pantryId} item={item}/>
 
 

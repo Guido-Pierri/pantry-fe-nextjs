@@ -14,9 +14,10 @@ import Link from "next/link";
 
 export default async function Page() {
 
-    const ingredientsArray = await fetchPantryCategories();
-    (ingredientsArray).filter((item) => item.includes(' '))
+    let ingredientsArray = await fetchPantryCategories();
+    console.log('ingredientsArray', ingredientsArray)
     const ingredientsFiltered = (ingredientsArray).filter((item) => !item.includes(' '))
+    console.log('ingredientsFiltered', ingredientsFiltered)
     const ingredientString = ingredientsArray?.map((item) => item).join('');
     console.log('ingredientString', ingredientString)
     const nrOfElements = (ingredientsArray).length + 1;
