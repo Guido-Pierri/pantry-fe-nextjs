@@ -122,6 +122,23 @@ export type UserField = {
     lastName: string;
 };
 
+export interface MyKitchenRecipesApiResponse {
+    data: {
+        recipes: MyKitchenRecipesApiRecipe[];
+    };
+}
+
+export interface MyKitchenRecipesApiRecipe {
+    id: string;
+    title: string;
+    description: string;
+    image: string;
+    url: string;
+    source: string;
+    rank: number;
+}
+
+
 export type Recipe = {
     id: number;
     title: string;
@@ -151,3 +168,13 @@ export type Ingredient = {
 };
 
 export type RecipeCollection = Recipe[];
+
+
+export type Translation = {
+    text: string;
+    to: string;
+};
+
+export type TranslationResponse = {
+    translations: Translation[];
+}[];
