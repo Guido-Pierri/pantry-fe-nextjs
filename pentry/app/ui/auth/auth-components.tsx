@@ -1,22 +1,24 @@
 import {signIn, signOut} from "@/auth"
-import {Button} from "@/app/ui/button"
+import Button from "@mui/material/Button"
 import React from "react";
+import Box from "@mui/material/Box";
 
 
 export function SignIn({
-                           provider,data,
+                           provider
                        }:
-                           { provider?: string,
-                               data?:string }) {
+                           {
+                               provider?: string,
+                           }) {
     return (
-        <form
-            action={async () => {
-                "use server"
-                await signIn(provider)
-            }}
+        <Box component={"form"} m={'1.5rem'}
+             action={async () => {
+                 "use server"
+                 await signIn(provider)
+             }}
         >
-            <Button >{data}</Button>
-        </form>
+            <Button variant={'contained'} type={'submit'} fullWidth={true}> Log in with Google</Button>
+        </Box>
     )
 }
 
