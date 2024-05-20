@@ -37,7 +37,7 @@ export default async function Page() {
                 <List dense={true}>
                     {recipes?.data?.recipes?.map((item: MyKitchenRecipesApiRecipe) => (
                         item && item?.image ?
-                            <Link href={item.url}><Card key={item.id}>
+                            <Link key={item.id} href={item.url}><Card>
                                 <CardActionArea>
 
                                     <CardMedia
