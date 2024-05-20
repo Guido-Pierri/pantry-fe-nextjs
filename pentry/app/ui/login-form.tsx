@@ -46,7 +46,7 @@ export default function LoginForm() {
                     {errorMessage && (
                         <Box display={'flex'} flexDirection={'row'} justifyContent={"center"}>
                             <ReportGmailerrorredIcon color={"error"}/>
-                            <Typography color={'error'}>errorMessage</Typography>
+                            <Typography color={'error'}>{errorMessage}</Typography>
                         </Box>)}
 
 
