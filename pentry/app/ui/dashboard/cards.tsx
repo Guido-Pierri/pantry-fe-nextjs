@@ -34,7 +34,7 @@ export function Cards(
         {
             title: string;
             value: number | string;
-            type: 'items' | 'search' | 'recipes' | 'addItem' | 'pantryItem';
+            type: 'items' | 'search' | 'recipes' | 'addItem' | 'pantryItem' | 'user';
             item?: CustomItem | Item | undefined;
         }) {
     const Icon = iconMap[type];
