@@ -3,6 +3,7 @@ import {auth} from "@/auth";
 import {fetchCategories} from "@/app/lib/data";
 import Breadcrumbs from "@/app/ui/dashboard/breadcrumbs";
 import {Box} from "@mui/material";
+import {Suspense} from "react";
 
 export default async function Page({searchParams}: {
     searchParams?: {
@@ -14,8 +15,11 @@ export default async function Page({searchParams}: {
     const query = searchParams?.query ?? '';
     const currentPage = Number(searchParams?.page) || 1;
 
-    const categories = await fetchCategories() || undefined
+    const categories = await fetchCategories()
     if (!session?.token) {
+        return null
+    }
+    if (!categories) {
         return null
     }
     console.log('categories', categories)

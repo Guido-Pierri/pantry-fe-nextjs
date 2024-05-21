@@ -2,18 +2,21 @@ import {croissant} from "@/app/ui/fonts";
 import LoginForm from "@/app/ui/login-form";
 import {SignIn} from "@/app/ui/auth/auth-components";
 import {auth} from "@/auth";
-import Link from "next/link";
 import Box from "@mui/material/Box";
 import {Typography} from "@mui/material";
-import theme from "@/theme";
-import {blue} from "@mui/material/colors";
-import Fab from "@mui/material/Fab";
 import Button from "@mui/material/Button";
+import bcrypt from 'bcryptjs';
 
 export default async function LoginPage() {
     const session = await auth()
+
     if (!session?.user) return (
-        <Box>
+        <Box sx={{
+            width: '100%', // default to full width
+            '@media (min-width:600px)': {
+                width: '600px',
+            },
+        }}>
             <Box>
                 <Box display={'flex'} flexDirection={'row'} justifyContent={'center'} alignItems={'center'}
                      sx={{

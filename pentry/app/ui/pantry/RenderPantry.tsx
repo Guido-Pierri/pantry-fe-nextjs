@@ -1,6 +1,6 @@
 'use client'
 import {Avatar, Box, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, Typography} from "@mui/material";
-import {Item, Pantry, PantryDto, User} from "@/app/lib/definitions";
+import {Item, PantryDto, User} from "@/app/lib/definitions";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Link from "@mui/material/Link";
 import Image from "next/image";
@@ -8,7 +8,6 @@ import pantryPic from "@/app/images/shelving.png";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import {deleteItemById} from "@/app/lib/actions";
-import {useState} from "react";
 import theme from "@/theme";
 
 export default function RenderPantry({pantry, userFromDatabase}: { pantry: PantryDto, userFromDatabase: User }) {
