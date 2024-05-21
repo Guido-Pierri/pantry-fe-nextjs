@@ -3,10 +3,6 @@ import {auth} from "@/auth";
 import {fetchCategories} from "@/app/lib/data";
 import Breadcrumbs from "@/app/ui/dashboard/breadcrumbs";
 import {Box} from "@mui/material";
-import Link from '@mui/material/Link';
-import {Suspense} from "react";
-import Fab from "@mui/material/Fab";
-import SearchIcon from "@mui/icons-material/Search";
 
 export default async function Page({searchParams}: {
     searchParams?: {

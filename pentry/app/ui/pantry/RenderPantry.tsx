@@ -1,16 +1,5 @@
 'use client'
-import {
-    Avatar,
-    Box,
-    Container,
-    Grid,
-    IconButton,
-    List,
-    ListItem,
-    ListItemAvatar,
-    ListItemText,
-    Typography
-} from "@mui/material";
+import {Avatar, Box, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, Typography} from "@mui/material";
 import {Item, PantryDto, User} from "@/app/lib/definitions";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Link from "@mui/material/Link";
@@ -42,8 +31,7 @@ export default function RenderPantry({pantry, userFromDatabase}: { pantry: Pantr
         }
     }
     return (
-        <>
-
+        <Box>
             {pantry && pantry.items.length > 0 ?
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={6}>
@@ -70,7 +58,7 @@ export default function RenderPantry({pantry, userFromDatabase}: { pantry: Pantr
                                         </IconButton>
                                     }
                                 >
-                                    <Link href={`/dashboard/pantry/items/${item.id}`}>
+                                    <Link href={`/dashboard/pantry/items/${item.id}`} underline={'none'}>
                                         <ListItemAvatar>
                                             <Avatar style={{overflow: 'hidden', position: 'relative'}}>
                                                 <Image src={item.image}
@@ -82,7 +70,7 @@ export default function RenderPantry({pantry, userFromDatabase}: { pantry: Pantr
                                             </Avatar>
                                         </ListItemAvatar>
                                     </Link>
-                                    <Link href={`/dashboard/pantry/items/${item.id}`}>
+                                    <Link href={`/dashboard/pantry/items/${item.id}`} underline={'none'}>
                                         <ListItemText
                                             primary={`${item.name}`}
                                             secondary={calculateExpiring(item.expirationDate) ?
@@ -104,13 +92,12 @@ export default function RenderPantry({pantry, userFromDatabase}: { pantry: Pantr
                                 aria-label="add"
                                 variant={'extended'}
                                 size={'small'}
-                                sx={{padding: '.5rem'}}
                             >
                                 <AddIcon/>Add Items
                             </Fab></Link>
                         <Link href={'/dashboard/search'}>
                             <Fab size={"small"} color={'primary'} variant="extended"
-                                 sx={{marginLeft: '1rem', padding: '.5rem'}}>
+                                 sx={{marginLeft: '1rem'}}>
                                 <SearchIcon/>
                                 Search for a product
                             </Fab></Link>
@@ -135,19 +122,19 @@ export default function RenderPantry({pantry, userFromDatabase}: { pantry: Pantr
                     />
                     <Box display={"flex"} justifyContent={'space-evenly'}>
                         <Link href="/dashboard/pantry/add-item">
-                            <Fab size={"small"} color="primary" aria-label="add" variant="extended"
-                                 sx={{padding: '.5rem'}}>
+                            <Fab size={"small"} color="primary" aria-label="add" variant="extended">
                                 <AddIcon/> Add Items
                             </Fab>
                         </Link>
                         <Link href={'/dashboard/search'}>
                             <Fab size={"small"} color={'primary'} variant="extended"
-                                 sx={{marginLeft: '1rem', padding: '.5rem'}}>
+                                 sx={{marginLeft: '1rem',}}>
                                 <SearchIcon/>
                                 Search for a product
                             </Fab></Link>
                     </Box>
                 </Box>}
 
-        </>)
+        </Box>
+    )
 }

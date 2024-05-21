@@ -1,17 +1,10 @@
 'use client';
 
-import {
-    UserGroupIcon,
-    HomeIcon,
-    DocumentDuplicateIcon,
-    MagnifyingGlassIcon,
-    CubeIcon, ClipboardIcon, RectangleStackIcon, PlusIcon, UserCircleIcon
-} from '@heroicons/react/24/outline';
+import {ClipboardIcon, HomeIcon, RectangleStackIcon, UserCircleIcon} from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import {usePathname} from 'next/navigation';
 import clsx from 'clsx';
 
-// ...
 
 export default function NavLinks({roles}: { roles: string }) {
     const pathname = usePathname();
