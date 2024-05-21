@@ -3,7 +3,10 @@ import {auth} from "@/auth";
 import {fetchCategories} from "@/app/lib/data";
 import Breadcrumbs from "@/app/ui/dashboard/breadcrumbs";
 import {Box} from "@mui/material";
+import Link from '@mui/material/Link';
 import {Suspense} from "react";
+import Fab from "@mui/material/Fab";
+import SearchIcon from "@mui/icons-material/Search";
 
 export default async function Page({searchParams}: {
     searchParams?: {
@@ -24,24 +27,18 @@ export default async function Page({searchParams}: {
     }
     console.log('categories', categories)
     return (
-        <><Breadcrumbs
-            breadcrumbs={[
-                {label: 'My Pantry', href: '/dashboard/pantry'},
-                {
-                    label: 'Add Item',
-                    href: '/dashboard/pantry/add-item',
-                    active: true,
-                },
-            ]}/>
-            <Box flex={'auto'} flexDirection={'column'} alignContent={'center'}>
-
-                <CreateForm categories={categories}/>
-                {/*<Link href={'/dashboard/search'}><Fab color={'primary'} variant="extended">
-                    <SearchIcon/>
-                    Search for a product
-                </Fab></Link>*/}
-            </Box>
-        </>
+        <Box flex={'auto'} flexDirection={'column'} alignContent={'center'}>
+            <Breadcrumbs
+                breadcrumbs={[
+                    {label: 'My Pantry', href: '/dashboard/pantry'},
+                    {
+                        label: 'Add Item',
+                        href: '/dashboard/pantry/add-item',
+                        active: true,
+                    },
+                ]}/>
+            <CreateForm categories={categories}/>
+        </Box>
     )
 
 }
