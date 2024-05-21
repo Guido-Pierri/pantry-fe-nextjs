@@ -1,5 +1,16 @@
 'use client'
-import {Avatar, Box, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, Typography} from "@mui/material";
+import {
+    Avatar,
+    Box,
+    Container,
+    Grid,
+    IconButton,
+    List,
+    ListItem,
+    ListItemAvatar,
+    ListItemText,
+    Typography
+} from "@mui/material";
 import {Item, PantryDto, User} from "@/app/lib/definitions";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Link from "@mui/material/Link";
@@ -9,6 +20,8 @@ import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import {deleteItemById} from "@/app/lib/actions";
 import theme from "@/theme";
+import SearchIcon from "@mui/icons-material/Search";
+import React from "react";
 
 export default function RenderPantry({pantry, userFromDatabase}: { pantry: PantryDto, userFromDatabase: User }) {
 
@@ -30,6 +43,7 @@ export default function RenderPantry({pantry, userFromDatabase}: { pantry: Pantr
     }
     return (
         <>
+
             {pantry && pantry.items.length > 0 ?
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={6}>
@@ -82,16 +96,23 @@ export default function RenderPantry({pantry, userFromDatabase}: { pantry: Pantr
                                 </ListItem>
 
                             </List>
-                        )}<Box display={'flex'} flexDirection={'column'} mt={'1rem'}>
+                        )}<Box display={'flex'} justifyContent={'space-evenly'} mt={'1rem'}>
 
                         <Link href={'/dashboard/pantry/add-item'}>
                             <Fab
                                 color="primary"
                                 aria-label="add"
                                 variant={'extended'}
-                                sx={{width: '100%'}}
+                                size={'small'}
+                                sx={{padding: '.5rem'}}
                             >
                                 <AddIcon/>Add Items
+                            </Fab></Link>
+                        <Link href={'/dashboard/search'}>
+                            <Fab size={"small"} color={'primary'} variant="extended"
+                                 sx={{marginLeft: '1rem', padding: '.5rem'}}>
+                                <SearchIcon/>
+                                Search for a product
                             </Fab></Link>
                     </Box>
                     </Grid>
@@ -112,11 +133,20 @@ export default function RenderPantry({pantry, userFromDatabase}: { pantry: Pantr
                         alt="Empty pantry"
                         priority
                     />
-                    <Link href="/dashboard/pantry/add-item">
-                        <Fab color="primary" aria-label="add" variant="extended">
-                            <AddIcon/> Add Items
-                        </Fab>
-                    </Link>
+                    <Box display={"flex"} justifyContent={'space-evenly'}>
+                        <Link href="/dashboard/pantry/add-item">
+                            <Fab size={"small"} color="primary" aria-label="add" variant="extended"
+                                 sx={{padding: '.5rem'}}>
+                                <AddIcon/> Add Items
+                            </Fab>
+                        </Link>
+                        <Link href={'/dashboard/search'}>
+                            <Fab size={"small"} color={'primary'} variant="extended"
+                                 sx={{marginLeft: '1rem', padding: '.5rem'}}>
+                                <SearchIcon/>
+                                Search for a product
+                            </Fab></Link>
+                    </Box>
                 </Box>}
 
         </>)

@@ -1,8 +1,6 @@
 'use client'
 import {useFormState} from "react-dom";
 import {saveCustomItem} from "@/app/lib/actions";
-import Link from "next/link";
-import Button from "@mui/material/Button";
 import React from "react";
 import {ExclamationCircleIcon} from "@heroicons/react/24/outline";
 import Box from "@mui/material/Box";
@@ -11,11 +9,17 @@ import TextField from "@mui/material/TextField";
 import MenuItem from '@mui/material/MenuItem';
 import Fab from "@mui/material/Fab";
 
-export default async function CreateForm({categories}: { categories: string[] | undefined }) {
+export default function CreateForm({categories}: { categories: string[] }) {
 
     const [errorMessage, dispatch] = useFormState(saveCustomItem, undefined);
+    const [optionCategories, setOptionCategories] = React.useState<string[]>([]);
+    React.useEffect(() => {
+        if (categories) {
+            setOptionCategories(categories)
+        }
+    }, [categories]);
     return <Box component="form" action={dispatch}>
-        <Box /*className={'flex flex-col mt-6'}>*/ flexDirection={'column'} border={"black"}>
+        <Box flexDirection={'column'} border={"black"}>
             <Typography variant={'h6'}>
                 Add a custom item to your pantry
             </Typography>
@@ -35,8 +39,8 @@ export default async function CreateForm({categories}: { categories: string[] | 
                        required={true}
                        fullWidth={true}
                        margin={"normal"}>
-                {categories?.map((option) => (
-                    <MenuItem key={option?.indexOf(option)} value={option}>
+                {optionCategories && optionCategories?.map((option) => (
+                    <MenuItem key={option && option} value={option}>
                         {option}
                     </MenuItem>
                 ))}
@@ -49,10 +53,11 @@ export default async function CreateForm({categories}: { categories: string[] | 
                        margin={"normal"}/>
 
         </Box>
-        <Box display={"flex"} justifyContent={'end'} /*className="mt-6 flex justify-end gap-4"*/>
-
-            <Fab variant={'extended'} color={'primary'} type="submit">Save Item</Fab>
+        <Box display={"flex"} justifyContent={'space-evenly'}>
+            <Fab variant={'extended'} color={'primary'} type="submit" size={'small'} sx={{padding: '.5rem'}}>Save
+                Item</Fab>
         </Box>
+
         <div
             className="flex h-8 items-end space-x-1"
 
