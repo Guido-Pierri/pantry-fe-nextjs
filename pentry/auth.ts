@@ -3,28 +3,27 @@ import NextAuth from "next-auth"
 import GitHub from "next-auth/providers/github"
 import Google from "next-auth/providers/google"
 import Credentials from 'next-auth/providers/credentials';
-import bcrypt from 'bcryptjs';
 import {z} from 'zod';
 import {DatabaseError, User} from '@/app/lib/definitions';
 import authConfig from "@/auth.config";
 import {createGoogleUser} from "@/app/lib/actions";
-import {stringify} from "node:querystring";
 
 const apiUrl = process.env.SQL_DATABASE;
 
 export async function getUser(email: string, password: string): Promise<User | undefined> {
     console.log('inside getUser')
+    console.log('email', email)
+    console.log('password', password)
     try {
         console.log('inside try')
 
-        const req = {password: password}
         const user = await fetch(`${apiUrl}/api/v1/users/login/${email}`,
             {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(req)
+                body: password
             });
         if (user.status === 404) {
             console.log('user not found')

@@ -12,7 +12,7 @@ export default function LoginForm() {
     const [errorMessage, dispatch] = useFormState(authenticate, undefined);
 
     return (
-        <Box component={"form"} action={dispatch} className="space-y-3">
+        <Box component={"form"} action={dispatch}>
             <Box padding={'1.5rem'}>
                 <Typography>
                     Please log in to continue.
