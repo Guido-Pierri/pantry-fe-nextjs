@@ -1,15 +1,15 @@
 'use client';
 import {
-    MagnifyingGlassIcon,
     ClipboardDocumentListIcon,
+    MagnifyingGlassIcon,
+    PlusIcon,
     RectangleStackIcon,
-    PlusIcon
+    UserCircleIcon
 } from '@heroicons/react/24/outline';
-import {lusitana} from '@/app/ui/fonts';
 import Link from "next/link";
 import {CustomItem, Ingredient, Item, Recipe, SearchItem} from "@/app/lib/definitions";
 import Image from "next/image";
-import {Box, Card, CardContent, CardHeader, CardMedia, Typography} from "@mui/material";
+import {Box, Card, CardContent, CardMedia, Typography} from "@mui/material";
 import theme from "@/theme";
 import React, {ReactNode, useState} from "react";
 import AddIcon from "@mui/icons-material/Add";
@@ -25,6 +25,7 @@ const iconMap = {
     search: MagnifyingGlassIcon,
     recipes: ClipboardDocumentListIcon,
     addItem: PlusIcon,
+    user: UserCircleIcon,
     pantryItem: undefined
 };
 

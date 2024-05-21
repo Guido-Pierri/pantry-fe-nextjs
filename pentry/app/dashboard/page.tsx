@@ -12,9 +12,9 @@ export default async function Page() {
     const databaseUser: User = session?.dbUser
     if (!databaseUser) return null
     const user = await fetchUserById(databaseUser?.id);
-
+    if (!user) return null
     return (
 
-        user ? <RenderDashboard/> : Loading()
+        databaseUser ? <RenderDashboard user={databaseUser}/> : Loading()
     );
 }

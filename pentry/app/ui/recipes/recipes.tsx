@@ -22,8 +22,8 @@ export default function Recipes({recipes}: { recipes: MyKitchenRecipesApiRecipe[
                 <List dense={true}>
                     {recipes?.map((item: MyKitchenRecipesApiRecipe) => (
                         item && item?.image ?
-                            <Link key={item.id} href={item.url}><Card
-                                sx={{marginBottom: '1rem', textDecoration: 'none',}}>
+                            <Link key={item.id} href={item.url} underline={"none"}><Card
+                                sx={{marginBottom: '1rem',}}>
                                 <CardActionArea>
                                     <CardMedia
                                         component="img"

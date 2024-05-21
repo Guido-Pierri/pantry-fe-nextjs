@@ -1,16 +1,18 @@
-import {JSX} from "react";
 import Link from "next/link";
 import {Cards} from "@/app/ui/dashboard/cards";
 import {Box, Typography} from "@mui/material";
+import {User} from "@/app/lib/definitions";
 
-export default function RenderDashboard(): JSX.Element {
+export default function RenderDashboard({user}: { user: User }) {
+    console.log('user', user)
     return (
         <>
             <Typography variant={'h5'} mb={'1rem'}>Welcome to Pantry Partner!</Typography>
             <Box>
-                <Link href={"/dashboard/pantry"} style={{margin: '1rem'}}><Cards title="My Pantry"
-                                                                                 value={''}
-                                                                                 type="items"/>
+                <Link href={"/dashboard/pantry"} style={{margin: '1rem'}}><Cards
+                    title="My Pantry"
+                    value={''}
+                    type="items"/>
                 </Link>
                 <Link href={"/dashboard/recipes"} style={{margin: '1rem'}}><Cards title="Recipes" value={''}
                                                                                   type="recipes"/></Link>
@@ -18,7 +20,12 @@ export default function RenderDashboard(): JSX.Element {
                                                                                           type="addItem"/></Link>
                 <Link href={"/dashboard/search"} style={{margin: '1rem'}}><Cards title="Search" value={''}
                                                                                  type="search"/></Link>
-
+                {user.roles == 'ADMIN' ?
+                    <Link href={"/dashboard/admin-page"} style={{margin: '1rem'}}>
+                        <Cards title="Admin page" value={''} type="user"/></Link>
+                    : <Link href={"/dashboard/profile-page"} style={{margin: '1rem'}}><Cards title="Profile page"
+                                                                                             value={''}
+                                                                                             type="user"/></Link>}
             </Box>
         </>
     );
