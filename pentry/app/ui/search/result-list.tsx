@@ -1,10 +1,10 @@
-import Results from "@/app/ui/search/results";
-import {searchPaginatedItems} from "@/app/lib/data";
 import {Session} from "next-auth";
+import {searchPaginatedItems} from "@/app/lib/data";
+import ResultsAsList from "@/app/ui/search/resaults-as-list";
 
-export default async function ResultsDialog({
-                                                searchParams, session
-                                            }: Readonly<{
+export default async function ResultsList({
+                                              searchParams, session
+                                          }: Readonly<{
     searchParams?: {
         page?: string;
         query?: string;
@@ -22,7 +22,7 @@ export default async function ResultsDialog({
 
     return (
         <div>
-            <Results
+            <ResultsAsList
                 page={page}
                 totalPages={totalPages}
                 query={query}

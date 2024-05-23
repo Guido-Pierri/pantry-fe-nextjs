@@ -10,14 +10,14 @@ import {
     List,
     ListItem,
     ListItemAvatar,
-    ListItemText, Toolbar,
+    ListItemText,
+    Toolbar,
     Typography,
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import Image from "next/image";
 import BrokenImageIcon from "@mui/icons-material/BrokenImage";
 import image from "@/app/images/404-error.png";
-import Pagination from "@/app/ui/search/pagination";
 import {useContext} from 'react';
 import {OpenDialogContext} from './open-dialog-context';
 
@@ -25,17 +25,20 @@ export interface SimpleDialogProps {
     page: SearchPage;
     totalPages: number;
     query: string;
+    currentPage: number;
 }
 
 export default function Results(props: SimpleDialogProps) {
     const {open, setOpen} = useContext(OpenDialogContext);
 
-    const {totalPages, query} = props;
+    const {totalPages, query, currentPage, page} = props;
 
-    const page = props.page;
 
-    if (!page) return null;
-    
+    const createPageURL = (pageNumber: number | string) => {
+        const params = new URLSearchParams(query);
+        params.set('page', pageNumber.toString());
+        return `${location?.pathname}?${params?.toString()}`;
+    }
     const items: SearchItem[] = page?.content;
     console.log('page', page)
     console.log('query in results', query)
@@ -89,8 +92,6 @@ export default function Results(props: SimpleDialogProps) {
                     <Typography variant={'h5'}>No results found</Typography>
                     <Image src={image} alt={'not found'}/></Box>}
             </List>
-            <Pagination totalPages={totalPages}/>
-
         </Dialog>
     );
 }
