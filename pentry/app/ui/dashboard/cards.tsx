@@ -19,7 +19,7 @@ import {LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DemoContainer} from "@mui/x-date-pickers/internals/demo";
 import {ITEM_IMAGE} from "@/app/lib/constants";
-import ImageMissing from "@/app/images/image-missing.webp";
+import ImageMissing from "/app/images/image-missing.webp";
 
 const iconMap = {
     items: RectangleStackIcon,
