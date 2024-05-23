@@ -1,26 +1,41 @@
-import Link from 'next/link';
-import NavLinks from '@/app/ui/dashboard/nav-links';
-import {ArrowRightEndOnRectangleIcon, ClipboardIcon, PowerIcon, UserCircleIcon} from '@heroicons/react/24/outline';
-import {auth, signOut} from '@/auth';
+import {auth} from '@/auth';
 import {croissant} from "@/app/ui/fonts";
 import {User} from "@/app/lib/definitions";
+import {Typography} from "@mui/material";
+import Box from "@mui/material/Box";
+import NavLinks from "@/app/ui/dashboard/nav-links";
+import {fetchPantryByUserId} from "@/app/lib/data";
 
-export default async function SideNav() {
+export default async function SideNav({searchParams}: {
+    searchParams?: {
+        query?: string;
+        page?: string;
+    }
+}) {
     const session = await auth();
     const user = session?.user as User;
     const roles = user?.roles;
-
-
+    const pantry = await fetchPantryByUserId(user?.id);
+    if (!pantry) return null;
+    if (!session?.token) return null;
     return (
-        <div className="flex h-full flex-col px-3 py-4 md:px-2">
-            <Link
-                className={`${croissant.className} text-3xl text-white mb-2 flex h-20 items-end justify-center rounded-md bg-blue-600 p-4 md:h-40`}
-                href="/"
-            >Pantry Partner
-
-            </Link>
-            <div className="flex grow flex-row justify-evenly space-x-2 md:flex-col md:space-x-0 md:space-y-2">
-                {session?.token ? (<NavLinks roles={roles}/>) : null}
+        <Box>
+            <Box display={'flex'} flexDirection={'row'} justifyContent={'center'} alignItems={'center'}
+                 sx={{
+                     borderRadius: "1rem",
+                     padding: 3,
+                     margin: '1rem',
+                     backgroundColor: 'primary.main',
+                 }}>
+                <Typography fontSize={32} color={'white'}
+                            fontFamily={croissant.style.fontFamily}>
+                    Pantry Partner
+                </Typography>
+            </Box>
+            <Box>
+                <NavLinks user={user} pantry={pantry} searchParams={searchParams} session={session}/>
+            </Box>
+            {/*
                 <div className="hidden h-auto w-full grow rounded-md bg-gray-50 md:block"></div>
                 {session?.token ? (<form
                     action={async () => {
@@ -47,7 +62,7 @@ export default async function SideNav() {
                         <div className="">Sign In</div>
                     </button>
                 </form>}
-            </div>
-        </div>
+            </div>*/}
+        </Box>
     );
 }

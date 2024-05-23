@@ -1,15 +1,14 @@
 'use client';
-import {usePathname, useSearchParams, useRouter} from 'next/navigation';
+import {usePathname, useRouter, useSearchParams} from 'next/navigation';
 import {useDebouncedCallback} from "use-debounce";
-import {useState} from "react";
+import {useContext, useState} from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import Fab from "@mui/material/Fab";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import Categories from "@/app/ui/search/categories";
-import {useContext} from 'react';
-import {OpenDialogContext} from './search/open-dialog-context';
+import {OpenDialogContext} from './open-dialog-context';
 
 
 export default function SearchBar({placeholder}: { placeholder: string }) {
@@ -56,6 +55,7 @@ export default function SearchBar({placeholder}: { placeholder: string }) {
                 id="input-with-icon-textfield"
                 variant={'outlined'}
                 sx={{width: '100%'}}
+                type="search"
                 placeholder={placeholder}
                 onChange={(e) => {
                     handleSearch(e.target.value);
@@ -69,6 +69,7 @@ export default function SearchBar({placeholder}: { placeholder: string }) {
                     ),
                 }}
             />
+
             <Categories/>
             <Fab variant="extended" color={'primary'}
                  sx={{

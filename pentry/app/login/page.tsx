@@ -5,7 +5,6 @@ import {auth} from "@/auth";
 import Box from "@mui/material/Box";
 import {Typography} from "@mui/material";
 import Button from "@mui/material/Button";
-import bcrypt from 'bcryptjs';
 
 export default async function LoginPage() {
     const session = await auth()
@@ -24,9 +23,9 @@ export default async function LoginPage() {
                          padding: 3,
                          margin: '1rem',
                          backgroundColor: 'primary.main',
-                     }} /*className="flex h-20 w-full items-end rounded-lg bg-blue-500 p-3 md:h-36"*/>
+                     }}>
                     <Typography fontSize={32} color={'white'}
-                                fontFamily={croissant.style.fontFamily}/*w-32 text-white md:w-36`*/>
+                                fontFamily={croissant.style.fontFamily}>
                         Pantry Partner
                     </Typography>
                 </Box>

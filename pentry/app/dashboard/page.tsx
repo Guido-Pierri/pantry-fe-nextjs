@@ -6,6 +6,8 @@ import Loading from "@/app/loading";
 
 export default async function Page() {
     const session = await auth()
+    console.log('session in dashboard', session)
+    if (!session) return null
     const token = session?.token;
     console.log(token)
     if (!token) return null
@@ -14,7 +16,6 @@ export default async function Page() {
     const user = await fetchUserById(databaseUser?.id);
     if (!user) return null
     return (
-
         databaseUser ? <RenderDashboard user={databaseUser}/> : Loading()
     );
 }

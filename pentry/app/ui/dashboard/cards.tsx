@@ -19,6 +19,7 @@ import {LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DemoContainer} from "@mui/x-date-pickers/internals/demo";
 import {ITEM_IMAGE} from "@/app/lib/constants";
+import ImageMissing from "@/app/images/image-missing.webp";
 
 const iconMap = {
     items: RectangleStackIcon,
@@ -99,7 +100,10 @@ export function PantryItemCard({item}: { item: Item }): ReactNode {
             component="img"
             image={item.image}
             alt={item.name}
-            sx={imageStyle}/> : null}
+            sx={imageStyle}/> : <Image
+            src={ImageMissing}
+            width={600}
+            alt={item.name}/>}
 
         <CardContent sx={{backgroundColor: "primary.contrastText"}}>
             <Typography variant={"h5"}>
@@ -107,6 +111,27 @@ export function PantryItemCard({item}: { item: Item }): ReactNode {
             <Typography variant={'h6'}>{item.brand}</Typography>
             <Typography variant="h6">Quantity: {item.quantity}</Typography>
             <Typography variant="h6" color="secondary.main">Expires: {item.expirationDate}</Typography>
+        </CardContent>
+    </Card>;
+}
+
+export function ResultCard({item}: { item: SearchItem }): ReactNode {
+    const image: string | undefined = item?.image;
+    return <Card key={item.name} sx={{position: 'relative', overflow: 'hidden', padding: '1rem'}}>
+        {image ? <CardMedia
+                component="img"
+                image={item.image}
+                alt={item.name}
+                sx={imageStyle}/> :
+            <Image
+                src={ImageMissing}
+                width={600}
+                alt={item.name}/>}
+
+        <CardContent sx={{backgroundColor: "primary.contrastText"}}>
+            <Typography variant={"h5"}>
+                {item.name}</Typography>
+            <Typography variant={'h6'}>{item.brand}</Typography>
         </CardContent>
     </Card>;
 }
@@ -137,28 +162,24 @@ export function RecipeCard({recipe}: { recipe: Recipe }): ReactNode {
 }
 
 export function AddItemCard({item}: { item: Item }): ReactNode {
-    const image: string | undefined = item?.image || ITEM_IMAGE;
+    const image: string | undefined = item?.image;
     const [isExpiryDate, setIsExpiryDate] = useState(false);
     console.log(isExpiryDate, 'isExpiryDate')
     return (
-        <>
+        <Box>
             <Card key={item.gtin}>
 
                 {image ? <CardMedia
                     component="img"
                     image={item.image}
                     alt={item.name}
-                    sx={imageStyle}/> : null}
+                    sx={imageStyle}/> : <Image
+                    src={ImageMissing}
+                    width={600}
+                    alt={item.name}/>}
                 <CardContent>
                     <Typography variant={"h5"}>
                         {item.name}</Typography>
-
-
-                    {/*<label className={'mt-2'} htmlFor={"expirationDate"}>Set the expiration date</label>
-            <input placeholder={'Expiration date'} id={"expirationDate"} name={"expirationDate"} type={"date"}
-                   onInput={() => setIsExpiryDate(true)}
-                   required={true}/>*/}
-
                 </CardContent>
             </Card>
             <Box mt={'1rem'}>
@@ -183,6 +204,6 @@ export function AddItemCard({item}: { item: Item }): ReactNode {
 
                 <AddIcon/> Save Item
             </Fab> : null}
-        </>
+        </Box>
     )
 }
