@@ -126,15 +126,17 @@ export default function NavLinks({user, pantry, searchParams, session}: {
             </Box>
             <Box>
                 <CustomTabPanel value={value}
-                                index={0}
-                                children={<RenderDashboard user={user}/>}/>
+                                index={0}>
+                    <RenderDashboard user={user}/>
+                </CustomTabPanel>
                 <CustomTabPanel value={value}
-                                index={1}
-                                children={<RenderPantry pantry={pantry}
-                                                        userFromDatabase={user}/>}/>
-
-                <CustomTabPanel value={value} index={2}
-                                children={<ResultsDialog searchParams={searchParams} session={session}/>}/>
+                                index={1}>
+                    <RenderPantry pantry={pantry}
+                                  userFromDatabase={user}/>
+                </CustomTabPanel>
+                <CustomTabPanel value={value} index={2}>
+                    <ResultsDialog searchParams={searchParams} session={session}/>
+                </CustomTabPanel>
                 <CustomTabPanel value={value} index={3}/>
             </Box>
         </Box>

@@ -1,10 +1,8 @@
 'use client';
 import {croissant} from "@/app/ui/fonts";
-import {ArrowRightEndOnRectangleIcon} from "@heroicons/react/24/outline";
-import {Typography} from "@mui/material";
+import {Box, Link, Typography} from "@mui/material";
 import {useEffect} from "react";
 import {useRouter} from "next/navigation";
-import {Box, Link} from '@mui/material';
 
 export default function Home() {
     const router = useRouter();
@@ -13,7 +11,7 @@ export default function Home() {
         setTimeout(() => {
             router.push('/dashboard');
         }, 3000);
-    }, []);
+    }, [router]);
     return (
         <Box sx={{
             display: 'flex',
