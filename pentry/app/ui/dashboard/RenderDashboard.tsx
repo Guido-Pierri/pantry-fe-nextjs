@@ -9,9 +9,9 @@ export default function RenderDashboard({user}: { user: User }) {
     return (
         <Box sx={{
             width: '100%', // default to full width
-            '@media (min-width:600px)': {
+            /*'@media (min-width:600px)': {
                 width: '600px',
-            },
+            },*/
         }}>
             <Typography variant={'h5'} mb={'1rem'}>Welcome to Pantry Partner!</Typography>
             <Box>
