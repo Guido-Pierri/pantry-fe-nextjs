@@ -40,7 +40,7 @@ export default function NavbarLoggedIn() {
                 <Logo/>
                 <Box display={'flex'} flexDirection={'row'} justifyContent={'space-evenly'}
                      alignItems={'center'} width={'full'} sx={{backgroundColor: theme.palette.primary.main}}>
-                    <Link href="/dashboard" underline={"hover"}>
+                    <Link href="/dashboard/pantry" underline={"hover"}>
                         <Typography variant="h6" color={'white'} component="div" padding={1} sx={{
                             '&:hover': {
                                 textDecoration: 'underline', // Change this to the color you want on hover
@@ -49,13 +49,13 @@ export default function NavbarLoggedIn() {
                             Home
                         </Typography>
                     </Link>
-                    <Link href="/dashboard/pantry" underline={"hover"}>
+                    <Link href="/dashboard/recipes" underline={"hover"}>
                         <Typography variant="h6" color={'white'} component="div" padding={1} sx={{
                             '&:hover': {
                                 textDecoration: 'underline', // Change this to the color you want on hover
                             },
                         }}>
-                            My Pantry
+                            Recipes
                         </Typography>
                     </Link>
                     <Link href="/dashboard/search" underline={"hover"}>
