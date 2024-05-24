@@ -65,8 +65,8 @@ export default function ResultsAsList(props: SimpleDialogProps) {
                     <Typography variant={'h5'}>No results found</Typography>
                     <Image src={image} alt={'not found'}/></Box>}
             </Grid>
-            {displayPosts < results.length ? (<Button onClick={loadMore}>Load more</Button>) : null}
-
+            {displayPosts < results.length ? (
+                <Button variant={'contained'} fullWidth={true} onClick={loadMore}>Load more</Button>) : null}
         </Box>
     );
 }
