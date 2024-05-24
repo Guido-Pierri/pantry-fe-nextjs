@@ -1,24 +1,16 @@
 'use client';
-import {Roboto, Lusitana} from 'next/font/google';
-import {inter, lusitana} from '@/app/ui/fonts';
-
+import {croissant, inter} from '@/app/ui/fonts';
 import {createTheme} from '@mui/material/styles';
-
-const roboto = Roboto({
-    weight: ['300', '400', '500', '700'],
-    subsets: ['latin'],
-    display: 'swap',
-});
-
 
 const theme = createTheme({
     // status: {
     //     danger: 'orange',
     // },
-
     typography: {
-        fontFamily: inter.style.fontFamily,
-
+        fontFamily: [
+            inter.style.fontFamily,
+            croissant.style.fontFamily,
+        ].join(','),
     },
     palette: {
         mode: 'light',
@@ -26,7 +18,7 @@ const theme = createTheme({
             default: '#f8f8f8',
         },
         primary: {
-            light: 'rgba(29,118,254,0.3)',
+            light: 'rgb(224 242 254)',
             main: '#1d76fe',
             dark: '#2c41cc',
             contrastText: '#fff',

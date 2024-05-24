@@ -21,12 +21,12 @@ export default async function Layout({children}: { children: React.ReactNode }) 
                     width: '100%'
                 },
             }}>
-                <Navbar/>
+                <Navbar session={session}/>
             </Box>
             <Box
                 padding={'1rem'} sx={{
                 '@media (min-width:600px)': {
-                    width: '600px'
+                    width: '600px',
                 },
             }}>{children}</Box>
         </Box>
