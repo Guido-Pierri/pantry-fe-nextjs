@@ -117,9 +117,6 @@ export const config = {
         authorized({auth, request: {nextUrl}}) {
             const isLoggedIn = !!auth?.user;
             const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
-            const isToken = !!auth?.user?.token;
-            //TODO:check if needed
-            //const isOnSignUp = nextUrl.pathname.startsWith('/signup');
             if (isOnDashboard) {
                 if (isLoggedIn/* && isToken*/) return true;
                 return false; // Redirect unauthenticated users to login page
@@ -135,10 +132,7 @@ export const config = {
                 if (profile?.email && account?.id_token) {
                     console.log('token', account.id_token)
                     const isDbUser = await checkUser(account?.id_token);
-                    /*
-                                        console.log('dbUser in signIn', dbUser)
-                    */
-                    //console.log('await checkUser(profile?.email)', await checkUser(profile?.email))
+
                     if (isDbUser === false) {
                         if (profile?.email && profile?.given_name && profile?.family_name) {
                             const formData = new FormData();
@@ -155,80 +149,38 @@ export const config = {
             return true;
         },
         async session({token, session, user}) {
-            /*console.log('token in session', token)
-            console.log('session in session', session)*/
-            /*if (session?.token) {
-                const isExpired = await isTokenExpired(user?.token);
-                if (isExpired) {
-                    // If the token is not valid, sign the user out
-                    await signOut();
-                    return null;
-                }
-            }*/
+
             if (token?.token && session?.user) {
                 session.token = token.token as string;
             }
             session.token = token.accessToken as string;
             session.user = token.user as User;
             session.dbUser = token.user as User;
-
-            //console.log('session in session', session)
-            /*
-                        console.log('session in session end', session)
-            */
             if (await isTokenExpired(session.token)) {
                 await signOut();
-                //session.token = null;
             }
             return Promise.resolve(session)
         },
 
         async jwt({token, user, account}) {
 
-            /*console.log('token in jwt', token)
-            console.log('user in jwt', user)*/
-
             if (account?.provider === 'google') {
                 const dbUser = await getGoogleUser(token?.email as string, account?.id_token as string);
-                /*console.log('await getGoogleUser(token?.email as string)', await getGoogleUser(token?.email as string, account?.id_token as string))
-                console.log('dbUser in jwt', dbUser)*/
                 token.accessToken = dbUser?.token as string;
                 token.user = dbUser as User;
 
             }
-            /*
-                if (user) {
-                    const dbUser = await getUser(token?.email as string);
-
-                    token.user = user as User;
-                    //workaround for setting the token in the session from the database user info
-                    token.accessToken = dbUser?.token as string;
-                    token.provider = account?.provider;
-                    console.log('account in jwt', account)
-
-
-                }
-            }*/
-            //FIXME:
             if (account?.provider === 'credentials') {
-                /*console.log('token in jwt', token)
-                console.log('user in jwt', user)*/
-
-
                 if (user) {
                     const dbUser = user as User;
                     token.user = user as User;
                     token.accessToken = dbUser?.token;
                 }
                 if (await isTokenExpired(token?.accessToken as string)) {
-                    /*
-                                        console.log('token expired')
-                    */
+
                     return null;
                 }
-
             }
-            //console.log('token in end of jwt', token)
             return token;
         },
     },
