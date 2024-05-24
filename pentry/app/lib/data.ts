@@ -17,15 +17,15 @@ export async function getSession() {
     return session?.user
 }
 
-export async function searchItems(query: string, currentPage: number): Promise<SearchItem[]> {
+export async function searchItems(query: string, token: string): Promise<SearchItem[]> {
     console.log('inside searchItems');
     console.log('query', query);
-    const session = await getSession()
+
     const res = await fetch(`${apiUrl}/api/v1/search/parameter/${query}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${session?.token}`,
+            'Authorization': `Bearer ${token}`,
 
         },
     });

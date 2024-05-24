@@ -43,13 +43,11 @@ export default function RenderPantry({pantry, userFromDatabase}: { pantry: Pantr
                                 <ListItem
 
                                     sx={calculateExpiring(item.expirationDate) ? {
-                                        border: `1px solid ${theme.palette.secondary.dark}`,
                                         backgroundColor: theme.palette.secondary.light,
-                                        borderRadius: '5px',
+                                        borderRadius: '1rem',
                                     } : {
-                                        border: `1px solid ${theme.palette.primary.dark}`,
                                         backgroundColor: theme.palette.primary.light,
-                                        borderRadius: '5px',
+                                        borderRadius: '1rem',
                                     }}
 
                                     secondaryAction={

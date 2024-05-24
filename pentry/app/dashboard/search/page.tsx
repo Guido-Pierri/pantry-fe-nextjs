@@ -3,7 +3,6 @@ import {auth} from "@/auth";
 import {Suspense} from "react";
 import Loading from "@/app/loading";
 import {Box} from "@mui/material";
-import Breadcrumbs from "@/app/ui/dashboard/breadcrumbs";
 import ResultsList from "@/app/ui/search/result-list";
 
 export default async function Page({searchParams}: {
@@ -20,8 +19,6 @@ export default async function Page({searchParams}: {
     console.log('query', query)
     return (
         <Box display={'flex'} flexDirection={'column'}>
-            <Breadcrumbs
-                breadcrumbs={[{label: 'Dashboard', href: '/dashboard'}, {label: 'Search', href: '/dashboard/search'}]}/>
             <SearchBar placeholder={'What groceries do you need?'}/>
             {query ?
                 <Suspense fallback={<Loading/>}>
