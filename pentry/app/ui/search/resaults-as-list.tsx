@@ -26,19 +26,6 @@ export default function ResultsAsList(props: SimpleDialogProps) {
     const loadMore = () => {
         setDisplayPosts(displayPosts + incrementInitialItemList)
     }
-
-    /*return (
-        <div>
-            {articles.slice(0, displayPosts).map(article => (
-                <Article key={article.id} article={article} />
-            ))}
-            {displayPosts < articles.length ? (
-                <button onClick={handleLoadMore}>Load More</button>
-            ) : null}
-        </div>
-    );*/
-
-
     const createPageURL = (pageNumber: number | string) => {
         const params = new URLSearchParams(query);
         params.set('page', pageNumber.toString());
@@ -52,8 +39,8 @@ export default function ResultsAsList(props: SimpleDialogProps) {
         <Box>
 
             <Grid container spacing={2}>
-                {results?.length > 0 ? results?.slice(0, displayPosts).map((result) => (
-                    <Grid item xs={6}>
+                {results?.length > 0 ? results?.slice(0, displayPosts).map((result, index) => (
+                    <Grid item xs={6} key={index}>
                         <Link href={`/dashboard/pantry/add-item/items/${result.gtin}`} key={result.gtin}
                               sx={{padding: '1rem'}}
                               underline={'none'}>
