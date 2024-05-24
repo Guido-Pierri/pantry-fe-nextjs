@@ -34,7 +34,7 @@ export default function RenderPantry({pantry, userFromDatabase}: { pantry: Pantr
         <Box>
             {pantry && pantry.items.length > 0 ?
                 <Grid container spacing={2}>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12}>
                         <Typography sx={{mb: 2}} variant="h5" component="div">
                             Your pantry
                         </Typography>

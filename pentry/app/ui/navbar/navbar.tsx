@@ -48,12 +48,12 @@ export default function Navbar() {
                      sx={{
                          width: '100%',
                          borderRadius: "1rem",
-                         margin: '1rem',
+                         margin: '1rem 1rem 0 1rem',
                          backgroundColor: 'primary.main',
                      }}
                 >
                     <Link href="/dashboard">
-                        <Typography fontSize={32} color={'white'} fontFamily={croissant.style.fontFamily}>
+                        <Typography fontSize={40} color={'white'} fontFamily={croissant.style.fontFamily}>
                             Pantry Partner
                         </Typography>
                     </Link>

@@ -1,11 +1,10 @@
 import {
     CustomItem,
-    Item,
     MyKitchenRecipesApiResponse,
     PantryDto,
     RecipeCollection,
     SearchItem,
-    SearchPage, TranslationResponse,
+    TranslationResponse,
     User,
 } from './definitions';
 import {auth} from "@/auth";
@@ -219,7 +218,7 @@ export async function fetchAllRoles(): Promise<Promise<string[]> | null> {
     return res.json();
 }
 
-export async function fetchUserById(id: string): Promise<Promise<User> | null> {
+export async function fetchUserById(id: string): Promise<Promise<Promise<User>> | Promise<null>> {
     const session = await auth()
     console.log('session?.token', session?.token)
     const res = await fetch(`${apiUrl}/api/v1/users/${id}`, {
@@ -236,7 +235,7 @@ export async function fetchUserById(id: string): Promise<Promise<User> | null> {
     return res.json();
 }
 
-export async function fetchCategories(): Promise<Promise<string[]> | null> {
+export async function fetchCategories(): Promise<Promise<string[]>> {
     const session = await auth()
     const res = await fetch(`${apiUrl}/api/v1/pantry/categories`, {
         method: 'GET',

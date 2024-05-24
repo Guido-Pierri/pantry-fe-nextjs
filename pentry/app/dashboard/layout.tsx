@@ -14,23 +14,21 @@ export default async function Layout({children}: { children: React.ReactNode }) 
             '@media (min-width:600px)': {
                 width: '600px',
             }, height: '100vh'
-        }} /*className="flex h-screen flex-col md:flex-row md:overflow-hidden"*/>
+        }}>
             <Box width={'100%'} sx={{
+                padding: '1rem 1rem 0 1rem',
                 '@media (min-width:600px)': {
                     width: '100%'
                 },
-            }}
-                /*className="w-full flex-none md:w-64"*/>
-
+            }}>
                 <Navbar/>
-
             </Box>
             <Box
                 padding={'1rem'} sx={{
                 '@media (min-width:600px)': {
                     width: '600px'
                 },
-            }} /*className="flex-grow p-6 md:overflow-y-auto md:p-12"*/>{children}</Box>
+            }}>{children}</Box>
         </Box>
     );
 }
