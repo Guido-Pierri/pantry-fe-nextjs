@@ -75,8 +75,8 @@ export async function saveCustomItem(state: null | undefined, formData: FormData
     if (res.status === 403) {
         return 'Error'
     }
-    revalidatePath('/dashboard')
-    redirect('/dashboard')
+    revalidatePath('/dashboard/pantry')
+    redirect('/dashboard/pantry')
 
 
     /*
