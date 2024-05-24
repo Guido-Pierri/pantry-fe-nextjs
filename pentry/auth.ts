@@ -157,12 +157,14 @@ export const config = {
         async session({token, session, user}) {
             /*console.log('token in session', token)
             console.log('session in session', session)*/
-            const isTokenExpired = await isTokenExpired(session.token);
-            if (isTokenExpired) {
-                // If the token is not valid, sign the user out
-                await signOut();
-                return null;
-            }
+            /*if (session?.token) {
+                const isExpired = await isTokenExpired(user?.token);
+                if (isExpired) {
+                    // If the token is not valid, sign the user out
+                    await signOut();
+                    return null;
+                }
+            }*/
             if (token?.token && session?.user) {
                 session.token = token.token as string;
             }
@@ -175,7 +177,8 @@ export const config = {
                         console.log('session in session end', session)
             */
             if (await isTokenExpired(session.token)) {
-                session.token = null;
+                await signOut();
+                //session.token = null;
             }
             return Promise.resolve(session)
         },
