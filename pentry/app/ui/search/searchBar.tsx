@@ -7,7 +7,6 @@ import Fab from "@mui/material/Fab";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
-import Categories from "@/app/ui/search/categories";
 import {OpenDialogContext} from './open-dialog-context';
 
 
@@ -51,35 +50,37 @@ export default function SearchBar({placeholder}: { placeholder: string }) {
     }
     return (
         <Box component="form" display={'flex'} flexDirection={'column'}>
-            <TextField
-                id="input-with-icon-textfield"
-                variant={'outlined'}
-                sx={{width: '100%'}}
-                type="search"
-                placeholder={placeholder}
-                onChange={(e) => {
-                    handleSearch(e.target.value);
-                }}
-                defaultValue={searchParams.get('query')?.toString()}
-                InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            <SearchIcon/>
-                        </InputAdornment>
-                    ),
-                }}
-            />
+            <Box display={'flex'} flexDirection={'row'} justifyContent={'flex-start'} alignItems={'baseline'}>
+                <TextField
+                    id="input-with-icon-textfield"
+                    variant={'outlined'}
+                    type="search"
+                    placeholder={placeholder}
+                    onChange={(e) => {
+                        handleSearch(e.target.value);
+                    }}
+                    defaultValue={searchParams.get('query')?.toString()}
+                    InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <SearchIcon/>
+                            </InputAdornment>
+                        ),
+                    }}
+                />
+                <Fab variant="extended" color={'primary'}
+                     sx={{
+                         mt: '1rem',
+                         ml: '1rem',
+                         width: '6rem',
+                     }}
+                     onClick={() => {
+                         handleClick();
+                     }}>Find
+                </Fab>
+            </Box>
+            {/*<Categories/>*/}
 
-            <Categories/>
-            <Fab variant="extended" color={'primary'}
-                 sx={{
-                     width: '100%',
-                     mt: '1rem',
-                 }}
-                 onClick={() => {
-                     handleClick();
-                 }}>Find
-            </Fab>
         </Box>
     )
 }

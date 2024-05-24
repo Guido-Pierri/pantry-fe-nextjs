@@ -86,8 +86,10 @@ const imageStyle = {
     objectFit: 'contain',
     paddingTop: '1rem',
     width: '100%',
-    maxHeight: '500px',
+    maxHeight: '182px',
 };
+
+
 const cardHeaderStyle = {
     color: 'white',
     backgroundColor: 'primary.light',
@@ -95,29 +97,12 @@ const cardHeaderStyle = {
 
 export function PantryItemCard({item}: { item: Item }): ReactNode {
     const image: string | undefined = item?.image || ITEM_IMAGE;
-    return <Card key={item.id} sx={{position: 'relative', overflow: 'hidden', padding: '1rem'}}>
-        {image ? <CardMedia
-            component="img"
-            image={item.image}
-            alt={item.name}
-            sx={imageStyle}/> : <Image
-            src={ImageMissing}
-            width={600}
-            alt={item.name}/>}
+    return <Card key={item.id} sx={{
+        position: 'relative',
+        overflow: 'hidden',
+        padding: '1rem',
 
-        <CardContent sx={{backgroundColor: "primary.contrastText"}}>
-            <Typography variant={"h5"}>
-                {item.name}</Typography>
-            <Typography variant={'h6'}>{item.brand}</Typography>
-            <Typography variant="h6">Quantity: {item.quantity}</Typography>
-            <Typography variant="h6" color="secondary.main">Expires: {item.expirationDate}</Typography>
-        </CardContent>
-    </Card>;
-}
-
-export function ResultCard({item}: { item: SearchItem }): ReactNode {
-    const image: string | undefined = item?.image;
-    return <Card key={item.name} sx={{position: 'relative', overflow: 'hidden', padding: '1rem'}}>
+    }}>
         {image ? <CardMedia
                 component="img"
                 image={item.image}
@@ -132,6 +117,35 @@ export function ResultCard({item}: { item: SearchItem }): ReactNode {
             <Typography variant={"h5"}>
                 {item.name}</Typography>
             <Typography variant={'h6'}>{item.brand}</Typography>
+            <Typography variant="h6">Quantity: {item.quantity}</Typography>
+            <Typography variant="h6" color="secondary.main">Expires: {item.expirationDate}</Typography>
+        </CardContent>
+    </Card>;
+}
+
+export function ResultCard({item}: { item: SearchItem }): ReactNode {
+    const resultCardImageStyle = {
+        width: '100%',
+        height: '182px',
+        objectFit: 'contain',
+
+    };
+    const image: string | undefined = item?.image;
+    return <Card>
+        {image ? <CardMedia
+                component="img"
+                image={item.image}
+                alt={item.name}
+                sx={resultCardImageStyle}/> :
+            <Image
+                src={ImageMissing}
+                width={600}
+                alt={item.name}/>}
+
+        <CardContent sx={{backgroundColor: "primary.contrastText"}}>
+            <Typography sx={{fontSize: 15, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>
+                {item.name}</Typography>
+            <Typography sx={{fontSize: 15}}>{item.brand}</Typography>
         </CardContent>
     </Card>;
 }
