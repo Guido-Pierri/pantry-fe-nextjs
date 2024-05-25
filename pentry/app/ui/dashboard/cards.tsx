@@ -131,7 +131,7 @@ export function ResultCard({item}: { item: SearchItem }): ReactNode {
 
     };
     const image: string | undefined = item?.image;
-    return <Card>
+    return <Card sx={{width: '100%'}}>
         {image ? <CardMedia
                 component="img"
                 image={item.image}

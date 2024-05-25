@@ -63,7 +63,7 @@ function LoginButton() {
         <Box display={'flex'} flexDirection={'column'} alignItems={'center'} mt={'1rem'}>
             <Button variant={'contained'} type={'submit'}
                     aria-disabled={pending} sx={{width: '25vw'}}>
-                Sign in <ArrowForwardIcon sx={{marginLeft: '1rem'}}/>
+                Sign in
             </Button>
         </Box>
     );

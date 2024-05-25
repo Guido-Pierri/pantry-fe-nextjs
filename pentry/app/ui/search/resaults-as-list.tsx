@@ -37,12 +37,11 @@ export default function ResultsAsList(props: SimpleDialogProps) {
 
     return (
         <Box>
-
-            <Grid container spacing={2}>
+            <Grid container spacing={2} alignItems="stretch">
                 {results?.length > 0 ? results?.slice(0, displayPosts).map((result, index) => (
-                    <Grid item xs={6} key={index}>
+                    <Grid item xs={6} sm={6} md={6} key={index}>
                         <Link href={`/dashboard/pantry/add-item/items/${result.gtin}`} key={result.gtin}
-                              sx={{padding: '1rem'}}
+                              sx={{height: '100%', display: 'flex', flexGrow: 1}}
                               underline={'none'}>
                             <ResultCard item={result}></ResultCard>
                         </Link>
