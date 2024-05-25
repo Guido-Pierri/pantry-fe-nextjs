@@ -11,13 +11,13 @@ export function SignIn({
                                provider?: string,
                            }) {
     return (
-        <Box component={"form"} m={'1.5rem'}
+        <Box component={"form"} m={'1.5rem'} display={'flex'} flexDirection={'column'} alignItems={'center'}
              action={async () => {
                  "use server"
                  await signIn(provider)
              }}
         >
-            <Button variant={'contained'} type={'submit'} fullWidth={true}>Google</Button>
+            <Button variant={'contained'} type={'submit'} sx={{width: '25vw'}}>Google</Button>
         </Box>
     )
 }

@@ -60,8 +60,11 @@ function LoginButton() {
     const {pending} = useFormStatus();
 
     return (
-        <Button variant={'contained'} type={'submit'} fullWidth={true} aria-disabled={pending} sx={{marginTop: '1rem'}}>
-            Sign in <ArrowForwardIcon sx={{marginLeft: '1rem'}}/>
-        </Button>
+        <Box display={'flex'} flexDirection={'column'} alignItems={'center'} mt={'1rem'}>
+            <Button variant={'contained'} type={'submit'}
+                    aria-disabled={pending} sx={{width: '25vw'}}>
+                Sign in <ArrowForwardIcon sx={{marginLeft: '1rem'}}/>
+            </Button>
+        </Box>
     );
 }
