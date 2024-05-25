@@ -1,4 +1,4 @@
-import {fetchMyKitchenRecipes, fetchPantryCategories} from "@/app/lib/data";
+import {fetchPantryCategories, fetchSpoonacularRecipes} from "@/app/lib/data";
 import Recipes from "@/app/ui/recipes/recipes";
 
 export default async function Page() {
@@ -22,10 +22,10 @@ export default async function Page() {
         randomIngredients = ingredientsFiltered;
     }
     console.log('randomIngredients', randomIngredients)
-    const recipes = await fetchMyKitchenRecipes(randomIngredients);
+    const recipes = await fetchSpoonacularRecipes(randomIngredients);
 
-    console.log('recipes', recipes?.data?.recipes)
+    console.log('recipes', recipes)
     return (
-        <Recipes recipes={recipes?.data?.recipes}/>
+        <Recipes recipes={recipes}/>
     )
 }

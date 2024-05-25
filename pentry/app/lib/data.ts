@@ -248,15 +248,20 @@ export async function fetchCategories(): Promise<Promise<string[]>> {
     return res.json();
 }
 
-export async function fetchRecipes(ingredients: string): Promise<Promise<RecipeCollection>> {
+export async function fetchSpoonacularRecipes(ingredients: string[]): Promise<Promise<RecipeCollection>> {
     console.log('ingredients', ingredients)
-
+    const ingredientsString = ingredients.join(',')
+    console.log('ingredientsString', ingredientsString)
+    const translationResponse = await translateText(ingredientsString);
+    console.log('translationResponse', translationResponse)
+    const ingredientsTranslated = translationResponse[0]?.translations[0]?.text || ingredientsString;
+    console.log('ingredientsTranslated', ingredientsTranslated)
     const apiKey = process.env.SPOONACULAR_API_KEY
     console.log('apiKey', apiKey)
     const urlApi = process.env.SPOONACULAR_API_URL
     console.log('urlApi', urlApi)
     const number = 10
-    const url = `${urlApi}/recipes/findByIngredients?ingredients=${ingredients}&number=${number}`
+    const url = `${urlApi}/recipes/findByIngredients?ingredients=${ingredientsTranslated}&number=${number}`
     console.log('url', url)
     const res = await fetch(url, {
         method: 'GET',
@@ -314,7 +319,9 @@ export async function translateText(text: string): Promise<TranslationResponse> 
     const key = "6e4fc531bb7e4fc0ba0157b155bc04bf";
     const endpoint = "https://api.cognitive.microsofttranslator.com";
     const location = "swedencentral";
-    const url = `${endpoint}/translate?api-version=3.0&from=en&to=sv`;
+    const fromLanguage = "sv";
+    const toLanguage = "en";
+    const url = `${endpoint}/translate?api-version=3.0&from=${fromLanguage}&to=${toLanguage}`;
 
     const headers = {
         'Ocp-Apim-Subscription-Key': key,
