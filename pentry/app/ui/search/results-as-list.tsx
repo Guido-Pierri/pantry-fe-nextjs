@@ -36,7 +36,7 @@ export default function ResultsAsList(props: SimpleDialogProps) {
     console.log('query in results', query)
 
     return (
-        <Box>
+        <Box mt={'2rem'}>
             <Grid container spacing={2} alignItems="stretch">
                 {results?.length > 0 ? results?.slice(0, displayPosts).map((result, index) => (
                     <Grid item xs={6} sm={6} md={6} key={index}>
@@ -52,7 +52,8 @@ export default function ResultsAsList(props: SimpleDialogProps) {
                     <Image src={image} alt={'not found'}/></Box>}
             </Grid>
             {displayPosts < results.length ? (
-                <Button variant={'contained'} fullWidth={true} onClick={loadMore}>Load more</Button>) : null}
+                <Button variant={'contained'} fullWidth={true} onClick={loadMore} sx={{marginTop: '1rem'}}>Load
+                    more</Button>) : null}
         </Box>
     );
 }
