@@ -1,15 +1,14 @@
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import List from "@mui/material/List";
-import {MyKitchenRecipesApiRecipe} from "@/app/lib/definitions";
-import Link from "@mui/material/Link";
+import {Recipe, RecipeCollection} from "@/app/lib/definitions";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Box from "@mui/material/Box";
 
-export default function Recipes({recipes}: { recipes: MyKitchenRecipesApiRecipe[] }) {
+export default function Recipes({recipes}: { recipes: RecipeCollection }) {
     if (!recipes) {
         return <Box>No recipes found</Box>
     }
@@ -20,10 +19,10 @@ export default function Recipes({recipes}: { recipes: MyKitchenRecipesApiRecipe[
                     Recipes based on your pantry items
                 </Typography>
                 <List dense={true}>
-                    {recipes?.map((item: MyKitchenRecipesApiRecipe) => (
+                    {recipes?.map((item: Recipe) => (
                         item && item?.image ?
-                            <Link key={item.id} href={item.url} underline={"none"}><Card
-                                sx={{marginBottom: '1rem',}}>
+                            <Card key={item.id}
+                                  sx={{marginBottom: '1rem',}}>
                                 <CardActionArea>
                                     <CardMedia
                                         component="img"
@@ -36,11 +35,11 @@ export default function Recipes({recipes}: { recipes: MyKitchenRecipesApiRecipe[
                                             {item.title}
                                         </Typography>
                                         <Typography variant="body2" color="text.secondary">
-                                            {item.description}
+                                            {item.id}
                                         </Typography>
                                     </CardContent>
                                 </CardActionArea>
-                            </Card></Link>
+                            </Card>
                             : null
                     ))}
                 </List>
