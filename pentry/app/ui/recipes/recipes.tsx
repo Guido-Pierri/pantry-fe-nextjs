@@ -21,8 +21,8 @@ export default function Recipes({recipes}: { recipes: RecipeCollection }) {
                 <List dense={true}>
                     {recipes?.map((item: Recipe) => (
                         item && item?.image ?
-                            <Card
-                                sx={{marginBottom: '1rem',}}>
+                            <Card key={item.id}
+                                  sx={{marginBottom: '1rem',}}>
                                 <CardActionArea>
                                     <CardMedia
                                         component="img"
