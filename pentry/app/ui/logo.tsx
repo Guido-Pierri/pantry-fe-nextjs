@@ -11,7 +11,7 @@ export default function Logo() {
              sx={{
                  width: '100%',
                  borderRadius: "1rem",
-                 margin: '1rem 1rem 0 1rem',
+                 margin: '1rem',
                  backgroundColor: 'primary.main',
              }}
         >
