@@ -1,6 +1,6 @@
 import {Session} from "next-auth";
 import {searchItems} from "@/app/lib/data";
-import ResultsAsList from "@/app/ui/search/resaults-as-list";
+import ResultsAsList from "@/app/ui/search/results-as-list";
 
 export default async function ResultsList({
                                               searchParams, session
@@ -23,6 +23,5 @@ export default async function ResultsList({
             items={items}
             query={query}
         />
-
     );
 }

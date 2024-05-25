@@ -50,11 +50,12 @@ export default function SearchBar({placeholder}: { placeholder: string }) {
     }
     return (
         <Box component="form" display={'flex'} flexDirection={'column'}>
-            <Box display={'flex'} flexDirection={'row'} justifyContent={'flex-start'} alignItems={'baseline'}>
+            <Box display={'flex'} flexDirection={'row'} justifyContent={'center'} alignItems={'baseline'}>
                 <TextField
                     id="input-with-icon-textfield"
                     variant={'outlined'}
                     type="search"
+                    fullWidth={true}
                     placeholder={placeholder}
                     onChange={(e) => {
                         handleSearch(e.target.value);
