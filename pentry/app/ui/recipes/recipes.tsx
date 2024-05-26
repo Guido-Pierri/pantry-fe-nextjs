@@ -7,6 +7,7 @@ import CardActionArea from "@mui/material/CardActionArea";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Box from "@mui/material/Box";
+import {Link} from "@mui/material";
 
 export default function Recipes({recipes}: { recipes: RecipeCollection }) {
     if (!recipes) {
@@ -24,25 +25,27 @@ export default function Recipes({recipes}: { recipes: RecipeCollection }) {
                             <Card key={item.id}
                                   sx={{marginBottom: '1rem',}}>
                                 <CardActionArea>
-                                    <CardMedia
-                                        component="img"
-                                        height="140"
-                                        image={item.image}
-                                        alt={item.title}
-                                    />
-                                    <CardContent>
-                                        <Typography gutterBottom variant="h5" component="div">
-                                            {item.title}
-                                        </Typography>
-                                        <Typography variant="h6" color="text.secondary">
-                                            Available ingredients in your pantry:{' '}
-                                            {item.usedIngredients.map((ingredient) => ingredient.name).join(', ')}
-                                        </Typography>
-                                        <Typography variant="h6" color="text.secondary">
-                                            Missing ingredients in your pantry:{' '}
-                                            {item.missedIngredients.map((ingredient) => ingredient.name).join(', ')}
-                                        </Typography>
-                                    </CardContent>
+                                    <Link href={`/dashboard/recipes/${item.id}`} underline={'none'}>
+                                        <CardMedia
+                                            component="img"
+                                            height="140"
+                                            image={item.image}
+                                            alt={item.title}
+                                        />
+                                        <CardContent>
+                                            <Typography gutterBottom variant="h5" component="div">
+                                                {item.title}
+                                            </Typography>
+                                            <Typography variant="h6" color="text.secondary">
+                                                Available ingredients:{' '}
+                                                {item.usedIngredients.map((ingredient) => ingredient.name).join(', ')}
+                                            </Typography>
+                                            <Typography variant="h6" color="text.secondary">
+                                                Missing ingredients:{' '}
+                                                {item.missedIngredients.map((ingredient) => ingredient.name).join(', ')}
+                                            </Typography>
+                                        </CardContent>
+                                    </Link>
                                 </CardActionArea>
                             </Card>
                             : null
