@@ -3,6 +3,7 @@ import {
     MyKitchenRecipesApiResponse,
     PantryDto,
     RecipeCollection,
+    RecipeInformation,
     SearchItem,
     TranslationResponse,
     User,
@@ -271,6 +272,21 @@ export async function fetchSpoonacularRecipes(ingredients: string[]): Promise<Pr
         },
     });
     return res.json();
+}
+
+export async function fetchRecipeById(id: string): Promise<Promise<RecipeInformation>> {
+    const apiKey = process.env.SPOONACULAR_API_KEY
+    const urlApi = process.env.SPOONACULAR_API_URL
+    const url = `${urlApi}/recipes/${id}/information?includeNutrition=false&addWinePairing=false&addTasteData=false`
+    const res = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': `${apiKey}`
+        },
+    });
+    return res.json();
+
 }
 
 export async function fetchMyKitchenRecipes(ingredients: string[]): Promise<Promise<MyKitchenRecipesApiResponse>> {
