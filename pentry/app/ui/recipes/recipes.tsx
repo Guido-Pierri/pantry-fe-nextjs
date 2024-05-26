@@ -34,8 +34,13 @@ export default function Recipes({recipes}: { recipes: RecipeCollection }) {
                                         <Typography gutterBottom variant="h5" component="div">
                                             {item.title}
                                         </Typography>
-                                        <Typography variant="body2" color="text.secondary">
-                                            {item.id}
+                                        <Typography variant="h6" color="text.secondary">
+                                            Available ingredients in your pantry:{' '}
+                                            {item.usedIngredients.map((ingredient) => ingredient.name).join(', ')}
+                                        </Typography>
+                                        <Typography variant="h6" color="text.secondary">
+                                            Missing ingredients in your pantry:{' '}
+                                            {item.missedIngredients.map((ingredient) => ingredient.name).join(', ')}
                                         </Typography>
                                     </CardContent>
                                 </CardActionArea>

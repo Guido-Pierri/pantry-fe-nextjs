@@ -261,7 +261,7 @@ export async function fetchSpoonacularRecipes(ingredients: string[]): Promise<Pr
     const urlApi = process.env.SPOONACULAR_API_URL
     console.log('urlApi', urlApi)
     const number = 10
-    const url = `${urlApi}/recipes/findByIngredients?ingredients=${ingredientsTranslated}&number=${number}`
+    const url = `${urlApi}/recipes/findByIngredients?ingredients=${ingredientsTranslated}&number=${number}&ranking=1`
     console.log('url', url)
     const res = await fetch(url, {
         method: 'GET',
@@ -294,11 +294,11 @@ export async function fetchMyKitchenRecipes(ingredients: string[]): Promise<Prom
     return res.json();
 }
 
-export async function fetchPantryCategories(): Promise<Promise<string[]>> {
+export async function fetchPantryItemNames(userId: string): Promise<Promise<string[]>> {
     console.log('inside fetchPantryCategories')
     const session = await auth()
     console.log('session?.token', session?.token)
-    const res = await fetch(`${apiUrl}/api/v1/pantry/article-categories`, {
+    const res = await fetch(`${apiUrl}/api/v1/pantry/article-names/${userId}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

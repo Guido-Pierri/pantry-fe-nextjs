@@ -1,9 +1,14 @@
-import {fetchPantryCategories, fetchSpoonacularRecipes} from "@/app/lib/data";
+import {fetchPantryItemNames, fetchSpoonacularRecipes} from "@/app/lib/data";
 import Recipes from "@/app/ui/recipes/recipes";
+import {auth} from "@/auth";
 
 export default async function Page() {
-
-    let ingredientsArray = await fetchPantryCategories();
+    const session = await auth()
+    if (!session?.token) {
+        return null
+    }
+    const id = session?.user?.id;
+    let ingredientsArray = await fetchPantryItemNames(id);
     console.log('ingredientsArray', ingredientsArray)
     const ingredientsFiltered = (ingredientsArray).filter((item) => !item.includes(' '))
     console.log('ingredientsFiltered', ingredientsFiltered)
