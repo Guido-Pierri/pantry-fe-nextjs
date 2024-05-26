@@ -9,7 +9,7 @@ import NavbarLoggedOut from "@/app/ui/navbar/navbar-logged-out";
 // Exporting Default Navbar to the App.js File
 export default function Navbar({session}: { session: Session | null }) {
     return (
-        session ? <NavbarLoggedIn/> : <NavbarLoggedOut/>
+        session ? <NavbarLoggedIn session={session}/> : <NavbarLoggedOut/>
 
 
     );

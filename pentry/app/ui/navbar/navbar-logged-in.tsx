@@ -11,12 +11,16 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import {signOut} from "next-auth/react";
 import React, {useState} from "react";
+import {Session} from "next-auth";
 
-export default function NavbarLoggedIn() {
+export default function NavbarLoggedIn({session}: { session: Session | null }) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
     const [open, setOpen] = useState(false);
-
+    if (!session) return null;
+    console.log('session in navbar', session)
+    const user = session.user;
+    if (!user) return null;
+    //console.log('user in navbar', user)
     const handleClick = () => {
         setOpen(!open);
     };
@@ -29,6 +33,7 @@ export default function NavbarLoggedIn() {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
     return (
         <AppBar position="static" sx={{borderRadius: '1rem'}}>
             <Toolbar variant="dense"
@@ -46,7 +51,7 @@ export default function NavbarLoggedIn() {
                                 textDecoration: 'underline', // Change this to the color you want on hover
                             },
                         }}>
-                            Home
+                            Pantry
                         </Typography>
                     </Link>
                     <Link href="/dashboard/recipes" underline={"hover"}>
@@ -91,16 +96,35 @@ export default function NavbarLoggedIn() {
                                 horizontal: 'right',
                             }}
                             open={Boolean(anchorEl)}
-                            onClose={handleClose}
-                        >
-                            <Link href={'/dashboard/profile-page'} color={'#000'}>
-                                <MenuItem color={'MuiMenuItem'} onClick={handleClose} sx={{
-                                    '&:hover': {
-                                        color: 'primary.main',
-                                        textDecoration: 'underline'// Change this to the color you want on hover
-                                    },
-                                }}>Profile</MenuItem>
-                            </Link>
+                            onClose={handleClose}>
+                            {user?.roles == 'ADMIN' ? <Link href={'/dashboard/admin-page'} color={'#000'}>
+                                    <MenuItem color={'MuiMenuItem'} onClick={handleClose} sx={{
+                                        '&:hover': {
+                                            color: 'primary.main',
+                                            textDecoration: 'underline'// Change this to the color you want on hover
+                                        },
+                                    }}>Admin Page</MenuItem>
+                                    <Link href={'/dashboard/profile-page'} color={'#000'}><MenuItem color={'MuiMenuItem'}
+                                                                                                    onClick={handleClose}
+                                                                                                    sx={{
+                                                                                                        '&:hover': {
+                                                                                                            color: 'primary.main',
+                                                                                                            textDecoration: 'underline'// Change this to the color you want on hover
+                                                                                                        },
+                                                                                                    }}>
+
+                                        Profile</MenuItem>
+                                    </Link>
+                                </Link> :
+                                <Link href={'/dashboard/profile-page'} color={'#000'}>
+                                    <MenuItem color={'MuiMenuItem'} onClick={handleClose} sx={{
+                                        '&:hover': {
+                                            color: 'primary.main',
+                                            textDecoration: 'underline'// Change this to the color you want on hover
+                                        },
+                                    }}>Profile</MenuItem>
+                                </Link>
+                            }
                             <MenuItem onClick={() => {
                                 signOut();
                             }}
