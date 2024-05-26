@@ -15,8 +15,8 @@ export interface SimpleDialogProps {
 
 export default function ResultsAsList(props: SimpleDialogProps) {
     const {query, items} = props;
-    const initialItemList = 10; // Number of articles to display initially
-    const incrementInitialItemList = 10; // Number of articles to add each time the "load more" button is clicke
+    const initialItemList = 4; // Number of articles to display initially
+    const incrementInitialItemList = 4; // Number of articles to add each time the "load more" button is clicke
     const [displayPosts, setDisplayPosts] = useState(initialItemList);
     const [results, setresults] = useState<SearchItem[]>(items || []);
     useEffect(() => {
