@@ -12,11 +12,11 @@ export default async function Page() {
     const token = session?.token;
     console.log(token)
     if (!token) return null
-    const databaseUser: User = session?.dbUser
-    if (!databaseUser) return null
-    const user = await fetchUserById(databaseUser?.id);
+    const user: User = session?.user
+    if (!user) return null
+    const applicationUser = await fetchUserById(user?.id);
     if (!user) return null
     return (
-        databaseUser ? <RenderDashboard user={databaseUser}/> : Loading()
+        applicationUser ? <RenderDashboard user={user}/> : Loading()
     );
 }

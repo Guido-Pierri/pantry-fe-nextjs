@@ -6,7 +6,6 @@
 declare module "next-auth" {
     interface Session {
         user: User;
-        dbUser: User;
         token?: string | null;
         refreshToken?: string;
         provider?: string;

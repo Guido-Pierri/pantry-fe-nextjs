@@ -155,7 +155,6 @@ export const config = {
             }
             session.token = token.accessToken as string;
             session.user = token.user as User;
-            session.dbUser = token.user as User;
             if (await isTokenExpired(session.token)) {
                 await signOut();
             }

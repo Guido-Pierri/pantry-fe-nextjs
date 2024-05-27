@@ -12,13 +12,13 @@ import theme from "@/theme";
 import SearchIcon from "@mui/icons-material/Search";
 import React from "react";
 
-export default function RenderPantry({pantry, userFromDatabase}: { pantry: PantryDto, userFromDatabase: User }) {
+export default function RenderPantry({pantry, user}: { pantry: PantryDto, user: User }) {
 
     async function deleteItem(id: string) {
         'use client'
         console.log('delete item')
-        if (!userFromDatabase.token) return
-        await deleteItemById(id, userFromDatabase.token)
+        if (!user.token) return
+        await deleteItemById(id, user.token)
     }
 
     const calculateExpiring = (date: string) => {
