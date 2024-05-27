@@ -13,11 +13,6 @@ import {revalidatePath} from "next/cache";
 
 const apiUrl = process.env.SQL_DATABASE;
 
-export async function getSession() {
-    const session = await auth()
-    return session?.user
-}
-
 export async function searchItems(query: string, token: string): Promise<SearchItem[]> {
     console.log('inside searchItems');
     console.log('query', query);
@@ -34,7 +29,6 @@ export async function searchItems(query: string, token: string): Promise<SearchI
     console.log('Response Status:', res.status);
 
     if (!res.ok) {
-        // This will activate the closest `error.js` Error Boundary
         throw new Error('Failed to fetch data');
     }
 
@@ -51,7 +45,6 @@ export async function searchPaginatedItems(query: string, token: string, page?: 
     console.log('page', page)
     console.log('apiUrl in searchPaginatedItems ', apiUrl)
     const pageToFetch = page ? (page - 1) : 0;
-
 
     const res = await fetch(`${apiUrl}/api/v1/search/paginated/parameter/${query}?page=${pageToFetch}`,
         {
@@ -135,9 +128,6 @@ export async function fetchPantryByUserId(user_id: string): Promise<Promise<Pant
 
 export async function fetchUserByEmail(email: string, token: string, refreshToken: string): Promise<Promise<null> | Promise<User>> {
     const session = await auth()
-    /*if (!email || !token) {
-        return NextResponse.error();
-    }*/
 
     const res: Response = await fetch(`${apiUrl}/api/v1/users/email/${email}`,
         {
