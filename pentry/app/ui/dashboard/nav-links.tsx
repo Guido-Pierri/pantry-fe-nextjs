@@ -132,7 +132,7 @@ export default function NavLinks({user, pantry, searchParams, session}: {
                 <CustomTabPanel value={value}
                                 index={1}>
                     <RenderPantry pantry={pantry}
-                                  userFromDatabase={user}/>
+                                  user={user}/>
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={2}>
                     <ResultsDialog searchParams={searchParams} session={session}/>
