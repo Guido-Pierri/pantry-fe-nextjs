@@ -1,6 +1,19 @@
-import {Card, CardContent, CardMedia, ListItem, ListItemText, Typography} from "@mui/material";
+import {
+    Avatar,
+    Card,
+    CardContent,
+    CardMedia,
+    Grid,
+    List,
+    ListItem,
+    ListItemAvatar,
+    ListItemText,
+    Typography
+} from "@mui/material";
 import {auth} from "@/auth";
 import {fetchRecipeById} from "@/app/lib/data";
+import Image from "next/image";
+import BrokenImageIcon from "@mui/icons-material/BrokenImage";
 
 export default async function Page({params}: { params: { id: string } }) {
     const session = await auth()
@@ -15,22 +28,39 @@ export default async function Page({params}: { params: { id: string } }) {
         <Card>
             <CardMedia>
 
-                {recipe?.image && <img src={recipe.image} alt={recipe.title}/>}
+                {recipe?.image ? <Image src={recipe.image} width={600} height={500} alt={recipe.title}/> :
+                    <BrokenImageIcon/>}
             </CardMedia>
             <CardContent>
                 <Typography variant={'h5'}>{recipe.title}</Typography>
-                <Typography variant={'h6'}>Ingredients</Typography>
-                {recipe?.extendedIngredients.map((ingredient) => (
-                    <ListItem key={ingredient.id}>
-                        <ListItemText>{ingredient.amount} {' '}{ingredient.unit}{' '}{ingredient.name}</ListItemText>
-                    </ListItem>
-                ))}
-                <Typography variant={'h5'}>Instructions</Typography>
-                {recipe?.analyzedInstructions[0]?.steps.map((step, index) => (
-                    <ListItem key={index}>
-                        <ListItemText>{step.step}</ListItemText>
-                    </ListItem>
-                ))}
+                <Typography variant={'h6'} mt={'1rem'}>Ingredients</Typography>
+                <List dense={true}>
+                    {recipe?.extendedIngredients.map((ingredient) => (
+
+                        <ListItem key={ingredient.id}>
+                            <ListItemAvatar>
+                                {ingredient?.image ? <Avatar variant={'square'}
+                                                             src={`https://spoonacular.com/cdn/ingredients_100x100/${ingredient.image}`}
+                                                             alt={ingredient.name}/> : <BrokenImageIcon/>}
+
+                            </ListItemAvatar>
+                            <ListItemText>{ingredient.amount} {' '}{ingredient.unit}{' '}{ingredient.name}</ListItemText>
+                        </ListItem>
+                    ))}
+                </List>
+                <Grid container spacing={2}>
+                    <Grid item xs={12} md={6}>
+                        <Typography variant={'h6'}>Instructions</Typography>
+                    </Grid>
+                    {recipe?.analyzedInstructions[0]?.steps.map((step, index) => (
+                        <ListItem key={index}>
+                            <ListItemAvatar>
+                                <Avatar>{index + 1}</Avatar>
+                            </ListItemAvatar>
+                            <ListItemText>{step.step}</ListItemText>
+                        </ListItem>
+                    ))}
+                </Grid>
             </CardContent>
 
         </Card>

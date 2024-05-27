@@ -25,7 +25,7 @@ export default function Recipes({recipes}: { recipes: RecipeCollection }) {
                             <Card key={item.id}
                                   sx={{marginBottom: '1rem',}}>
                                 <CardActionArea>
-                                    <Link href={`/dashboard/recipes/${item.id}`} underline={'none'}>
+                                    <Link href={`/dashboard/recipes/${item.id}`} color={'black'} underline={'none'}>
                                         <CardMedia
                                             component="img"
                                             height="140"
@@ -36,12 +36,16 @@ export default function Recipes({recipes}: { recipes: RecipeCollection }) {
                                             <Typography gutterBottom variant="h5" component="div">
                                                 {item.title}
                                             </Typography>
-                                            <Typography variant="h6" color="text.secondary">
-                                                Available ingredients:{' '}
+                                            <Typography variant="h6" color="text.primary">
+                                                Available ingredients:
+                                            </Typography>
+                                            <Typography color="text.secondary">
                                                 {item.usedIngredients.map((ingredient) => ingredient.name).join(', ')}
                                             </Typography>
+                                            <Typography variant="h6" color="text.primary">
+                                                Missing ingredients:
+                                            </Typography>
                                             <Typography variant="h6" color="text.secondary">
-                                                Missing ingredients:{' '}
                                                 {item.missedIngredients.map((ingredient) => ingredient.name).join(', ')}
                                             </Typography>
                                         </CardContent>

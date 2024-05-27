@@ -68,7 +68,8 @@ export default function RenderPantry({pantry, userFromDatabase}: { pantry: Pantr
                                             </Avatar>
                                         </ListItemAvatar>
                                     </Link>
-                                    <Link href={`/dashboard/pantry/items/${item.id}`} underline={'none'}>
+                                    <Link href={`/dashboard/pantry/items/${item.id}`} color={'black'}
+                                          underline={'none'}>
                                         <ListItemText
                                             primary={`${item.name}`}
                                             secondary={calculateExpiring(item.expirationDate) ?
