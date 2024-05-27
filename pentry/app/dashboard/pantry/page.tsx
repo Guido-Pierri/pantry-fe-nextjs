@@ -1,26 +1,22 @@
-import {
-    fetchPantryByUserId,
-} from '@/app/lib/data';
+import {fetchPantryByUserId,} from '@/app/lib/data';
 import {auth} from "@/auth";
 
 import RenderPantry from "@/app/ui/pantry/RenderPantry";
 
 export default async function Page() {
     const session = await auth()
-    if (!session?.token) {
-        return null
-    }
-    const token = session?.token;
-    const userEmail = session?.user?.email
-    if (!token || !userEmail) return null
-    const userFromDatabase = session?.dbUser
-    const id = userFromDatabase?.id as string
+    console.log('session in dashboard', session)
+    const user = session?.user
+    console.log('user in dashboard', user)
+    const id = user?.id
+    console.log('id in dashboard', id)
     if (!id) return null
     const pantry = await fetchPantryByUserId(id)
+    console.log('pantry in dashboard', pantry)
     if (!pantry) return null
 
     return (
-        <RenderPantry pantry={pantry} userFromDatabase={userFromDatabase}/>
+        <RenderPantry pantry={pantry} user={user}/>
 
     )
 }
