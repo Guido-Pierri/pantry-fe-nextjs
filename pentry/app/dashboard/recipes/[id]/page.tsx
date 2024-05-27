@@ -34,7 +34,7 @@ export default async function Page({params}: { params: { id: string } }) {
             <CardContent>
                 <Typography variant={'h5'}>{recipe.title}</Typography>
                 <Typography variant={'h6'} mt={'1rem'}>Ingredients</Typography>
-                <List>
+                <List dense={true}>
                     {recipe?.extendedIngredients.map((ingredient) => (
 
                         <ListItem key={ingredient.id}>
@@ -50,10 +50,13 @@ export default async function Page({params}: { params: { id: string } }) {
                 </List>
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={6}>
-                        <Typography variant={'h5'}>Instructions</Typography>
+                        <Typography variant={'h6'}>Instructions</Typography>
                     </Grid>
                     {recipe?.analyzedInstructions[0]?.steps.map((step, index) => (
                         <ListItem key={index}>
+                            <ListItemAvatar>
+                                <Avatar>{index + 1}</Avatar>
+                            </ListItemAvatar>
                             <ListItemText>{step.step}</ListItemText>
                         </ListItem>
                     ))}
