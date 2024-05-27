@@ -41,12 +41,10 @@ export async function saveSearchItem(pantryId: number, name: string, gtin: strin
 }
 
 export async function saveCustomItem(state: null | undefined, formData: FormData): Promise<Promise<any> | Promise<string>> {
-    console.log('formData in saveCustomItem', formData)
-    const quantity = "1"
+    const quantity = '1'
     const session = await auth()
     const token = session?.token
     const userId = session?.user.id
-    console.log('userId', userId)
     if (userId === undefined) {
         return 'No user id found. Please sign in.'
     }
@@ -55,14 +53,13 @@ export async function saveCustomItem(state: null | undefined, formData: FormData
     const pantryId = pantry?.id
     const body = {
         name: formData.get('name'),
-        quantity: '1',
+        quantity: quantity,
         expirationDate: formData.get('expirationDate'),
         brand: 'Custom',
         image: 'https://picsum.photos/id/493/200',
         category: formData.get('category'),
         pantryId: pantryId,
     }
-    console.log('body', body)
     const res = await fetch(`${apiUrl}/api/v1/pantry/create-item`, {
         method: 'POST',
         headers: {
@@ -77,11 +74,6 @@ export async function saveCustomItem(state: null | undefined, formData: FormData
     }
     revalidatePath('/dashboard/pantry')
     redirect('/dashboard/pantry')
-
-
-    /*
-    * FIXME: Revalidate data
-    */
 }
 
 export async function deleteItemById(id: string, token: string) {
