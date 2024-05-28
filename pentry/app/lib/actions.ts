@@ -94,15 +94,13 @@ export async function authenticate(
     prevState: string | undefined,
     formData: FormData,
 ) {
-    console.log('formData in authenticate', formData)
     try {
         await signIn('credentials', formData);
     } catch (error) {
         if (error instanceof AuthError) {
-            console.log('error type', error.type)
             switch (error.type) {
                 case 'CredentialsSignin':
-                    return 'Invalid credentials.';
+                    return 'Invalid email or password.';
                 case 'CallbackRouteError':
                     return /*redirect('/signup')*/'User not found.';
                 default:
