@@ -57,8 +57,7 @@ async function getGoogleUser(email: string, token: string) {
                 'Authorization': `Oauth2 ${token}`
             },
         });
-        const data = await res.json();
-        return data;
+        return await res.json();
     } catch (e) {
         console.error('Failed to fetch Google user:', e);
         throw new Error('Failed to fetch Google user.');
