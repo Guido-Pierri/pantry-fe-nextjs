@@ -11,11 +11,7 @@ import {createGoogleUser} from "@/app/lib/actions";
 const apiUrl = process.env.SQL_DATABASE;
 
 export async function getUser(email: string, password: string): Promise<User | undefined> {
-    console.log('inside getUser')
-    console.log('email', email)
-    console.log('password', password)
     try {
-        console.log('inside try')
 
         const user = await fetch(`${apiUrl}/api/v1/users/login/${email}`,
             {
@@ -25,16 +21,11 @@ export async function getUser(email: string, password: string): Promise<User | u
                 },
                 body: password
             });
-        if (user.status === 404) {
-            console.log('user not found')
-            //redirect('/signup')
-            //return undefined;
-            throw new DatabaseError('Failed to fetch user', 404);
-        }
+
         return await user.json();
     } catch (error) {
         if (error instanceof DatabaseError) {
-            //console.error('Failed to fetch user:', error);
+            console.error('Failed to fetch user:', error);
             throw new DatabaseError('Failed to fetch user', 404);
         }
     }
@@ -49,7 +40,6 @@ async function checkUser(token: string) {
             },
             body: token
         });
-        console.log('user', user)
         const data = await user.json();
         return data.exists;
     } catch (error) {
@@ -102,7 +92,6 @@ export const config = {
                     .safeParse(credentials);
                 if (parsedCredentials.success) {
                     const {email, password} = parsedCredentials.data;
-                    console.log('password', password)
                     const user = await getUser(email, password);
                     if (!user) return null;
                     return user;
@@ -118,9 +107,9 @@ export const config = {
             const isLoggedIn = !!auth?.user;
             const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
             if (isOnDashboard) {
-                if (isLoggedIn/* && isToken*/) return true;
-                return false; // Redirect unauthenticated users to login page
-            } else if (isLoggedIn /*&& !isOnSignUp*/) {
+                return isLoggedIn;
+                 // Redirect unauthenticated users to login page
+            } else if (isLoggedIn) {
                 return Response.redirect(new URL('/dashboard', nextUrl));
             }
             return true;
@@ -130,7 +119,9 @@ export const config = {
 
             if (account?.provider === 'google') {
                 if (profile?.email && account?.id_token) {
-                    console.log('token', account.id_token)
+                    /*
+                                        console.log('token', account.id_token)
+                    */
                     const isDbUser = await checkUser(account?.id_token);
 
                     if (isDbUser === false) {
