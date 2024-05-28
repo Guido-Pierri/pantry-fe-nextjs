@@ -60,7 +60,7 @@ async function checkUser(token: string) {
 
 async function getGoogleUser(email: string, token: string) {
     try {
-        const res = await fetch(`${apiUrl}/api/v1/users/fetch-logged-in-user/${email}`, {
+        const res = await fetch(`${apiUrl}/api/v1/users/get-logged-in-user/${email}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
