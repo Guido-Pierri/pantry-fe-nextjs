@@ -1,8 +1,7 @@
 import Table from "@/app/ui/profile-page/table";
 import React from "react";
-import {getSession} from "next-auth/react";
 import {auth} from "@/auth";
-import Breadcrumbs from "@/app/ui/dashboard/breadcrumbs";
+import Box from "@mui/material/Box";
 
 export default async function Page() {
     const session = await auth();
@@ -12,19 +11,9 @@ export default async function Page() {
         return null
     }
     return (
-        <div className="w-full">
-            <Breadcrumbs breadcrumbs={[
-                {label: 'Dashboard', href: '/dashboard'},
-                {
-                    label: 'Profile Page',
-                    href: '/dashboard/profile-page',
-                    active: true,
-                },
-            ]}/>
+        <Box>
             {id ? <Table user={user}/> : null}
-            <div className="mt-5 flex w-full justify-center">
-            </div>
-        </div>
+        </Box>
 
     );
 }
