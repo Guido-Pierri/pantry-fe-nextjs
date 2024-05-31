@@ -16,7 +16,6 @@ export default async function Layout({children}: { children: React.ReactNode }) 
             }, height: '100vh'
         }}>
             <Box width={'100%'} sx={{
-                padding: '1rem 1rem 0 1rem',
                 '@media (min-width:600px)': {
                     width: '100%'
                 },
