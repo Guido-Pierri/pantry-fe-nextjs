@@ -21,7 +21,7 @@ export default function CreateForm({categories}: { categories: string[] }) {
     return <Box component="form" action={dispatch}>
         <Box flexDirection={'column'} border={"black"}>
             <Typography variant={'h6'}>
-                Add a custom item to your pantry
+                Save an item to your pantry
             </Typography>
             <TextField id={"name"}
                        name={"name"}
@@ -56,6 +56,8 @@ export default function CreateForm({categories}: { categories: string[] }) {
         <Box display={"flex"} justifyContent={'space-evenly'}>
             <Fab variant={'extended'} color={'primary'} type="submit" size={'small'} sx={{padding: '.5rem'}}>Save
                 Item</Fab>
+            <Fab href={'/dashboard/pantry'} variant={'extended'} color={'primary'} size={'small'}
+                 sx={{padding: '.5rem'}}>Cancel</Fab>
         </Box>
 
         <div

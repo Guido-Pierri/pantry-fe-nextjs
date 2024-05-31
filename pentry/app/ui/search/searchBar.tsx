@@ -80,8 +80,6 @@ export default function SearchBar({placeholder}: { placeholder: string }) {
                      }}>Find
                 </Fab>
             </Box>
-            {/*<Categories/>*/}
-
         </Box>
     )
 }

@@ -1,7 +1,6 @@
 import CreateForm from '@/app/ui/add-item/create-form'
 import {auth} from "@/auth";
 import {fetchCategories} from "@/app/lib/data";
-import Breadcrumbs from "@/app/ui/dashboard/breadcrumbs";
 import {Box} from "@mui/material";
 
 export default async function Page({searchParams}: {
@@ -24,15 +23,6 @@ export default async function Page({searchParams}: {
     console.log('categories', categories)
     return (
         <Box flex={'auto'} flexDirection={'column'} alignContent={'center'}>
-            <Breadcrumbs
-                breadcrumbs={[
-                    {label: 'My Pantry', href: '/dashboard/pantry'},
-                    {
-                        label: 'Add Item',
-                        href: '/dashboard/pantry/add-item',
-                        active: true,
-                    },
-                ]}/>
             <CreateForm categories={categories}/>
         </Box>
     )

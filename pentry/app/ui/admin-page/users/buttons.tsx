@@ -1,6 +1,6 @@
 import {deleteUser} from '@/app/lib/actions';
 import {PencilIcon, TrashIcon} from "@heroicons/react/16/solid";
-import Link from "next/link";
+import Link from "@mui/material/Link";
 
 // ...
 
@@ -27,3 +27,4 @@ export function DeleteUser({id}: { id: string }) {
         </form>
     );
 }
+
