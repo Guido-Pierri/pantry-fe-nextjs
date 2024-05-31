@@ -5,7 +5,7 @@ import OpenDialogProvider from "@/app/ui/search/open-dialog-provider";
 export default function Layout({children}: { children: React.ReactNode }) {
     return (
         <OpenDialogProvider>{children}
-            
+
         </OpenDialogProvider>
     );
 }

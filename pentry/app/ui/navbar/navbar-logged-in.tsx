@@ -12,6 +12,9 @@ import MenuItem from "@mui/material/MenuItem";
 import {signOut} from "next-auth/react";
 import React, {useState} from "react";
 import {Session} from "next-auth";
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import ListAltRoundedIcon from '@mui/icons-material/ListAltRounded';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 
 export default function NavbarLoggedIn({session}: { session: Session | null }) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -35,7 +38,7 @@ export default function NavbarLoggedIn({session}: { session: Session | null }) {
     };
 
     return (
-        <AppBar position="static" sx={{borderRadius: '1rem'}}>
+        <AppBar position="static">
             <Toolbar variant="dense"
                      sx={{
                          justifyContent: 'space-around',
@@ -43,46 +46,69 @@ export default function NavbarLoggedIn({session}: { session: Session | null }) {
                          flexDirection: 'column',
                      }}>
                 <Logo/>
+            </Toolbar>
+            <Toolbar variant="dense" sx={{
+                backgroundColor: theme.palette.background.default,
+                display: 'flex',
+                justifyContent: 'space-around'
+            }}>
                 <Box display={'flex'} flexDirection={'row'} justifyContent={'space-evenly'}
-                     alignItems={'center'} width={'full'} sx={{backgroundColor: theme.palette.primary.main}}>
+                     alignItems={'center'} width={'full'}>
                     <Link href="/dashboard/pantry" underline={"hover"}>
-                        <Typography variant="h6" color={'white'} component="div" padding={1} sx={{
-                            '&:hover': {
-                                textDecoration: 'underline', // Change this to the color you want on hover
-                            },
-                        }}>
-                            Pantry
-                        </Typography>
+                        <Box display={'flex'} flexDirection={'column'} alignItems={'center'} padding={'.5rem'}>
+                            <HomeRoundedIcon/>
+                            <Typography color={'primary'} component="div" sx={{
+                                '&:hover': {
+                                    textDecoration: 'underline', // Change this to the color you want on hover
+                                },
+                            }}>
+                                Pantry
+                            </Typography>
+                        </Box>
                     </Link>
                     <Link href="/dashboard/recipes" underline={"hover"}>
-                        <Typography variant="h6" color={'white'} component="div" padding={1} sx={{
-                            '&:hover': {
-                                textDecoration: 'underline', // Change this to the color you want on hover
-                            },
-                        }}>
-                            Recipes
-                        </Typography>
+                        <Box display={'flex'} flexDirection={'column'} alignItems={'center'} padding={'.5rem'}>
+                            <ListAltRoundedIcon/>
+                            <Typography color={'primary'}
+                                        component="div"
+                                        sx={{
+                                            '&:hover': {
+                                                textDecoration: 'underline', // Change this to the color you want on hover
+                                            },
+                                        }}>
+                                Recipes
+                            </Typography>
+                        </Box>
                     </Link>
                     <Link href="/dashboard/search" underline={"hover"}>
-                        <Typography variant="h6" color={'white'} component="div" padding={1} sx={{
-                            '&:hover': {
-                                textDecoration: 'underline', // Change this to the color you want on hover
-                            },
-                        }}>
-                            Search
-                        </Typography>
+                        <Box display={'flex'} flexDirection={'column'} alignItems={'center'} padding={'.5rem'}>
+                            <SearchRoundedIcon/>
+                            <Typography color={'primary'} component="div" sx={{
+                                '&:hover': {
+                                    textDecoration: 'underline', // Change this to the color you want on hover
+                                },
+                            }}>
+                                Search
+                            </Typography>
+                        </Box>
                     </Link>
-                    <Box>
+                    <Box display={'flex'} flexDirection={'column'} alignItems={'center'} padding={'.5rem'}>
                         <IconButton
                             size="large"
                             aria-label="account of current user"
                             aria-controls="menu-appbar"
                             aria-haspopup="true"
                             onClick={handleMenu}
-                            color={'inherit'}
+                            color={'primary'}
+                            sx={{padding: '0'}}
                         >
                             <AccountCircle/>
                         </IconButton>
+                        <Typography color={'primary'} component="div" sx={{
+                            '&:hover': {
+                                textDecoration: 'underline', // Change this to the color you want on hover
+                            },
+                        }}>Account</Typography>
                         <Menu
                             id="menu-appbar"
                             anchorEl={anchorEl}
@@ -97,27 +123,30 @@ export default function NavbarLoggedIn({session}: { session: Session | null }) {
                             }}
                             open={Boolean(anchorEl)}
                             onClose={handleClose}>
-                            {user?.roles == 'ADMIN' ? <Link href={'/dashboard/admin-page'} color={'#000'}>
-                                    <MenuItem color={'MuiMenuItem'} onClick={handleClose} sx={{
+                            {user?.roles == 'ADMIN' ?
+                                <Link href={'/dashboard/admin-page'} color={'primary'} underline={'none'}>
+                                    <MenuItem color={'primary'} onClick={handleClose} sx={{
                                         '&:hover': {
                                             color: 'primary.main',
                                             textDecoration: 'underline'// Change this to the color you want on hover
                                         },
                                     }}>Admin Page</MenuItem>
-                                    <Link href={'/dashboard/profile-page'} color={'#000'}><MenuItem color={'MuiMenuItem'}
-                                                                                                    onClick={handleClose}
-                                                                                                    sx={{
-                                                                                                        '&:hover': {
-                                                                                                            color: 'primary.main',
-                                                                                                            textDecoration: 'underline'// Change this to the color you want on hover
-                                                                                                        },
-                                                                                                    }}>
+                                    <Link href={'/dashboard/profile-page'} color={'primary'}
+                                          underline={'none'}><MenuItem
+                                        color={'MuiMenuItem'}
+                                        onClick={handleClose}
+                                        sx={{
+                                            '&:hover': {
+                                                color: 'primary.main',
+                                                textDecoration: 'underline'// Change this to the color you want on hover
+                                            },
+                                        }}>
 
                                         Profile</MenuItem>
                                     </Link>
                                 </Link> :
-                                <Link href={'/dashboard/profile-page'} color={'#000'}>
-                                    <MenuItem color={'MuiMenuItem'} onClick={handleClose} sx={{
+                                <Link href={'/dashboard/profile-page'} color={'primary'} underline={'none'}>
+                                    <MenuItem color={'primary'} onClick={handleClose} sx={{
                                         '&:hover': {
                                             color: 'primary.main',
                                             textDecoration: 'underline'// Change this to the color you want on hover
@@ -128,7 +157,9 @@ export default function NavbarLoggedIn({session}: { session: Session | null }) {
                             <MenuItem onClick={() => {
                                 signOut();
                             }}
+                                      color={'primary'}
                                       sx={{
+                                          color: 'primary.main',
                                           '&:hover': {
                                               color: 'primary.main', // Change this to the color you want on hover
                                               textDecoration: 'underline'
