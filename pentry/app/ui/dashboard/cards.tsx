@@ -7,9 +7,21 @@ import {
     UserCircleIcon
 } from '@heroicons/react/24/outline';
 import Link from "next/link";
-import {CustomItem, Ingredient, Item, Recipe, SearchItem} from "@/app/lib/definitions";
+import {CustomItem, Ingredient, Item, Recipe, SearchItem, User} from "@/app/lib/definitions";
 import Image from "next/image";
-import {Box, Card, CardContent, CardMedia, Typography} from "@mui/material";
+import {
+    Avatar,
+    Box,
+    Card,
+    CardContent,
+    CardMedia,
+    IconButton,
+    Link as MaterialLink,
+    ListItem,
+    ListItemAvatar,
+    ListItemText,
+    Typography
+} from "@mui/material";
 import theme from "@/theme";
 import React, {ReactNode, useState} from "react";
 import AddIcon from "@mui/icons-material/Add";
@@ -20,6 +32,8 @@ import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DemoContainer} from "@mui/x-date-pickers/internals/demo";
 import {ITEM_IMAGE} from "@/app/lib/constants";
 import ImageMissing from "@/app/images/image-missing.webp";
+import DeleteIcon from "@mui/icons-material/Delete";
+import {deleteItemById} from "@/app/lib/actions";
 
 const iconMap = {
     items: RectangleStackIcon,
@@ -94,6 +108,78 @@ const cardHeaderStyle = {
     color: 'white',
     backgroundColor: 'primary.light',
 };
+
+export function PantryListItemCard({item, user}: {
+    item: Item,
+    user: User,
+}): ReactNode {
+
+    async function deleteItem(id: string) {
+        'use client'
+        console.log('delete item')
+        if (!user.token) return
+        await deleteItemById(id, user.token)
+    }
+
+    const calculateExpiring = (date: string) => {
+        const today = new Date()
+        const expiration = new Date(date)
+        const timeDiff = (expiration.getTime() - today.getTime());
+        console.log('timeDiff', timeDiff)
+        const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        console.log('diffDays', diffDays)
+        if (diffDays < 0) {
+            return "expired";
+        } else if (diffDays < 3) {
+            return "expiring";
+        } else {
+            return "not expiring";
+        }
+    }
+    return <ListItem
+
+        sx={{
+            backgroundColor: theme.palette.grey[50],
+            borderRadius: '1rem',
+        }}
+
+        secondaryAction={
+            <IconButton edge="end" aria-label="delete">
+                <DeleteIcon onClick={() => deleteItem(item.id)}/>
+            </IconButton>
+        }
+    >
+        <MaterialLink href={`/dashboard/pantry/items/${item.id}`} underline={'none'}>
+            <ListItemAvatar>
+                <Avatar style={{overflow: 'hidden', position: 'relative'}}>
+                    <Image src={item.image}
+                           alt={item.name}
+                           fill={true}
+                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                           style={{objectFit: 'cover'}}/>
+
+                </Avatar>
+            </ListItemAvatar>
+        </MaterialLink>
+        <MaterialLink href={`/dashboard/pantry/items/${item.id}`} color={'black'}
+                      underline={'none'}>
+            <ListItemText
+                primary={`${item.name}`}
+                secondary={calculateExpiring(item.expirationDate) === "expiring" ?
+                    (<Typography color={theme.palette.secondary.main}> This item expires
+                        soon!
+                    </Typography>) : calculateExpiring(item.expirationDate) === "expired" ?
+                        <Typography color={theme.palette.error.main}>This item is
+                            expired</Typography> :
+                        <Typography
+                            color={'black'}>Expires {item.expirationDate}</Typography>}
+                primaryTypographyProps={{variant: 'h6'}}
+                secondaryTypographyProps={{color: 'black'}}
+            />
+        </MaterialLink>
+    </ListItem>;
+
+}
 
 export function PantryItemCard({item}: { item: Item }): ReactNode {
     const image: string | undefined = item?.image || ITEM_IMAGE;

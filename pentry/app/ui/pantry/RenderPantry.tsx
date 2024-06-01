@@ -1,35 +1,18 @@
 'use client'
-import {Avatar, Box, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, Typography} from "@mui/material";
+import {Box, Grid, List, Typography} from "@mui/material";
 import {Item, PantryDto, User} from "@/app/lib/definitions";
-import DeleteIcon from "@mui/icons-material/Delete";
 import Link from "@mui/material/Link";
 import Image from "next/image";
 import pantryPic from "@/app/images/shelving.png";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
-import {deleteItemById} from "@/app/lib/actions";
-import theme from "@/theme";
 import SearchIcon from "@mui/icons-material/Search";
 import React from "react";
+import {PantryListItemCard} from "@/app/ui/dashboard/cards";
 
 export default function RenderPantry({pantry, user}: { pantry: PantryDto, user: User }) {
 
-    async function deleteItem(id: string) {
-        'use client'
-        console.log('delete item')
-        if (!user.token) return
-        await deleteItemById(id, user.token)
-    }
 
-    const calculateExpiring = (date: string) => {
-        const today = new Date()
-        const expiration = new Date(date)
-        const timeDiff = Math.abs(expiration.getTime() - today.getTime());
-        const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-        if (diffDays <= 3) {
-            return true
-        }
-    }
     return (
         <Box>
             {pantry && pantry.items.length > 0 ?
@@ -40,47 +23,7 @@ export default function RenderPantry({pantry, user}: { pantry: PantryDto, user: 
                         </Typography>
                         {pantry.items.map((item: Item) =>
                             <List key={item.id} dense={true}>
-                                <ListItem
-
-                                    sx={calculateExpiring(item.expirationDate) ? {
-                                        backgroundColor: theme.palette.secondary.light,
-                                        borderRadius: '1rem',
-                                    } : {
-                                        backgroundColor: theme.palette.primary.light,
-                                        borderRadius: '1rem',
-                                    }}
-
-                                    secondaryAction={
-                                        <IconButton edge="end" aria-label="delete">
-                                            <DeleteIcon onClick={() => deleteItem(item.id)}/>
-                                        </IconButton>
-                                    }
-                                >
-                                    <Link href={`/dashboard/pantry/items/${item.id}`} underline={'none'}>
-                                        <ListItemAvatar>
-                                            <Avatar style={{overflow: 'hidden', position: 'relative'}}>
-                                                <Image src={item.image}
-                                                       alt={item.name}
-                                                       fill={true}
-                                                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                                       style={{objectFit: 'cover'}}/>
-
-                                            </Avatar>
-                                        </ListItemAvatar>
-                                    </Link>
-                                    <Link href={`/dashboard/pantry/items/${item.id}`} color={'black'}
-                                          underline={'none'}>
-                                        <ListItemText
-                                            primary={`${item.name}`}
-                                            secondary={calculateExpiring(item.expirationDate) ?
-                                                (<Typography color={theme.palette.secondary.main}> This item expires
-                                                    soon!
-                                                </Typography>) : null}
-                                            primaryTypographyProps={{variant: 'h6'}}
-                                            secondaryTypographyProps={{color: 'secondary.dark'}}
-                                        />
-                                    </Link>
-                                </ListItem>
+                                <PantryListItemCard item={item} user={user}/>
 
                             </List>
                         )}<Box display={'flex'} justifyContent={'space-evenly'} mt={'1rem'}>
