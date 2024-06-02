@@ -52,8 +52,15 @@ export default function SearchBar({placeholder}: { placeholder: string }) {
         <Box component="form" display={'flex'} flexDirection={'column'}>
             <Box display={'flex'} flexDirection={'row'} justifyContent={'center'} alignItems={'baseline'}>
                 <TextField
+
                     id="input-with-icon-textfield"
-                    variant={'outlined'}
+                    variant="outlined"
+                    sx={{
+                        backgroundColor: 'background.default',
+                        borderColor: 'primary.light',
+                        color: 'text.primary',
+                        marginRight: 1,
+                    }}
                     type="search"
                     fullWidth={true}
                     placeholder={placeholder}
