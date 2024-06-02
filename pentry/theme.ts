@@ -3,9 +3,6 @@ import {croissant, inter} from '@/app/ui/fonts';
 import {createTheme} from '@mui/material/styles';
 
 const theme = createTheme({
-    // status: {
-    //     danger: 'orange',
-    // },
     typography: {
         fontFamily: [
             inter.style.fontFamily,
@@ -15,19 +12,31 @@ const theme = createTheme({
     palette: {
         mode: 'light',
         background: {
-            default: '#f8f8f8',
+            default: '#FFFFFF',  // Soft White
         },
         primary: {
-            light: 'rgb(224 242 254)',
-            main: '#1d76fe',
-            dark: '#2c41cc',
-            contrastText: '#fff',
+            light: '#B2C29A',  // Light Olive Green
+            main: '#6B8E23',  // Olive Green
+            dark: '#4A5E16',  // Dark Olive Green
+            contrastText: '#FFFFFF',  // White text
         },
         secondary: {
-            light: 'rgba(255,97,121,0.2)',
-            main: '#f44336',
-            dark: '#ba000d',
-            contrastText: '#000',
+            light: '#FAF9F3',  // Light Warm Beige
+            main: '#F5F5DC',  // Warm Beige
+            dark: '#A69C74',  // Dark Warm Beige
+            contrastText: '#000000',  // Black text
+        },
+        grey: {
+            50: '#FAFAFA',  // Lightest grey, close to white
+            100: '#F5F5F5',  // Very light grey
+            200: '#EEEEEE',  // Light grey
+            300: '#E0E0E0',  // Light grey, a bit darker
+            400: '#BDBDBD',  // Medium grey
+            500: '#9E9E9E',  // Standard grey
+            600: '#757575',  // Darker grey
+            700: '#616161',  // Even darker grey
+            800: '#424242',  // Very dark grey
+            900: '#212121',  // Almost black grey
         },
     },
 });

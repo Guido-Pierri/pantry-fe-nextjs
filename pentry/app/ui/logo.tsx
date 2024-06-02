@@ -1,8 +1,8 @@
 import {Link} from "@mui/material";
 import Typography from "@mui/material/Typography";
-import {croissant} from "@/app/ui/fonts";
 import Box from "@mui/material/Box";
 import React from "react";
+import theme from "@/theme";
 
 export default function Logo() {
     return (
@@ -16,7 +16,7 @@ export default function Logo() {
              }}
         >
             <Link href="/dashboard">
-                <Typography fontSize={38} color={'white'} fontFamily={croissant.style.fontFamily}>
+                <Typography fontSize={38} fontWeight={600} color={'white'} fontFamily={theme.typography.fontFamily}>
                     Pantry Partner
                 </Typography>
             </Link>

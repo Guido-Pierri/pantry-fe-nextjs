@@ -19,7 +19,7 @@ export default async function Page({searchParams}: {
     console.log('query', query)
     return (
         <Box display={'flex'} flexDirection={'column'}>
-            <SearchBar placeholder={'What groceries do you need?'}/>
+            <SearchBar placeholder={'Search for groceries'}/>
             {query ?
                 <Suspense fallback={<Loading/>}>
                     <ResultsList searchParams={searchParams} session={session}/>

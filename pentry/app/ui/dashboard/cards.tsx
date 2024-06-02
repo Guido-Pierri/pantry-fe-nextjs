@@ -217,21 +217,31 @@ export function ResultCard({item}: { item: SearchItem }): ReactNode {
 
     };
     const image: string | undefined = item?.image;
-    return <Card sx={{width: '100%'}}>
+    return <Card sx={{
+        width: '100%',
+        backgroundColor: 'background.default',
+        borderColor: 'grey.200',
+        borderWidth: 1,
+        borderStyle: 'solid',
+        mb: 2,
+        boxShadow: 1
+    }}>
         {image ? <CardMedia
                 component="img"
                 image={item.image}
                 alt={item.name}
-                sx={resultCardImageStyle}/> :
+                sx={resultCardImageStyle}
+            /> :
             <Image
                 src={ImageMissing}
                 width={600}
                 alt={item.name}/>}
 
-        <CardContent sx={{backgroundColor: "primary.contrastText"}}>
-            <Typography sx={{fontSize: 15, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>
+        <CardContent sx={{backgroundColor: 'background.default'}}>
+            <Typography color={'primary.main'} variant={'h6'}
+                        sx={{whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>
                 {item.name}</Typography>
-            <Typography sx={{fontSize: 15}}>{item.brand}</Typography>
+            <Typography variant="body2" color="text.secondary">{item.brand}</Typography>
         </CardContent>
     </Card>;
 }
