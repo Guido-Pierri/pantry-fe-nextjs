@@ -1,29 +1,47 @@
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import Logo from "@/app/ui/logo";
 import Box from "@mui/material/Box";
-import theme from "@/theme";
-import {Link} from "@mui/material";
+import {
+    Avatar,
+    CssBaseline,
+    Divider,
+    Drawer,
+    List,
+    ListItem,
+    ListItemButton,
+    ListItemText,
+    Menu,
+    Tooltip
+} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
-import {AccountCircle} from "@mui/icons-material";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import {signOut} from "next-auth/react";
 import React, {useState} from "react";
 import {Session} from "next-auth";
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import ListAltRoundedIcon from '@mui/icons-material/ListAltRounded';
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import MenuIcon from '@mui/icons-material/Menu';
+import Button from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
+import pp_logo_transparent from "@/app/images/pp_logo_transparent2.png";
+import Image from "next/image";
+import {useTheme} from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+
+const pages = ['Products', 'Pricing', 'Blog'];
+const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 export default function NavbarLoggedIn({session}: { session: Session | null }) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
     const [open, setOpen] = useState(false);
+    const [mobileOpen, setMobileOpen] = React.useState(false);
+    const theme = useTheme();
+    const isSmallScreen = useMediaQuery(theme.breakpoints.up('sm'));
+    const isMediumScreen = useMediaQuery(theme.breakpoints.up('md'));
+
     if (!session) return null;
     console.log('session in navbar', session)
     const user = session.user;
     if (!user) return null;
-    //console.log('user in navbar', user)
     const handleClick = () => {
         setOpen(!open);
     };
@@ -36,9 +54,37 @@ export default function NavbarLoggedIn({session}: { session: Session | null }) {
     const handleClose = () => {
         setAnchorEl(null);
     };
+    const drawerWidth = 240;
+    const navItems = ['Pantry', 'Search'];
+    const handleDrawerToggle = () => {
+        setMobileOpen((prevState: any) => !prevState);
+    };
 
+    const drawer = (
+        <Box onClick={handleDrawerToggle} sx={{textAlign: 'center'}}>
+            <Typography variant="h6" sx={{my: 2}}>
+                Pantry Partner </Typography>
+            <Divider/>
+            <List>
+                {navItems.map((item) => (
+                    <ListItem key={item} disablePadding>
+                        <ListItemButton sx={{textAlign: 'center'}}>
+                            <ListItemText primary={item}/>
+                        </ListItemButton>
+                    </ListItem>
+                ))}
+            </List>
+        </Box>
+    );
+    const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorElUser(event.currentTarget);
+    };
+    const handleCloseUserMenu = () => {
+        setAnchorElUser(null);
+    };
+    // @ts-ignore
     return (
-        <AppBar position="static">
+        /*<AppBar position="static">
             <Toolbar variant="dense"
                      sx={{
                          justifyContent: 'space-around',
@@ -171,6 +217,119 @@ export default function NavbarLoggedIn({session}: { session: Session | null }) {
                     </Box>
                 </Box>
             </Toolbar>
-        </AppBar>
+        </AppBar>*/
+        <Box sx={{display: 'flex'}}>
+            <CssBaseline/>
+            <AppBar component="nav">
+                <Toolbar sx={{justifyContent: 'space-between'}}>
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        edge="start"
+                        onClick={handleDrawerToggle}
+                        sx={{mr: 2, display: {sm: 'none'}}}
+                    >
+                        <MenuIcon/>
+                    </IconButton>
+                    <Image src={pp_logo_transparent} alt={'Pantry Partner logotype'} height={50}
+                           width={50}
+                           style={{display: isSmallScreen ? 'flex' : 'none'}}/>
+                    <Typography
+                        variant="h6"
+                        component="div"
+                        sx={{flexGrow: 1, display: {xs: 'none', sm: 'block'}}}
+                    >
+                        Pantry Partner
+                    </Typography>
+                    {/*
+                    <AdbIcon sx={{display: {xs: 'flex', md: 'none'}, mr: 1}}/>
+*/}
+                    {/*<Typography
+                        variant="h5"
+                        noWrap
+                        component="a"
+                        href="#app-bar-with-responsive-menu"
+                        sx={{
+                            mr: 2,
+                            display: {xs: 'flex', md: 'none'},
+                            flexGrow: 1,
+                            fontFamily: 'monospace',
+                            fontWeight: 700,
+                            letterSpacing: '.3rem',
+                            color: 'inherit',
+                            textDecoration: 'none',
+                        }}
+                    >
+                    </Typography>*/}
+                    <Box display={'flex'} flexDirection={'row'} justifyContent={'center'} alignItems={'center'}>
+                        <Image src={pp_logo_transparent} alt={'Pantry partner logo'} width={50} height={50}
+                               style={{display: !isSmallScreen ? 'flex' : 'none'}}/>
+                        <Typography
+                            variant="h6"
+                            component="div"
+                            sx={{flexGrow: 1, display: {xs: 'flex', sm: 'none'}}}
+                        >
+                            Pantry Partner
+                        </Typography>
+                    </Box>
+                    <Box sx={{display: {xs: 'none', sm: 'block'}}}>
+                        {navItems.map((item) => (
+                            <Button key={item} sx={{color: '#fff'}}>
+                                {item}
+                            </Button>
+                        ))}
+                    </Box>
+                    <Box sx={{flexGrow: 0}}>
+                        <Tooltip title="Open settings">
+                            <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
+                                <Avatar alt="Remy Sharp" src={session.user.imageUrl}/>
+                            </IconButton>
+                        </Tooltip>
+                        <Menu
+                            sx={{mt: '45px'}}
+                            id="menu-appbar"
+                            anchorEl={anchorElUser}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            open={Boolean(anchorElUser)}
+                            onClose={handleCloseUserMenu}
+                        >
+                            {settings.map((setting) => (
+                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                                    <Typography textAlign="center">{setting}</Typography>
+                                </MenuItem>
+                            ))}
+                        </Menu>
+                    </Box>
+                </Toolbar>
+            </AppBar>
+            <nav>
+                <Drawer
+                    variant="temporary"
+                    open={mobileOpen}
+                    onClose={handleDrawerToggle}
+                    ModalProps={{
+                        keepMounted: true, // Better open performance on mobile.
+                    }}
+                    sx={{
+                        display: {xs: 'block', sm: 'none'},
+                        '& .MuiDrawer-paper': {boxSizing: 'border-box', width: drawerWidth},
+                    }}
+                >
+                    {drawer}
+                </Drawer>
+            </nav>
+            <Box component="main" sx={{p: 3}}>
+                <Toolbar/>
+
+            </Box>
+        </Box>
     )
 }
