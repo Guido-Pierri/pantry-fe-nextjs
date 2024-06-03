@@ -24,6 +24,7 @@ import pp_logo_transparent from "@/app/images/pp_logo_transparent2.png";
 import Image from "next/image";
 import {useTheme} from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import {CircleNotifications} from "@mui/icons-material";
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -279,6 +280,7 @@ export default function NavbarLoggedIn({session}: { session: Session | null }) {
                             </Button>
                         ))}
                     </Box>
+                    <CircleNotifications sx={{display: {xs: 'flex', sm: 'block'}}}/>
                     <Box sx={{flexGrow: 0}}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
