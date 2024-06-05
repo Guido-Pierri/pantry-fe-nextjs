@@ -49,7 +49,7 @@ export default function SearchBar({placeholder}: { placeholder: string }) {
 
     }
     return (
-        <Box component="form" display={'flex'} flexDirection={'column'}>
+        <Box component="form" display={'flex'} flexDirection={'column'} id={'searchBar box'}>
             <Box display={'flex'} flexDirection={'row'} justifyContent={'center'} alignItems={'baseline'}>
                 <TextField
 

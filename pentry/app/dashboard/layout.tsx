@@ -23,11 +23,13 @@ export default async function Layout({children}: { children: React.ReactNode }) 
                 <Navbar session={session}/>
             </Box>
             <Box
-                padding={'1rem'} sx={{
-                '@media (min-width:600px)': {
-                    width: '600px',
-                },
-            }}>{children}</Box>
+                padding={'1rem'}
+                mt={'64px'} // Add a top margin equal to the height of the AppBar
+                sx={{
+                    '@media (min-width:600px)': {
+                        width: '600px',
+                    },
+                }}>{children}</Box>
         </Box>
     );
 }
