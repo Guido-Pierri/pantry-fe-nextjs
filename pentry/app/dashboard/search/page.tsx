@@ -18,7 +18,7 @@ export default async function Page({searchParams}: {
     const query = searchParams?.query ?? '';
     console.log('query', query)
     return (
-        <Box display={'flex'} flexDirection={'column'}>
+        <Box display={'flex'} flexDirection={'column'} id={'search page box'}>
             <SearchBar placeholder={'Search for groceries'}/>
             {query ?
                 <Suspense fallback={<Loading/>}>
