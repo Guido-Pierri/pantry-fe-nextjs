@@ -16,6 +16,8 @@ export async function saveSearchItem(pantryId: number, name: string, gtin: strin
     const quantity = "1"
     const session = await auth()
     const token = session?.token
+    await new Promise(resolve => setTimeout(resolve, 3000));
+
     const res = await fetch(`${apiUrl}/api/v1/pantry/create-item`, {
         method: 'POST',
         headers: {
@@ -37,7 +39,9 @@ export async function saveSearchItem(pantryId: number, name: string, gtin: strin
     const data = await res.json();
     console.log('data', data)
     revalidatePath('/dashboard/pantry')
+
     redirect('/dashboard/pantry')
+
 }
 
 export async function saveCustomItem(state: null | undefined, formData: FormData): Promise<Promise<any> | Promise<string>> {
