@@ -34,6 +34,8 @@ import {ITEM_IMAGE} from "@/app/lib/constants";
 import ImageMissing from "@/app/images/image-missing.webp";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {deleteItemById} from "@/app/lib/actions";
+import {useFormStatus} from "react-dom";
+import Loading from "@/app/loading";
 
 const iconMap = {
     items: RectangleStackIcon,
@@ -274,7 +276,13 @@ export function RecipeCard({recipe}: { recipe: Recipe }): ReactNode {
 export function AddItemCard({item}: { item: Item }): ReactNode {
     const image: string | undefined = item?.image;
     const [isExpiryDate, setIsExpiryDate] = useState(false);
+    const {pending} = useFormStatus();
+    if (pending) {
+        return <Loading/>;
+    }
+    console.log('pending in cards', pending)
     console.log(isExpiryDate, 'isExpiryDate')
+
     return (
         <Box>
             <Card key={item.gtin}>

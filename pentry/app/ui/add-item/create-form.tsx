@@ -60,14 +60,12 @@ export default function CreateForm({categories}: { categories: string[] }) {
                  sx={{padding: '.5rem'}}>Cancel</Fab>
         </Box>
 
-        <div
-            className="flex h-8 items-end space-x-1"
-
+        <Box display={"flex"} flexDirection={'row'} justifyContent={'center'} alignItems={'center'}
         >
             {errorMessage ? <>
                 <ExclamationCircleIcon className="h-5 w-5 text-red-500"/>
                 <p className="text-sm text-red-500">{errorMessage}</p>
             </> : null}
-        </div>
+        </Box>
     </Box>
 }
