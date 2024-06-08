@@ -29,7 +29,6 @@ import {signOut} from "next-auth/react";
 
 export default function NavbarLoggedIn({session}: { session: Session | null }) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
     const [open, setOpen] = useState(false);
     const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -44,12 +43,7 @@ export default function NavbarLoggedIn({session}: { session: Session | null }) {
     const handleClick = () => {
         setOpen(!open);
     };
-    const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-    /*const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setAuth(event.target.checked);
-    };*/
+
     const handleClose = () => {
         setAnchorEl(null);
     };
@@ -85,71 +79,64 @@ export default function NavbarLoggedIn({session}: { session: Session | null }) {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
-    // @ts-ignore
     return (
         <Box sx={{display: 'flex', backgroundColor: 'primary.main'}}>
             <CssBaseline/>
             <AppBar component="nav" sx={{backgroundColor: 'primary.main'}}>
                 <Toolbar sx={{justifyContent: 'space-between', backgroundColor: 'primary.main'}}>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        edge="start"
-                        onClick={handleDrawerToggle}
-                        sx={{mr: 2, display: {sm: 'none'}}}
-                    >
-                        <MenuIcon/>
-                    </IconButton>
-                    <Image src={pp_logo_transparent} alt={'Pantry Partner logotype'} height={50}
-                           width={50}
-                           style={{display: isSmallScreen ? 'flex' : 'none'}}/>
-                    <Typography
-                        variant="h6"
-                        component="div"
-                        sx={{flexGrow: 1, display: {xs: 'none', sm: 'block'}}}
-                    >
-                        Pantry Partner
-                    </Typography>
-                    {/*
-                    <AdbIcon sx={{display: {xs: 'flex', md: 'none'}, mr: 1}}/>
-*/}
-                    {/*<Typography
-                        variant="h5"
-                        noWrap
-                        component="a"
-                        href="#app-bar-with-responsive-menu"
-                        sx={{
-                            mr: 2,
-                            display: {xs: 'flex', md: 'none'},
-                            flexGrow: 1,
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.3rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
-                        }}
-                    >
-                    </Typography>*/}
-                    <Box display={'flex'} flexDirection={'row'} justifyContent={'center'} alignItems={'center'}>
-                        <Image src={pp_logo_transparent} alt={'Pantry partner logo'} width={50} height={50}
-                               style={{display: !isSmallScreen ? 'flex' : 'none'}}/>
-                        <Typography
-                            variant="h6"
-                            component="div"
-                            sx={{flexGrow: 1, display: {xs: 'flex', sm: 'none'}}}
-                        >
-                            Pantry Partner
-                        </Typography>
+                    <Box id={'hamburgerLogoBox'} display={'flex'} flexDirection={'row'}>
+
+                        <Box id={'hamburgerBox'}>
+                            <IconButton
+                                color="inherit"
+                                aria-label="open drawer"
+                                edge="start"
+                                onClick={handleDrawerToggle}
+                                sx={{mr: 2, display: {sm: 'none'}}}
+                            >
+                                <MenuIcon/>
+                            </IconButton>
+                        </Box>
+                        <Box id={'logoBox'} display={'flex'} flexDirection={'row'} justifyContent={'center'}
+                             alignItems={'center'}>
+                            <Image
+                                src={pp_logo_transparent}
+                                alt={'Pantry Partner logo'}
+                                width={40}
+                                height={40}
+                                style={{
+                                    display: 'flex',
+                                    position: !isSmallScreen ? 'absolute' : 'relative',
+                                    left: !isSmallScreen ? '50%' : '0',
+                                    transform: !isSmallScreen ? 'translateX(-50%)' : 'none',
+                                }}
+                            />
+                            <Typography
+                                variant="h5"
+                                component="div"
+                                sx={{
+                                    flexGrow: 1,
+                                    display: {xs: isSmallScreen ? 'flex' : 'none', sm: 'block'},
+                                    marginLeft: '1rem', fontWeight: 700,
+
+
+                                }}
+                            >
+                                Pantry Partner
+                            </Typography>
+                        </Box>
                     </Box>
-                    <Box sx={{display: {xs: 'none', sm: 'block'}}}>
-                        {navItems.map((item) => (
-                            <Button key={item.name} sx={{color: '#fff'}} href={item.url}>
-                                {item.name}
-                            </Button>
-                        ))}
-                    </Box>
-                    {/* FIXME: Add notifications feature */}
-                    {/*<MenuItem>
+                    <Box display={'flex'} flexDirection={'row'}>
+
+                        <Box sx={{display: {xs: 'none', sm: 'block'}}} marginRight={'1rem'}>
+                            {navItems.map((item) => (
+                                <Button key={item.name} sx={{color: '#fff'}} href={item.url}>
+                                    {item.name}
+                                </Button>
+                            ))}
+                        </Box>
+                        {/* FIXME: Add notifications feature */}
+                        {/*<MenuItem>
                         <IconButton
                             size="large"
                             aria-label="show 17 new notifications"
@@ -161,72 +148,72 @@ export default function NavbarLoggedIn({session}: { session: Session | null }) {
                         </IconButton>
                     </MenuItem>*/}
 
-                    <Box sx={{flexGrow: 0}}>
-                        <Tooltip title="Open settings">
-                            <IconButton size={'small'} onClick={handleOpenUserMenu} sx={{p: 0}}>
-                                <Avatar alt="Profile picture" src={session.user.imageUrl}/>
-                            </IconButton>
-                        </Tooltip>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}>
-                            {user?.roles == 'ADMIN' ?
-                                <Link href={'/dashboard/admin-page'} color={'primary'} underline={'none'}>
-                                    <MenuItem color={'primary'} onClick={handleClose} sx={{
-                                        '&:hover': {
-                                            color: 'primary.main',
-                                            textDecoration: 'underline'// Change this to the color you want on hover
-                                        },
-                                    }}>Admin Page</MenuItem>
-                                    <Link href={'/dashboard/profile-page'} color={'primary'}
-                                          underline={'none'}><MenuItem
-                                        color={'MuiMenuItem'}
-                                        onClick={handleClose}
-                                        sx={{
+                        <Box sx={{flexGrow: 0}} marginLeft={'1rem'}>
+                            <Tooltip title="Open settings">
+                                <IconButton size={'small'} onClick={handleOpenUserMenu} sx={{p: 0}}>
+                                    <Avatar alt="Profile picture" src={session.user.imageUrl}/>
+                                </IconButton>
+                            </Tooltip>
+                            <Menu
+                                id="menu-appbar"
+                                anchorEl={anchorElUser}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                open={Boolean(anchorElUser)}
+                                onClose={handleCloseUserMenu}>
+                                {user?.roles == 'ADMIN' ?
+                                    <Link href={'/dashboard/admin-page'} color={'primary'} underline={'none'}>
+                                        <MenuItem color={'primary'} onClick={handleClose} sx={{
                                             '&:hover': {
                                                 color: 'primary.main',
                                                 textDecoration: 'underline'// Change this to the color you want on hover
                                             },
-                                        }}>
+                                        }}>Admin Page</MenuItem>
+                                        <Link href={'/dashboard/profile-page'} color={'primary'}
+                                              underline={'none'}><MenuItem
+                                            color={'MuiMenuItem'}
+                                            onClick={handleClose}
+                                            sx={{
+                                                '&:hover': {
+                                                    color: 'primary.main',
+                                                    textDecoration: 'underline'// Change this to the color you want on hover
+                                                },
+                                            }}>
 
-                                        Profile</MenuItem>
+                                            Profile</MenuItem>
+                                        </Link>
+                                    </Link> :
+                                    <Link href={'/dashboard/profile-page'} color={'primary'} underline={'none'}>
+                                        <MenuItem color={'primary'} onClick={handleClose} sx={{
+                                            '&:hover': {
+                                                color: 'primary.main',
+                                                textDecoration: 'underline'// Change this to the color you want on hover
+                                            },
+                                        }}>Profile</MenuItem>
                                     </Link>
-                                </Link> :
-                                <Link href={'/dashboard/profile-page'} color={'primary'} underline={'none'}>
-                                    <MenuItem color={'primary'} onClick={handleClose} sx={{
-                                        '&:hover': {
-                                            color: 'primary.main',
-                                            textDecoration: 'underline'// Change this to the color you want on hover
-                                        },
-                                    }}>Profile</MenuItem>
-                                </Link>
-                            }
-                            <MenuItem onClick={() => {
-                                signOut();
-                            }}
-                                      color={'primary'}
-                                      sx={{
-                                          color: 'primary.main',
-                                          '&:hover': {
-                                              color: 'primary.main', // Change this to the color you want on hover
-                                              textDecoration: 'underline'
-                                          },
-                                      }}
-                            >Sign Out
-                            </MenuItem>
-                        </Menu>
-                        {/*<Menu
+                                }
+                                <MenuItem onClick={() => {
+                                    signOut();
+                                }}
+                                          color={'primary'}
+                                          sx={{
+                                              color: 'primary.main',
+                                              '&:hover': {
+                                                  color: 'primary.main', // Change this to the color you want on hover
+                                                  textDecoration: 'underline'
+                                              },
+                                          }}
+                                >Sign Out
+                                </MenuItem>
+                            </Menu>
+                            {/*<Menu
                             sx={{mt: '45px'}}
                             id="menu-appbar"
                             anchorEl={anchorElUser}
@@ -248,7 +235,9 @@ export default function NavbarLoggedIn({session}: { session: Session | null }) {
                                 </MenuItem>
                             ))}
                         </Menu>*/}
+                        </Box>
                     </Box>
+
                 </Toolbar>
             </AppBar>
             <nav>
@@ -264,7 +253,6 @@ export default function NavbarLoggedIn({session}: { session: Session | null }) {
                         '& .MuiDrawer-paper': {
                             boxSizing: 'border-box',
                             width: drawerWidth,
-                            // Set the background color to primary.main
                         },
                     }}
                 >
