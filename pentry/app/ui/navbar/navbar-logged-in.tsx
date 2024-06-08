@@ -93,8 +93,9 @@ export default function NavbarLoggedIn({session}: { session: Session | null }) {
                                 edge="start"
                                 onClick={handleDrawerToggle}
                                 sx={{mr: 2, display: {sm: 'none'}}}
+
                             >
-                                <MenuIcon/>
+                                <MenuIcon fontSize={'large'}/>
                             </IconButton>
                         </Box>
                         <Box id={'logoBox'} display={'flex'} flexDirection={'row'} justifyContent={'center'}
