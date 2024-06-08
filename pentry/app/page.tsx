@@ -1,8 +1,8 @@
 'use client';
-import {croissant} from "@/app/ui/fonts";
 import {Box, Link, Typography} from "@mui/material";
 import {useEffect} from "react";
 import {useRouter} from "next/navigation";
+import theme from "@/theme";
 
 export default function Home() {
     const router = useRouter();
@@ -25,7 +25,8 @@ export default function Home() {
                 <Link href="/dashboard" sx={{
                     typography: 'h2',
                     color: 'primary.main',
-                    fontFamily: croissant.style.fontFamily,
+                    fontFamily: theme.typography.fontFamily,
+                    fontWeight: 700,
                     mt: 8,
                     textAlign: 'center',
                     textDecoration: 'none',
