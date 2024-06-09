@@ -2,7 +2,7 @@
 import {saveSearchItem} from "@/app/lib/actions";
 import {Item} from "@/app/lib/definitions";
 import {Box} from "@mui/material";
-import {AddItemCard} from "@/app/ui/dashboard/cards";
+import {SaveItemCard} from "@/app/ui/dashboard/cards";
 import {ITEM_IMAGE} from '@/app/lib/constants';
 import {Suspense} from "react";
 import Loading from "@/app/loading";
@@ -17,7 +17,7 @@ export default function AddItem({pantryId, gtin, item}: {
     const category = item?.category;
     const brand = item?.brand;
     const formAction = saveSearchItem.bind(null, pantryId, name, gtin, image, category, brand);
-    
+
 
     return (
         <Box>
@@ -25,7 +25,7 @@ export default function AddItem({pantryId, gtin, item}: {
                 {item ? (
                     <Box sx={{position: 'relative'}}>
                         <Suspense fallback={<Loading/>}>
-                            <AddItemCard item={item}/>
+                            <SaveItemCard item={item}/>
                         </Suspense>
                     </Box>) : null}
             </Box>) : null}

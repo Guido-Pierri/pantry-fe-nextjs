@@ -23,7 +23,8 @@ export default async function Page({searchParams}: {
     console.log('categories', categories)
     return (
         <Box flex={'auto'} flexDirection={'column'} alignContent={'center'}>
-            <CreateForm categories={categories}/>
+            <CreateForm/>
+
         </Box>
     )
 
