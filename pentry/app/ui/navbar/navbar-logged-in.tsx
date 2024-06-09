@@ -6,7 +6,6 @@ import {
     CssBaseline,
     Divider,
     Drawer,
-    Link,
     List,
     ListItem,
     ListItemButton,
@@ -37,7 +36,6 @@ export default function NavbarLoggedIn({session}: { session: Session | null }) {
     const isMediumScreen = useMediaQuery(theme.breakpoints.up('md'));
 
     if (!session) return null;
-    console.log('session in navbar', session)
     const user = session.user;
     if (!user) return null;
     const handleClick = () => {
@@ -170,36 +168,27 @@ export default function NavbarLoggedIn({session}: { session: Session | null }) {
                                 open={Boolean(anchorElUser)}
                                 onClose={handleCloseUserMenu}>
                                 {user?.roles == 'ADMIN' ?
-                                    <Link href={'/dashboard/admin-page'} color={'primary'} underline={'none'}>
-                                        <MenuItem color={'primary'} onClick={handleClose} sx={{
-                                            '&:hover': {
-                                                color: 'primary.main',
-                                                textDecoration: 'underline'// Change this to the color you want on hover
-                                            },
-                                        }}>Admin Page</MenuItem>
-                                        <Link href={'/dashboard/profile-page'} color={'primary'}
-                                              underline={'none'}><MenuItem
-                                            color={'MuiMenuItem'}
-                                            onClick={handleClose}
-                                            sx={{
-                                                '&:hover': {
-                                                    color: 'primary.main',
-                                                    textDecoration: 'underline'// Change this to the color you want on hover
-                                                },
-                                            }}>
+                                    <MenuItem color={'primary'} onClick={handleClose} href={'/dashboard/admin-page'}
+                                              sx={{
+                                                  '&:hover': {
+                                                      color: 'primary.main',
+                                                      textDecoration: 'underline'// Change this to the color you want on hover
+                                                  },
+                                              }}
+                                    >Admin Page
+                                    </MenuItem> : null}
+                                <MenuItem href={'/dashboard/profile-page'}
+                                          color={'MuiMenuItem'}
+                                          onClick={handleClose}
+                                          sx={{
+                                              '&:hover': {
+                                                  color: 'primary.main',
+                                                  textDecoration: 'underline'// Change this to the color you want on hover
+                                              },
+                                          }}>
+                                    Profile
+                                </MenuItem>
 
-                                            Profile</MenuItem>
-                                        </Link>
-                                    </Link> :
-                                    <Link href={'/dashboard/profile-page'} color={'primary'} underline={'none'}>
-                                        <MenuItem color={'primary'} onClick={handleClose} sx={{
-                                            '&:hover': {
-                                                color: 'primary.main',
-                                                textDecoration: 'underline'// Change this to the color you want on hover
-                                            },
-                                        }}>Profile</MenuItem>
-                                    </Link>
-                                }
                                 <MenuItem onClick={() => {
                                     signOut();
                                 }}
@@ -214,28 +203,6 @@ export default function NavbarLoggedIn({session}: { session: Session | null }) {
                                 >Sign Out
                                 </MenuItem>
                             </Menu>
-                            {/*<Menu
-                            sx={{mt: '45px'}}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
-                        >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
-                                </MenuItem>
-                            ))}
-                        </Menu>*/}
                         </Box>
                     </Box>
 
