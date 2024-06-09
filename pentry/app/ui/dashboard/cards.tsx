@@ -36,6 +36,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import {deleteItemById} from "@/app/lib/actions";
 import {useFormStatus} from "react-dom";
 import Loading from "@/app/loading";
+import TextField from "@mui/material/TextField";
 
 const iconMap = {
     items: RectangleStackIcon,
@@ -273,7 +274,45 @@ export function RecipeCard({recipe}: { recipe: Recipe }): ReactNode {
     )
 }
 
-export function AddItemCard({item}: { item: Item }): ReactNode {
+export function AddItemCard() {
+    const {pending} = useFormStatus();
+    console.log('pending', pending)
+    if (pending) {
+        return <Loading/>
+    }
+    return (
+        <Box>
+            <Box flexDirection={'column'} border={"black"}>
+                <Typography variant={'h6'}>
+                    Save an item to your pantry
+                </Typography>
+                <TextField id={"name"}
+                           name={"name"}
+                           label={"Enter name"}
+                           type={"text"}
+                           placeholder={'Item'}
+                           required={true}
+                           fullWidth={true}
+                           margin={"normal"}/>
+
+                <TextField id={"expirationDate"}
+                           name={"expirationDate"}
+                           type={"date"}
+                           required={true}
+                           fullWidth={true}
+                           margin={"normal"}/>
+            </Box>
+            <Box display={"flex"} justifyContent={'space-evenly'}>
+                <Fab variant={'extended'} color={'primary'} type="submit" size={'small'} sx={{padding: '.5rem'}}>Save
+                    Item</Fab>
+                <Fab href={'/dashboard/pantry'} variant={'extended'} color={'primary'} size={'small'}
+                     sx={{padding: '.5rem'}}>Cancel</Fab>
+            </Box>
+        </Box>
+    )
+}
+
+export function SaveItemCard({item}: { item: Item }): ReactNode {
     const image: string | undefined = item?.image;
     const [isExpiryDate, setIsExpiryDate] = useState(false);
     const {pending} = useFormStatus();

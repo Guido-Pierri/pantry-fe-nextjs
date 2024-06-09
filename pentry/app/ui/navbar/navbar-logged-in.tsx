@@ -188,7 +188,6 @@ export default function NavbarLoggedIn({session}: { session: Session | null }) {
                                           }}>
                                     Profile
                                 </MenuItem>
-
                                 <MenuItem onClick={() => {
                                     signOut();
                                 }}
