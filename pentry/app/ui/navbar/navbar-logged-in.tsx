@@ -168,8 +168,9 @@ export default function NavbarLoggedIn({session}: { session: Session | null }) {
                                 open={Boolean(anchorElUser)}
                                 onClose={handleCloseUserMenu}>
                                 {user?.roles == 'ADMIN' ?
-                                    <MenuItem color={'primary'} onClick={handleClose} href={'/dashboard/admin-page'}
+                                    <MenuItem onClick={handleClose} href={'/dashboard/admin-page'}
                                               sx={{
+                                                  color: 'primary.main',
                                                   '&:hover': {
                                                       color: 'primary.main',
                                                       textDecoration: 'underline'// Change this to the color you want on hover
@@ -178,9 +179,9 @@ export default function NavbarLoggedIn({session}: { session: Session | null }) {
                                     >Admin Page
                                     </MenuItem> : null}
                                 <MenuItem href={'/dashboard/profile-page'}
-                                          color={'MuiMenuItem'}
                                           onClick={handleClose}
                                           sx={{
+                                              color: 'primary.main',
                                               '&:hover': {
                                                   color: 'primary.main',
                                                   textDecoration: 'underline'// Change this to the color you want on hover
@@ -191,7 +192,6 @@ export default function NavbarLoggedIn({session}: { session: Session | null }) {
                                 <MenuItem onClick={() => {
                                     signOut();
                                 }}
-                                          color={'primary'}
                                           sx={{
                                               color: 'primary.main',
                                               '&:hover': {
