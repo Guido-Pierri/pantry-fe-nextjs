@@ -6,6 +6,7 @@ import {
     CssBaseline,
     Divider,
     Drawer,
+    Link,
     List,
     ListItem,
     ListItemButton,
@@ -25,6 +26,7 @@ import Image from "next/image";
 import {useTheme} from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {signOut} from "next-auth/react";
+import {useRouter} from "next/navigation";
 
 export default function NavbarLoggedIn({session}: { session: Session | null }) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -34,6 +36,7 @@ export default function NavbarLoggedIn({session}: { session: Session | null }) {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.up('sm'));
     const isMediumScreen = useMediaQuery(theme.breakpoints.up('md'));
+    const router = useRouter();
 
     if (!session) return null;
     const user = session.user;
@@ -168,27 +171,29 @@ export default function NavbarLoggedIn({session}: { session: Session | null }) {
                                 open={Boolean(anchorElUser)}
                                 onClose={handleCloseUserMenu}>
                                 {user?.roles == 'ADMIN' ?
-                                    <MenuItem onClick={handleClose} href={'/dashboard/admin-page'}
-                                              sx={{
-                                                  color: 'primary.main',
-                                                  '&:hover': {
+                                    <Link href={'/dashboard/admin-page'}>
+                                        <MenuItem onClick={handleClose}
+                                                  sx={{
                                                       color: 'primary.main',
-                                                      textDecoration: 'underline'// Change this to the color you want on hover
-                                                  },
-                                              }}
-                                    >Admin Page
-                                    </MenuItem> : null}
-                                <MenuItem href={'/dashboard/profile-page'}
-                                          onClick={handleClose}
-                                          sx={{
-                                              color: 'primary.main',
-                                              '&:hover': {
-                                                  color: 'primary.main',
-                                                  textDecoration: 'underline'// Change this to the color you want on hover
-                                              },
-                                          }}>
-                                    Profile
-                                </MenuItem>
+                                                      '&:hover': {
+                                                          color: 'primary.main',
+                                                          textDecoration: 'underline'// Change this to the color you want on hover
+                                                      },
+                                                  }}
+                                        >Admin Page
+                                        </MenuItem></Link> : null}
+                                <Link href={'/dashboard/profile-page'}>
+                                    <MenuItem
+                                        onClick={handleClose}
+                                        sx={{
+                                            color: 'primary.main',
+                                            '&:hover': {
+                                                color: 'primary.main',
+                                                textDecoration: 'underline'// Change this to the color you want on hover
+                                            },
+                                        }}>
+                                        Profile
+                                    </MenuItem></Link>
                                 <MenuItem onClick={() => {
                                     signOut();
                                 }}

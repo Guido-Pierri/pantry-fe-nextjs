@@ -1,6 +1,4 @@
 'use client';
-import {fetchUserById} from "@/app/lib/data";
-import Link from "next/link";
 import {updateUserProfile} from "@/app/lib/actions";
 import {Box, Button, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField} from "@mui/material";
 import {AccountCircle, Email, Visibility, VisibilityOff} from "@mui/icons-material";
@@ -131,7 +129,7 @@ export default function UsersTable({user}: { user: User }) {
                     />
                 </FormControl>
             </Box>
-            <Button endIcon={<DeleteIcon/>} color={'secondary'} href={'/dashboard/profile-page/delete-account'}>
+            <Button endIcon={<DeleteIcon/>} color={'warning'} href={'/dashboard/profile-page/delete-account'}>
                 Delete your account
             </Button>
 
