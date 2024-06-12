@@ -198,13 +198,13 @@ export async function registerUser(formData: FormData) {
                 body: JSON.stringify(req)
             });
             console.log('Response Status:', res.status);
-            console.log('res', res)
+            /*console.log('res', res)
             const data = await res.json();
             console.log('data', data)
             const userId = data.id
             console.log('userId', userId)
             const pantry = await createPantry(userId)
-            console.log('pantry', pantry)
+            console.log('pantry', pantry)*/
             redirect('/login')
         }
     }
