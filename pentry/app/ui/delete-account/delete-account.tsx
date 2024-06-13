@@ -22,8 +22,7 @@ function DeleteUser({id}: { id: string }) {
     return (
         <form action={deleteUserWithId} style={{marginTop: '1rem'}}>
             <Button endIcon={<DeleteIcon/>}
-                    color={'secondary'}
-                    href={'/dashboard/profile-page/delete-account'}
+                    color={'warning'}
                     type={'submit'}>
                 Delete your account
             </Button>
