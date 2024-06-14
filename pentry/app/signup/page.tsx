@@ -1,4 +1,4 @@
-import SignUpForm from "@/app/ui/signup-form";
+import SignUpForm from "@/app/ui/sign-up/signup-form";
 import {Box} from "@mui/material";
 import React from "react";
 import {auth} from "@/auth";

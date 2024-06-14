@@ -1,23 +1,19 @@
 'use client';
-import {useFormStatus} from "react-dom";
 import {registerUser} from "@/app/lib/actions";
 import React, {useState} from "react";
-import {ExclamationCircleIcon} from "@heroicons/react/24/outline";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-
 import InputAdornment from "@mui/material/InputAdornment";
 import {FormControl} from "@mui/base";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 import Button from "@mui/material/Button";
 import ReportGmailerrorredIcon from "@mui/icons-material/ReportGmailerrorred";
-
 import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceRounded';
+import SignupButton from "@/app/ui/sign-up/sign-up-button";
 
 export default function SignUpForm() {
 
@@ -161,15 +157,4 @@ export default function SignUpForm() {
     );
 }
 
-function SignupButton() {
-    const {pending} = useFormStatus();
-    return (
-        <Button variant={'contained'} color={'primary'} fullWidth={true}
-                sx={{marginTop: '1rem', minWidth: 'fit-content'}}
-                type={'submit'}
-                aria-disabled={pending}>
-            Sign up <ArrowForwardIcon sx={{marginLeft: '1rem'}}/>
-        </Button>
 
-    );
-}
