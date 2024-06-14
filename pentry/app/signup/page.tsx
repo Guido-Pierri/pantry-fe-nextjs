@@ -1,11 +1,8 @@
 import SignUpForm from "@/app/ui/signup-form";
 import {Box} from "@mui/material";
-import {croissant} from "@/app/ui/fonts";
 import React from "react";
-import theme from "@/theme";
-import Navbar from "@/app/ui/navbar/navbar";
 import {auth} from "@/auth";
-
+import Navbar from "@/app/ui/navbar/navbar";
 
 export default async function SignupPage() {
     const session = await auth()
@@ -22,9 +19,9 @@ export default async function SignupPage() {
                         width: '100%'
                     },
                 }}><Navbar session={session}></Navbar>
+                    <SignUpForm></SignUpForm>
                 </Box>
             </Box>
-            <SignUpForm></SignUpForm>
         </>
     )
 }

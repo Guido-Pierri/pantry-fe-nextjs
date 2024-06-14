@@ -17,6 +17,7 @@ import {Visibility, VisibilityOff} from "@mui/icons-material";
 import Button from "@mui/material/Button";
 import ReportGmailerrorredIcon from "@mui/icons-material/ReportGmailerrorred";
 
+import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceRounded';
 
 export default function SignUpForm() {
 
@@ -53,7 +54,13 @@ export default function SignUpForm() {
         <Box
             component="form" onSubmit={handleSubmit} flexDirection={'column'}
             m={'1rem'}>
-            <Typography variant={'h6'}>Sign up to Pantry partner</Typography>
+            <Box display={'flex'} flexDirection={'row'} alignItems={'center'}>
+                <Button href={'/login'}>
+                    <KeyboardBackspaceRoundedIcon/>
+                </Button>
+                <Typography variant={'h6'}>Sign up to Pantry partner</Typography>
+
+            </Box>
             <FormControl>
                 <InputLabel sx={{marginTop: '1rem'}} htmlFor="firstName">Enter First Name</InputLabel>
                 <TextField id="firstName"
