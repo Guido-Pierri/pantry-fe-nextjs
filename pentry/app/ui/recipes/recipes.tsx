@@ -8,11 +8,19 @@ import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Box from "@mui/material/Box";
 import {Link} from "@mui/material";
+import RenderPantryButtons from "@/app/ui/pantry/render-pantry-buttons";
 
 export default function Recipes({recipes}: { recipes: RecipeCollection }) {
-    if (!recipes) {
-        return <Box>No recipes found</Box>
+    if (recipes.length === 0) {
+        return (<Box display={'flex'}
+                     flexDirection={'column'}
+                     alignItems={'center'}
+                     justifyContent={'space-around'}>
+            <Typography variant={'h6'} sx={{marginBottom: '1rem'}}>No recipes found</Typography>
+            <RenderPantryButtons/>
+        </Box>)
     }
+    console.log('recipes', recipes)
     return (
         <Grid container spacing={2} columns={2} rowSpacing={1}>
             <Grid item xs={12} md={6}>
