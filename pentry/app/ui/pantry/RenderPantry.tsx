@@ -9,6 +9,7 @@ import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import React from "react";
 import {PantryListItemCard} from "@/app/ui/dashboard/cards";
+import RenderPantryButtons from "@/app/ui/pantry/render-pantry-buttons";
 
 export default function RenderPantry({pantry, user}: { pantry: PantryDto, user: User }) {
 
@@ -62,19 +63,7 @@ export default function RenderPantry({pantry, user}: { pantry: PantryDto, user: 
                         alt="Empty pantry"
                         priority
                     />
-                    <Box display={"flex"} justifyContent={'space-evenly'}>
-                        <Link href="/dashboard/pantry/add-item">
-                            <Fab size={"small"} color="primary" aria-label="add" variant="extended">
-                                <AddIcon/> Add Items
-                            </Fab>
-                        </Link>
-                        <Link href={'/dashboard/search'}>
-                            <Fab size={"small"} color={'primary'} variant="extended"
-                                 sx={{marginLeft: '1rem',}}>
-                                <SearchIcon/>
-                                Search for a product
-                            </Fab></Link>
-                    </Box>
+                    <RenderPantryButtons/>
                 </Box>}
 
         </Box>
