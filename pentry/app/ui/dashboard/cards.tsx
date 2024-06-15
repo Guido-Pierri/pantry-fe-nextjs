@@ -147,26 +147,27 @@ export function PantryListItemCard({item, user}: {
             backgroundColor: theme.palette.grey[50],
             borderRadius: '1rem',
         }}
-    >
-        <CardActionArea href={`/dashboard/pantry/items/${item.id}`}>
-
-
-            <CardMedia component={'img'} alt={item.name} height="140" image={item?.image}
+    ><CardActionArea href={`/dashboard/pantry/items/${item.id}`}>
+        {item?.image ?
+            <CardMedia component={'img'}
+                       alt={item.name}
+                       sx={resultCardImageStyle}
+                       image={item?.image}
                 //style={{overflow: 'hidden', position: 'relative'}}
             >
-            </CardMedia>
-            <Typography component={'div'}>
-                {item.name}
-                {calculateExpiring(item.expirationDate) === "expiring" ?
-                    (<Typography> This item expires
-                        soon!
-                    </Typography>) : calculateExpiring(item.expirationDate) === "expired" ?
-                        <Typography>This item is
-                            expired</Typography> :
-                        <Typography
-                            color={'black'}>Expires {item.expirationDate}</Typography>}
-            </Typography>
-        </CardActionArea>
+            </CardMedia> : <Image src={ImageMissing} width={600} alt={item.name}/>}
+        <Typography component={'div'}>
+            {item.name}
+            {calculateExpiring(item.expirationDate) === "expiring" ?
+                (<Typography> This item expires
+                    soon!
+                </Typography>) : calculateExpiring(item.expirationDate) === "expired" ?
+                    <Typography>This item is
+                        expired</Typography> :
+                    <Typography
+                        color={'black'}>Expires {item.expirationDate}</Typography>}
+        </Typography>
+    </CardActionArea>
         <CardActionArea>
             <CardActions sx={{justifyContent: 'flex-end'}}>
                 <DeleteIcon onClick={(event) => deleteItem(event, item.id)}/>
@@ -182,6 +183,7 @@ export function PantryItemCard({item}: { item: Item }): ReactNode {
         position: 'relative',
         overflow: 'hidden',
         padding: '1rem',
+        borderRadius: '1rem',
 
     }}>
         {image ? <CardMedia
@@ -204,13 +206,14 @@ export function PantryItemCard({item}: { item: Item }): ReactNode {
     </Card>;
 }
 
-export function ResultCard({item}: { item: SearchItem }): ReactNode {
-    const resultCardImageStyle = {
-        width: '100%',
-        height: '182px',
-        objectFit: 'contain',
+const resultCardImageStyle = {
+    width: '100%',
+    height: '182px',
+    objectFit: 'contain',
 
-    };
+};
+
+export function ResultCard({item}: { item: SearchItem }): ReactNode {
     const image: string | undefined = item?.image;
     return <Card sx={{
         width: '100%',
