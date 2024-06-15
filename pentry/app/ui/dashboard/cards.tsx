@@ -156,16 +156,16 @@ export function PantryListItemCard({item, user}: {
                 //style={{overflow: 'hidden', position: 'relative'}}
             >
             </CardMedia> : <Image src={ImageMissing} width={600} alt={item.name}/>}
-        <Typography component={'div'}>
+        <Typography variant={'body1'} component={'div'}>
             {item.name}
             {calculateExpiring(item.expirationDate) === "expiring" ?
-                (<Typography> This item expires
+                (<Typography variant={'body2'}> This item expires
                     soon!
                 </Typography>) : calculateExpiring(item.expirationDate) === "expired" ?
-                    <Typography>This item is
+                    <Typography variant={'body2'}>This item is
                         expired</Typography> :
-                    <Typography
-                        color={'black'}>Expires {item.expirationDate}</Typography>}
+                    <Typography variant={'body2'}
+                                color={'black'}>Expires {item.expirationDate}</Typography>}
         </Typography>
     </CardActionArea>
         <CardActionArea>
