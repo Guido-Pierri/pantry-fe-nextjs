@@ -12,7 +12,7 @@ import Image from "next/image";
 import {
     Avatar,
     Box,
-    Card,
+    Card, CardActions,
     CardContent,
     CardMedia,
     IconButton,
@@ -37,6 +37,7 @@ import {deleteItemById} from "@/app/lib/actions";
 import {useFormStatus} from "react-dom";
 import Loading from "@/app/loading";
 import TextField from "@mui/material/TextField";
+import CardActionArea from "@mui/material/CardActionArea";
 
 const iconMap = {
     items: RectangleStackIcon,
@@ -117,7 +118,9 @@ export function PantryListItemCard({item, user}: {
     user: User,
 }): ReactNode {
 
-    async function deleteItem(id: string) {
+    async function deleteItem(event: React.MouseEvent, id: string) {
+        event.preventDefault(); // Add this line to prevent the default click event
+
         'use client'
         console.log('delete item')
         if (!user.token) return
@@ -139,48 +142,37 @@ export function PantryListItemCard({item, user}: {
             return "not expiring";
         }
     }
-    return <ListItem
-
+    return <Card
         sx={{
             backgroundColor: theme.palette.grey[50],
             borderRadius: '1rem',
         }}
-
-        secondaryAction={
-            <IconButton edge="end" aria-label="delete">
-                <DeleteIcon onClick={() => deleteItem(item.id)}/>
-            </IconButton>
-        }
     >
-        <MaterialLink href={`/dashboard/pantry/items/${item.id}`} underline={'none'}>
-            <ListItemAvatar>
-                <Avatar style={{overflow: 'hidden', position: 'relative'}}>
-                    <Image src={item.image}
-                           alt={item.name}
-                           fill={true}
-                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                           style={{objectFit: 'cover'}}/>
+        <CardActionArea href={`/dashboard/pantry/items/${item.id}`}>
 
-                </Avatar>
-            </ListItemAvatar>
-        </MaterialLink>
-        <MaterialLink href={`/dashboard/pantry/items/${item.id}`} color={'black'}
-                      underline={'none'}>
-            <ListItemText
-                primary={`${item.name}`}
-                secondary={calculateExpiring(item.expirationDate) === "expiring" ?
-                    (<Typography color={theme.palette.secondary.main}> This item expires
+
+            <CardMedia component={'img'} alt={item.name} height="140" image={item?.image}
+                //style={{overflow: 'hidden', position: 'relative'}}
+            >
+            </CardMedia>
+            <Typography component={'div'}>
+                {item.name}
+                {calculateExpiring(item.expirationDate) === "expiring" ?
+                    (<Typography> This item expires
                         soon!
                     </Typography>) : calculateExpiring(item.expirationDate) === "expired" ?
-                        <Typography color={theme.palette.error.main}>This item is
+                        <Typography>This item is
                             expired</Typography> :
                         <Typography
                             color={'black'}>Expires {item.expirationDate}</Typography>}
-                primaryTypographyProps={{variant: 'h6'}}
-                secondaryTypographyProps={{color: 'black'}}
-            />
-        </MaterialLink>
-    </ListItem>;
+            </Typography>
+        </CardActionArea>
+        <CardActionArea>
+            <CardActions sx={{justifyContent: 'flex-end'}}>
+                <DeleteIcon onClick={(event) => deleteItem(event, item.id)}/>
+            </CardActions>
+        </CardActionArea>
+    </Card>;
 
 }
 
