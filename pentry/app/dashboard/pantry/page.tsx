@@ -1,7 +1,7 @@
 import {fetchPantryByUserId,} from '@/app/lib/data';
 import {auth} from "@/auth";
 
-import RenderPantry from "@/app/ui/pantry/RenderPantry";
+import RenderPantry from "@/app/ui/pantry/render-pantry";
 
 export default async function Page() {
     const session = await auth()

@@ -16,11 +16,13 @@ import Button from "@mui/material/Button";
 export default function RenderPantry({pantry, user}: { pantry: PantryDto, user: User }) {
     return (
         <Box>
-            <Typography variant={'h6'} sx={{mt: 0, mb: 2}}>
-                Your pantry
-            </Typography>
             {pantry && pantry.items.length > 0 ?
                 <Grid container spacing={2} alignItems="stretch" justifyContent={'flex-start'}>
+                    <Grid item xs={12}>
+                        <Typography variant={'h6'} sx={{mt: 0, mb: 2}}>
+                            Your pantry
+                        </Typography>
+                    </Grid>
                     {pantry.items.map((item: Item) =>
                         <Grid item xs={6} sm={4} md={2} key={item.id}>
                             <PantryListItemCard item={item} user={user}></PantryListItemCard>
@@ -42,7 +44,6 @@ export default function RenderPantry({pantry, user}: { pantry: PantryDto, user: 
                         alt="Empty pantry"
                         priority
                     />
-                    <RenderPantryButtons/>
                 </Box>}
             <Box display={'flex'} justifyContent={'space-evenly'} mt={'1rem'}>
                 <Link href={'/dashboard/pantry/add-item'}>
@@ -52,13 +53,13 @@ export default function RenderPantry({pantry, user}: { pantry: PantryDto, user: 
                         variant={'extended'}
                         size={'small'}
                     >
-                        <AddIcon/>Add Items
+                        <AddIcon/>Add items
                     </Fab></Link>
                 <Link href={'/dashboard/search'}>
                     <Fab size={"small"} color={'primary'} variant="extended"
                          sx={{marginLeft: '1rem'}}>
                         <SearchIcon/>
-                        Search for a product
+                        Search for an item
                     </Fab></Link>
             </Box>
         </Box>

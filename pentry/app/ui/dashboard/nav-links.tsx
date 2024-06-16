@@ -98,7 +98,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import Box from "@mui/material/Box";
 import RenderDashboard from "@/app/ui/dashboard/RenderDashboard";
 import {PantryDto, User} from "@/app/lib/definitions";
-import RenderPantry from "@/app/ui/pantry/RenderPantry";
+import RenderPantry from "@/app/ui/pantry/render-pantry";
 import ResultsDialog from "@/app/ui/search/results-dialog";
 import {Session} from "next-auth";
 
