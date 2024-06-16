@@ -112,6 +112,21 @@ const cardHeaderStyle = {
     color: 'white',
     backgroundColor: 'primary.light',
 };
+const calculateExpiring = (date: string) => {
+    const today = new Date()
+    const expiration = new Date(date)
+    const timeDiff = (expiration.getTime() - today.getTime());
+    console.log('timeDiff', timeDiff)
+    const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    console.log('diffDays', diffDays)
+    if (diffDays < 0) {
+        return "expired";
+    } else if (diffDays < 3) {
+        return "expiring";
+    } else {
+        return "not expiring";
+    }
+}
 
 export function PantryListItemCard({item, user}: {
     item: Item,
@@ -127,21 +142,7 @@ export function PantryListItemCard({item, user}: {
         await deleteItemById(id, user.token)
     }
 
-    const calculateExpiring = (date: string) => {
-        const today = new Date()
-        const expiration = new Date(date)
-        const timeDiff = (expiration.getTime() - today.getTime());
-        console.log('timeDiff', timeDiff)
-        const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-        console.log('diffDays', diffDays)
-        if (diffDays < 0) {
-            return "expired";
-        } else if (diffDays < 3) {
-            return "expiring";
-        } else {
-            return "not expiring";
-        }
-    }
+
     return <Card
         sx={{
             backgroundColor: theme.palette.grey[50],
@@ -178,6 +179,7 @@ export function PantryListItemCard({item, user}: {
 
 export function PantryItemCard({item}: { item: Item }): ReactNode {
     const image: string | undefined = item?.image || ITEM_IMAGE;
+    console.log('item', item, 'image', image)
     return <Card key={item.id} sx={{
         position: 'relative',
         overflow: 'hidden',
@@ -189,7 +191,7 @@ export function PantryItemCard({item}: { item: Item }): ReactNode {
                 component="img"
                 image={item.image}
                 alt={item.name}
-                sx={imageStyle}/> :
+                sx={resultCardImageStyle}/> :
             <Image
                 src={ImageMissing}
                 width={600}
@@ -199,9 +201,17 @@ export function PantryItemCard({item}: { item: Item }): ReactNode {
             <Typography variant={"h5"}>
                 {item.name}</Typography>
             <Typography variant={'h6'}>{item.brand}</Typography>
-            <Typography variant="h6">Quantity: {item.quantity}</Typography>
-            <Typography variant="h6" color="secondary.main">Expires: {item.expirationDate}</Typography>
-        </CardContent>
+            <Typography variant={"h6"}>Quantity: {item.quantity}</Typography>
+            <Typography variant={'body1'} component={'div'}>
+                {calculateExpiring(item.expirationDate) === "expiring" ?
+                    (<Typography color={'orange'} variant={'body2'}>Expires
+                        soon!
+                    </Typography>) : calculateExpiring(item.expirationDate) === "expired" ?
+                        <Typography color={'red'} variant={'body2'}>Expired</Typography> :
+                        <Typography variant={'body2'}
+                                    color={'black'}>Expires {item.expirationDate}</Typography>}
+            </Typography> </CardContent>
+
     </Card>;
 }
 

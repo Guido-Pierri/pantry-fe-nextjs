@@ -8,7 +8,7 @@ import AddItem from "@/app/ui/pantry/addItem";
 import {auth} from "@/auth";
 import Image from "next/image";
 import {CustomItem} from "@/app/lib/definitions";
-import Item from "@/app/ui/pantry/Item";
+import Item from "@/app/ui/pantry/item";
 
 export default async function Page({params}: { params: { id: string } }) {
     const itemIid = params.id;
