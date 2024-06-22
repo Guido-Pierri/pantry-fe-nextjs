@@ -1,6 +1,6 @@
 'use client';
 import {updateUserProfile} from "@/app/lib/actions";
-import {Box, Button, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField} from "@mui/material";
+import {Avatar, Box, Button, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField} from "@mui/material";
 import {AccountCircle, Email, Visibility, VisibilityOff} from "@mui/icons-material";
 import {FormControl} from "@mui/base";
 import React, {useState} from "react";
@@ -25,6 +25,19 @@ export default function UsersTable({user}: { user: User }) {
             component="form" action={updateUserWithId} flexDirection={'column'}
             sx={{alignItems: 'flex-start'}}
             m={'1rem'}>
+            <Box component={'div'} display={'flex'} justifyContent={'center'}><Avatar
+                alt="Remy Sharp"
+                src={user?.imageUrl}
+                sx={{width: 56, height: 56, marginBottom: '1rem'}}
+            /></Box> <TextField
+            id="firstName"
+            name="firstName"
+            label="Edit first name"
+            defaultValue={user?.firstName}
+            variant="outlined"
+            fullWidth
+            sx={{mb: '1rem'}}
+        />
             <Box sx={{borderRadius: '1%'}} p={1}>
                 <TextField
                     sx={{marginBottom: '1rem'}}
