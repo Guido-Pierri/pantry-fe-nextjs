@@ -5,7 +5,6 @@ import {auth} from "@/auth";
 
 export default async function Layout({children}: { children: React.ReactNode }) {
     const session = await auth()
-    console.log('session in layout', session)
     if (!session) return null
 
     return (

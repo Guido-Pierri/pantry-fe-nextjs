@@ -125,59 +125,6 @@ export async function fetchPantryByUserId(user_id: string): Promise<Promise<Pant
     return {id, userId, items}
 }
 
-
-export async function fetchUserByEmail(email: string, token: string, refreshToken: string): Promise<Promise<null> | Promise<User>> {
-    const session = await auth()
-
-    const res: Response = await fetch(`${apiUrl}/api/v1/users/email/${email}`,
-        {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-        });
-
-    if (res.status === 401) {
-        const res: Response = await fetch(`${apiUrl}/api/v1/users/email/${email}`,
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${refreshToken}`
-                },
-            });
-        return res.json();
-    }
-    if (res.status === 404) {
-        return res.json();
-    }
-
-    const data = await res.json();
-    if (!res.ok) {
-        throw new Error('Failed to fetch data');
-    }
-    const id = data.id;
-    const firstName = data.firstName;
-    const lastName = data.lastName;
-    const userEmail = data.email;
-    const roles = data.roles;
-    const authProvider = data.authProvider;
-    const imageUrl = data.imageUrl;
-    return {
-        id,
-        firstName,
-        lastName,
-        email: userEmail,
-        imageUrl: imageUrl,
-        password: '',
-        roles: roles,
-        authProvider: authProvider
-    }
-
-
-}
-
 export async function fetchAllUsers(): Promise<Promise<User[]> | null> {
     const session = await auth()
 
@@ -187,12 +134,14 @@ export async function fetchAllUsers(): Promise<Promise<User[]> | null> {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${session?.token}`
         },
+        cache: "no-store",
     });
     if (res.status === 403) {
         // This will activate the closest `error.js` Error Boundary
         //throw new Error('Failed to fetch data')
         return null;
     }
+
     return res.json();
 }
 

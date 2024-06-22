@@ -4,6 +4,7 @@ import Image from "next/image";
 
 export default async function UsersTable() {
     const users = await fetchAllUsers();
+    console.log('users', users)
 
     return (
         <div className="mt-6 flow-root">
@@ -78,12 +79,12 @@ export default async function UsersTable() {
                                             height={28}
                                             alt={`${user?.firstName}'s profile picture`}
                                         />
-                                        <p>{user.firstName}</p>
+                                        <p>{user?.firstName}</p>
                                     </div>
                                 </td>
 
                                 <td className="whitespace-nowrap px-3 py-3">
-                                    {user.email}
+                                    {user?.email}
                                 </td>
                                 {/*<td className="whitespace-nowrap px-3 py-3">
                                     {formatCurrency(invoice.amount)}

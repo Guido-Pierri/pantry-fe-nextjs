@@ -1,6 +1,6 @@
 'use server';
 
-import {revalidatePath} from 'next/cache';
+import {revalidatePath, revalidateTag} from 'next/cache';
 import {redirect} from 'next/navigation';
 import {auth, signIn} from '@/auth';
 import {AuthError} from 'next-auth';
@@ -294,7 +294,7 @@ export async function deleteUserFromProfile(id: string) {
 export async function updateUser(id: string, formData: FormData) {
     const session = await auth()
     const token = session?.token
-
+    console.log('formData in updateUser', formData)
     const req = {
         ...formData,
         firstName: formData.get('firstName'),
@@ -315,11 +315,9 @@ export async function updateUser(id: string, formData: FormData) {
         console.log(res.status)
         return null
     }
-    //const data = await res.json();
-    //console.log('data', data)
-    revalidatePath('/dashboard/admin-page');
-    revalidatePath('/dashboard');
-    redirect('/dashboard/admin-page');
+    revalidateTag('users')
+    revalidatePath('/');
+    redirect('/dashboard/admin-page')
 
 }
 
