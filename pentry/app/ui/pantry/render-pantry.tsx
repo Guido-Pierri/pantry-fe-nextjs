@@ -24,7 +24,7 @@ export default function RenderPantry({pantry, user}: { pantry: PantryDto, user: 
                         </Typography>
                     </Grid>
                     {pantry.items.map((item: Item) =>
-                        <Grid item xs={6} sm={4} md={2} key={item.id}>
+                        <Grid item xs={6} sm={4} md={3} key={item.id}>
                             <PantryListItemCard item={item} user={user}></PantryListItemCard>
                         </Grid>
                     )}

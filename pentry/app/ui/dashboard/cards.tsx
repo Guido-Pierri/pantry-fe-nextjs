@@ -157,7 +157,7 @@ export function PantryListItemCard({item, user}: {
                 //style={{overflow: 'hidden', position: 'relative'}}
             >
             </CardMedia> : <Image src={ImageMissing} width={600} alt={item.name}/>}
-        <Typography variant={'body1'} component={'div'} style={{
+        <Typography variant={'body1'} component={'div'} sx={{
             whiteSpace: 'nowrap',
             overflow: 'hidden',
             textOverflow: 'ellipsis'
