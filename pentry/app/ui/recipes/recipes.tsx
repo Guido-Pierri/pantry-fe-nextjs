@@ -29,10 +29,9 @@ export default function Recipes({recipes}: { recipes: RecipeCollection }) {
                 </Typography>
             </Grid>
             {recipes?.map((item: Recipe) => (
-                <Grid item xs={12} sm={4} md={3}>
+                <Grid item xs={12} sm={4} md={3} key={item.id}>
                     {item && item?.image ?
-                        <Card key={item.id}
-                              sx={{marginBottom: '1rem',}}>
+                        <Card sx={{marginBottom: '1rem',}}>
                             <CardActionArea>
                                 <Link href={`/dashboard/recipes/${item.id}`} color={'black'} underline={'none'}>
                                     <CardMedia
