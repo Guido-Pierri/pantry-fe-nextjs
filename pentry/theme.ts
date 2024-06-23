@@ -3,6 +3,17 @@ import {croissant, inter} from '@/app/ui/fonts';
 import {createTheme} from '@mui/material/styles';
 
 const theme = createTheme({
+    components: {
+        MuiMenu: {
+            styleOverrides: {
+                list: {
+                    '&[role="menu"]': {
+                        backgroundColor: '#fff0'
+                    },
+                },
+            },
+        },
+    },
     typography: {
         fontFamily: [
             inter.style.fontFamily,
