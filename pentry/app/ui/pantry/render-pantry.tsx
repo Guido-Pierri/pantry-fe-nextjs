@@ -62,7 +62,7 @@ export default function RenderPantry({pantry, user}: { pantry: PantryDto, user: 
                     />
                     <Tooltip title={'Add items to your pantry'}>
                         <Fab variant={'circular'} color={'primary'} size={'large'} disabled={disabled}
-                             sx={{position: 'absolute', right: '50%', bottom: '1rem'}}
+                             sx={{position: 'absolute', right: '5rem', bottom: '1rem'}}
                              onClick={handleOpenAddMenu}>+</Fab>
                     </Tooltip>
                     <Menu
