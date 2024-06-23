@@ -160,14 +160,7 @@ export async function createGoogleUser(formData: FormData) {
         body: JSON.stringify(user)
     });
     console.log('Response Status:', res.status);
-    const data = await res.json();
-    console.log('data', data)
-    const userId = data.id
-    console.log('userId', userId)
-    const pantry = await createPantry(userId)
-    console.log('pantry', pantry)
-    //redirect('/dashboard')
-    return data
+    return await res.json()
 }
 
 export async function registerUser(formData: FormData) {
