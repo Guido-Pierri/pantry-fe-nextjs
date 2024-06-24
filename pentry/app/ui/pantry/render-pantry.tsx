@@ -37,7 +37,11 @@ export default function RenderPantry({
           justifyContent={"flex-start"}
         >
           <Grid item xs={12}>
-            <Typography variant={"h6"} sx={{ mt: 0, mb: 2 }}>
+            <Typography
+              variant="h5"
+              component="div"
+              sx={{ fontWeight: "bold", textAlign: "center" }}
+            >
               Your pantry
             </Typography>
           </Grid>
