@@ -1,15 +1,11 @@
 "use client";
-import { Box, Grid, Menu, Tooltip, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { Item, PantryDto, User } from "@/app/lib/definitions";
-import Link from "@mui/material/Link";
 import Image from "next/image";
 import pantryPic from "@/app/images/shelving.png";
-import Fab from "@mui/material/Fab";
-import AddIcon from "@mui/icons-material/Add";
-import SearchIcon from "@mui/icons-material/Search";
 import React from "react";
 import { PantryListItemCard } from "@/app/ui/dashboard/cards";
-import MenuItem from "@mui/material/MenuItem";
+import AddButtonRounded from "@/app/ui/pantry/add-button-rounded";
 
 export default function RenderPantry({
   pantry,
@@ -50,6 +46,12 @@ export default function RenderPantry({
               <PantryListItemCard item={item} user={user}></PantryListItemCard>
             </Grid>
           ))}
+          <AddButtonRounded
+            handleOpenAddMenu={handleOpenAddMenu}
+            anchorElUser={anchorElUser}
+            handleCloseUserMenu={handleCloseUserMenu}
+            handleClose={handleClose}
+          />
         </Grid>
       ) : (
         <Box
@@ -65,66 +67,14 @@ export default function RenderPantry({
             Your pantry is empty
           </Typography>
           <Image src={pantryPic} alt="Empty pantry" priority />
-          <Tooltip title={"Add items to your pantry"}>
-            <Fab
-              variant={"circular"}
-              color={"primary"}
-              size={"large"}
-              sx={{ position: "absolute", right: "5rem", bottom: "1rem" }}
-              onClick={handleOpenAddMenu}
-            >
-              +
-            </Fab>
-          </Tooltip>
-          <Menu
-            slotProps={{
-              paper: {
-                sx: { backgroundColor: "#00000000", boxShadow: "none" },
-              },
-            }}
-            id="menu-appbar"
-            anchorEl={anchorElUser}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "center",
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: "bottom",
-              horizontal: "center",
-            }}
-            open={Boolean(anchorElUser)}
-            onClose={handleCloseUserMenu}
-          >
-            <Link href={"/dashboard/pantry/add-item"}>
-              <MenuItem onClick={handleClose}>
-                <Fab
-                  size={"small"}
-                  color="primary"
-                  aria-label="add"
-                  variant={"extended"}
-                >
-                  <AddIcon />
-                  Add items
-                </Fab>
-              </MenuItem>
-            </Link>
-            <MenuItem onClick={handleClose}>
-              <Link href={"/dashboard/search"}>
-                <Fab
-                  size={"small"}
-                  color={"primary"}
-                  variant="extended"
-                  aria-label={"search"}
-                >
-                  <SearchIcon />
-                  Search for an item
-                </Fab>
-              </Link>
-            </MenuItem>
-          </Menu>
         </Box>
       )}
+      <AddButtonRounded
+        handleOpenAddMenu={handleOpenAddMenu}
+        anchorElUser={anchorElUser}
+        handleCloseUserMenu={handleCloseUserMenu}
+        handleClose={handleClose}
+      />
     </Box>
   );
 }
