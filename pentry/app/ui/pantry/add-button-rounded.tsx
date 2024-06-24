@@ -11,11 +11,13 @@ export default function AddButtonRounded({
   anchorElUser,
   handleCloseUserMenu,
   handleClose,
+  rotation,
 }: {
   handleOpenAddMenu: (event: React.MouseEvent<HTMLElement>) => void;
   anchorElUser: HTMLElement | null;
   handleCloseUserMenu: () => void;
   handleClose: () => void;
+  rotation: number;
 }) {
   return (
     <Box>
@@ -27,7 +29,12 @@ export default function AddButtonRounded({
           sx={{ position: "absolute", right: "1rem", bottom: "1rem" }}
           onClick={handleOpenAddMenu}
         >
-          +
+          <AddIcon
+            sx={{
+              transform: `rotate(${rotation}deg)`,
+              transition: "transform 0.2s ease-in-out", // Smooth transition
+            }}
+          />
         </Fab>
       </Tooltip>
       <Menu

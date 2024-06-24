@@ -18,11 +18,15 @@ export default function RenderPantry({
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null,
   );
+  const [rotation, setRotation] = React.useState(0);
+
   const handleOpenAddMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
+    setRotation(45);
   };
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+    setRotation(0);
   };
   const handleClose = () => {
     setAnchorEl(null);
@@ -55,6 +59,7 @@ export default function RenderPantry({
             anchorElUser={anchorElUser}
             handleCloseUserMenu={handleCloseUserMenu}
             handleClose={handleClose}
+            rotation={rotation}
           />
         </Grid>
       ) : (
@@ -78,6 +83,7 @@ export default function RenderPantry({
         anchorElUser={anchorElUser}
         handleCloseUserMenu={handleCloseUserMenu}
         handleClose={handleClose}
+        rotation={rotation}
       />
     </Box>
   );
