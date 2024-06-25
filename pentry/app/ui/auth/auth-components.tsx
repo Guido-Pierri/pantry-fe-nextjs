@@ -2,7 +2,7 @@ import { signIn, signOut } from "@/auth";
 import Button from "@mui/material/Button";
 import React from "react";
 import Box from "@mui/material/Box";
-import GoogleButton from "@/app/ui/login/google-button";
+import RenderGoogleButton from "@/app/ui/login/google-button";
 
 export function SignIn({ provider }: { provider?: string }) {
   return (
@@ -18,7 +18,7 @@ export function SignIn({ provider }: { provider?: string }) {
       }}
     >
       <Box component={"button"} type={"submit"}>
-        <GoogleButton />
+        <RenderGoogleButton />
       </Box>
     </Box>
   );

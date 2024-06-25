@@ -2,13 +2,10 @@
 import GoogleButton from "react-google-button";
 import React from "react";
 
-export default function () {
+export default function RenderGoogleButton() {
   return (
     <GoogleButton
       type="light" // can be light or dark
-      onClick={() => {
-        console.log("Google button clicked");
-      }}
     />
   );
 }
