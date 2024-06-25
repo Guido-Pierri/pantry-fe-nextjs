@@ -66,7 +66,7 @@ function LoginButton() {
         variant={"contained"}
         type={"submit"}
         aria-disabled={pending}
-        sx={{ width: { xs: "75vw" } }}
+        sx={{ width: "240px", height: "50px" }}
       >
         Sign in with credentials
       </Button>

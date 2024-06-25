@@ -2,9 +2,7 @@ import { signIn, signOut } from "@/auth";
 import Button from "@mui/material/Button";
 import React from "react";
 import Box from "@mui/material/Box";
-import { Avatar } from "@mui/material";
-import Image from "next/image";
-import googleIcon from "@/app/images/web_neutral_rd_na.svg";
+import RenderGoogleButton from "@/app/ui/login/google-button";
 
 export function SignIn({ provider }: { provider?: string }) {
   return (
@@ -19,20 +17,9 @@ export function SignIn({ provider }: { provider?: string }) {
         await signIn(provider);
       }}
     >
-      <Button
-        variant={"contained"}
-        type={"submit"}
-        color={"secondary"}
-        sx={{
-          width: { xs: "75vw" },
-          backgroundColor: "#f2f2f2",
-        }}
-      >
-        <Avatar>
-          <Image src={googleIcon} alt={"Login in with Google"} />
-        </Avatar>
-        Sign in with Google
-      </Button>
+      <Box component={"button"} type={"submit"}>
+        <RenderGoogleButton />
+      </Box>
     </Box>
   );
 }

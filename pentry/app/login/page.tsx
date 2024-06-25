@@ -1,4 +1,4 @@
-import LoginForm from "@/app/ui/login-form";
+import LoginForm from "@/app/ui/login/login-form";
 import { SignIn } from "@/app/ui/auth/auth-components";
 import { auth } from "@/auth";
 import Box from "@mui/material/Box";
