@@ -5,7 +5,7 @@ import React from "react";
 export default function RenderGoogleButton() {
   return (
     <GoogleButton
-      type="light" // can be light or dark
+      type="dark" // can be light or dark
     />
   );
 }
