@@ -1,3 +1,4 @@
+"use client";
 import { Box, Menu, Tooltip } from "@mui/material";
 import Fab from "@mui/material/Fab";
 import Link from "@mui/material/Link";
@@ -6,19 +7,23 @@ import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import React from "react";
 
-export default function AddButtonRounded({
-  handleOpenAddMenu,
-  anchorElUser,
-  handleCloseUserMenu,
-  handleClose,
-  rotation,
-}: {
-  handleOpenAddMenu: (event: React.MouseEvent<HTMLElement>) => void;
-  anchorElUser: HTMLElement | null;
-  handleCloseUserMenu: () => void;
-  handleClose: () => void;
-  rotation: number;
-}) {
+export default function AddButtonRounded() {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorElAddButton, setanchorElAddButton] =
+    React.useState<null | HTMLElement>(null);
+  const [rotation, setRotation] = React.useState(0);
+
+  const handleOpenAddMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setanchorElAddButton(event.currentTarget);
+    setRotation(45);
+  };
+  const handleCloseUserMenu = () => {
+    setanchorElAddButton(null);
+    setRotation(0);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <Box>
       <Tooltip title={"Add items to your pantry"}>
@@ -44,7 +49,7 @@ export default function AddButtonRounded({
           },
         }}
         id="menu-fab"
-        anchorEl={anchorElUser}
+        anchorEl={anchorElAddButton}
         anchorOrigin={{
           vertical: "top",
           horizontal: "center",
@@ -54,7 +59,7 @@ export default function AddButtonRounded({
           vertical: "bottom",
           horizontal: "center",
         }}
-        open={Boolean(anchorElUser)}
+        open={Boolean(anchorElAddButton)}
         onClose={handleCloseUserMenu}
       >
         <Link href={"/dashboard/pantry/add-item"}>

@@ -1,8 +1,7 @@
-"use client";
 import { Box, Grid, Typography } from "@mui/material";
 import { Item, PantryDto, User } from "@/app/lib/definitions";
 import Image from "next/image";
-import pantryPic from "@/app/images/shelving.png";
+import pantryPic from "@/app/images/3047332_32705.svg";
 import React from "react";
 import { PantryListItemCard } from "@/app/ui/dashboard/cards";
 import AddButtonRounded from "@/app/ui/pantry/add-button-rounded";
@@ -14,23 +13,6 @@ export default function RenderPantry({
   pantry: PantryDto;
   user: User;
 }) {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null,
-  );
-  const [rotation, setRotation] = React.useState(0);
-
-  const handleOpenAddMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-    setRotation(45);
-  };
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-    setRotation(0);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
   return (
     <Box>
       {pantry && pantry.items.length > 0 ? (
@@ -44,6 +26,7 @@ export default function RenderPantry({
             <Typography
               variant="h5"
               component="div"
+              color={"primary"}
               sx={{ fontWeight: "bold", textAlign: "center" }}
             >
               Your pantry
@@ -54,13 +37,6 @@ export default function RenderPantry({
               <PantryListItemCard item={item} user={user}></PantryListItemCard>
             </Grid>
           ))}
-          <AddButtonRounded
-            handleOpenAddMenu={handleOpenAddMenu}
-            anchorElUser={anchorElUser}
-            handleCloseUserMenu={handleCloseUserMenu}
-            handleClose={handleClose}
-            rotation={rotation}
-          />
         </Grid>
       ) : (
         <Box
@@ -72,19 +48,18 @@ export default function RenderPantry({
             position: "relative",
           }}
         >
-          <Typography variant="h5" component="div" sx={{ fontWeight: "bold" }}>
+          <Typography
+            variant="h5"
+            component="div"
+            color={"primary"}
+            sx={{ fontWeight: "bold" }}
+          >
             Your pantry is empty
           </Typography>
           <Image src={pantryPic} alt="Empty pantry" priority />
         </Box>
       )}
-      <AddButtonRounded
-        handleOpenAddMenu={handleOpenAddMenu}
-        anchorElUser={anchorElUser}
-        handleCloseUserMenu={handleCloseUserMenu}
-        handleClose={handleClose}
-        rotation={rotation}
-      />
+      <AddButtonRounded />
     </Box>
   );
 }
