@@ -11,19 +11,10 @@ export default async function LoginPage() {
 
   if (!session?.user)
     return (
-      <Box
-        sx={{
-          "@media (min-width:600px)": {
-            width: "600px",
-          },
-        }}
-      >
+      <Box display={"flex"} flexDirection={"column"} alignItems={"center"}>
         <Box
           sx={{
-            padding: "1rem 1rem 0 1rem",
-            "@media (min-width:600px)": {
-              width: "100%",
-            },
+            width: "100%",
           }}
         >
           <Navbar session={session}></Navbar>
