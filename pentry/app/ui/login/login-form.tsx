@@ -13,7 +13,7 @@ export default function LoginForm() {
   return (
     <Box component={"form"} action={dispatch}>
       <Box padding={"1.5rem"}>
-        <Typography>Please log in to continue.</Typography>
+        <Typography variant={"h5"}>Please log in to continue.</Typography>
         <Box mt={"1.5rem"}>
           <TextField
             id={"email"}
