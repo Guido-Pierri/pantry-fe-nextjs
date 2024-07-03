@@ -56,7 +56,7 @@ export default function RenderPantry({
           >
             Your pantry is empty
           </Typography>
-          <Image src={pantryPic} alt="Empty pantry" priority />
+          <Image src={pantryPic} alt="Empty pantry" priority height={500} />
         </Box>
       )}
       <AddButtonRounded />

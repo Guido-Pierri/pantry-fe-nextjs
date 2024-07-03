@@ -87,7 +87,7 @@ export default function Recipes({ recipes }: { recipes: RecipeCollection }) {
       >
         No recipes found
       </Typography>
-      <Image src={recipeImg} alt={"recipe image"} />
+      <Image src={recipeImg} alt={"recipe image"} priority height={500} />
       <AddButtonRounded />{" "}
     </Box>
   );
