@@ -11,7 +11,12 @@ export default async function LoginPage() {
 
   if (!session?.user)
     return (
-      <Box display={"flex"} flexDirection={"column"} alignItems={"center"}>
+      <Box
+        id={"root"}
+        display={"flex"}
+        flexDirection={"column"}
+        alignItems={"center"}
+      >
         <Box
           sx={{
             width: "100%",

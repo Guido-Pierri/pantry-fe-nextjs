@@ -11,9 +11,20 @@ export default function LoginForm() {
   const [errorMessage, dispatch] = useFormState(authenticate, undefined);
 
   return (
-    <Box component={"form"} action={dispatch}>
-      <Box padding={"1.5rem"}>
-        <Typography variant={"h5"}>Please log in to continue.</Typography>
+    <Box
+      component={"form"}
+      action={dispatch}
+      sx={{ width: { sm: "352px" } }}
+      mt={"1.5rem"}
+      display={"flex"}
+      flexDirection={"column"}
+      alignItems={"center"}
+      justifyItems={"center"}
+    >
+      <Box>
+        <Typography color={"primary"} variant={"h5"} textAlign={"center"}>
+          Please log in to continue
+        </Typography>
         <Box mt={"1.5rem"}>
           <TextField
             id={"email"}
