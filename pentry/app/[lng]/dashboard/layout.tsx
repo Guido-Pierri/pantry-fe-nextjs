@@ -10,7 +10,6 @@ export default async function Layout({
 }) {
   const session = await auth();
   console.log("session in layout", session);
-  //if (!session) return null;
 
   return (
     <Box

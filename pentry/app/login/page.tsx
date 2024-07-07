@@ -4,7 +4,6 @@ import { auth } from "@/auth";
 import Box from "@mui/material/Box";
 import { Typography } from "@mui/material";
 import Button from "@mui/material/Button";
-import Navbar from "@/app/ui/navbar/navbar";
 
 export default async function LoginPage() {
   const session = await auth();
@@ -21,9 +20,7 @@ export default async function LoginPage() {
           sx={{
             width: "100%",
           }}
-        >
-          <Navbar session={session}></Navbar>
-        </Box>
+        ></Box>
 
         <LoginForm />
         <Typography textAlign={"center"}>Or</Typography>

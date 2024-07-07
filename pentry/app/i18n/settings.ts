@@ -1,2 +1,2 @@
-export const fallbackLng = "en";
-export const languages = [fallbackLng, "sv"];
+export const fallbackLng = "sv";
+export const languages = [fallbackLng, "en"];

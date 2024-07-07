@@ -3,7 +3,7 @@ import { auth } from "@/auth";
 import { User } from "@/app/lib/definitions";
 import RenderDashboard from "@/app/ui/dashboard/RenderDashboard";
 import Loading from "@/app/[lng]/loading";
-import LoginPage from "@/app/[lng]/login/page";
+import LoginPage from "@/app/login/page";
 
 export default async function Page() {
   const session = await auth();
