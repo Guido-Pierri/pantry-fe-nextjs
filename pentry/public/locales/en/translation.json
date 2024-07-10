@@ -1,0 +1,23 @@
+{
+  "text_welcome": "Manage groceries and minimize food waste",
+  "text_login_to_continue": "Please log in to continue",
+  "text_enter_your_email": "Enter your email",
+  "text_enter_your_password": "Enter your password",
+  "text_login_credentials": "Login with credentials",
+  "text_or": "Or",
+  "text_dont_have_account": "Don't have an account?",
+  "text_signup": "Sign up",
+  "text_your_pantry": "Your pantry",
+  "text_your_pantry_empty": "Your pantry is empty",
+  "text_add_items": "Add items to your pantry",
+  "text_create_item": "Create item",
+  "text_search_items": "Search for items",
+  "menu_pantry": "Pantry",
+  "menu_recipes": "Recipes",
+  "menu_search": "Search",
+  "menu_admin": "Admin",
+  "menu_profile": "Profile",
+  "menu_sign_out": "Sign out",
+  "button_search": "Search"
+}
+

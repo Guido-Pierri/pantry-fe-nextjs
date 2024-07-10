@@ -47,7 +47,7 @@ export default function Home() {
           Pantry Partner
         </Link>
         <Typography sx={{ mt: 4, textAlign: "center" }}>
-          {i18n.t("text_welcome")}
+          {i18n.t("text_intro")}
         </Typography>
       </Box>
     </Box>

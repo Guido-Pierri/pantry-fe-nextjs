@@ -6,6 +6,7 @@ import MenuItem from "@mui/material/MenuItem";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import React from "react";
+import { t } from "i18next";
 
 export default function AddButtonRounded() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -26,7 +27,7 @@ export default function AddButtonRounded() {
   };
   return (
     <Box>
-      <Tooltip title={"Add items to your pantry"}>
+      <Tooltip title={t("text_add_items")}>
         <Fab
           variant={"circular"}
           color={"primary"}
@@ -71,7 +72,7 @@ export default function AddButtonRounded() {
               variant={"extended"}
             >
               <AddIcon />
-              Create item
+              {t("text_create_item")}
             </Fab>
           </MenuItem>
         </Link>
@@ -84,7 +85,7 @@ export default function AddButtonRounded() {
               aria-label={"search"}
             >
               <SearchIcon />
-              Search for an item
+              {t("text_search_items")}
             </Fab>
           </Link>
         </MenuItem>

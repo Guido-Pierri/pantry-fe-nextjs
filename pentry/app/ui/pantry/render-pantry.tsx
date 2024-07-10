@@ -1,3 +1,5 @@
+"use client";
+
 import { Box, Grid, Typography } from "@mui/material";
 import { Item, PantryDto, User } from "@/app/lib/definitions";
 import Image from "next/image";
@@ -5,6 +7,7 @@ import pantryPic from "@/app/images/3047332_32705.svg";
 import React from "react";
 import { PantryListItemCard } from "@/app/ui/dashboard/cards";
 import AddButtonRounded from "@/app/ui/pantry/add-button-rounded";
+import i18n from "@/i18n";
 
 export default function RenderPantry({
   pantry,
@@ -29,7 +32,7 @@ export default function RenderPantry({
               color={"primary"}
               sx={{ fontWeight: "bold", textAlign: "center" }}
             >
-              Your pantry
+              {i18n.t("text_your_pantry")}
             </Typography>
           </Grid>
           {pantry.items.map((item: Item) => (
@@ -54,7 +57,7 @@ export default function RenderPantry({
             color={"primary"}
             sx={{ fontWeight: "bold" }}
           >
-            Your pantry is empty
+            {i18n.t("text_your_pantry_empty")}
           </Typography>
           <Image src={pantryPic} alt="Empty pantry" priority height={500} />
         </Box>

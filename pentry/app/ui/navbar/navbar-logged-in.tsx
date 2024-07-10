@@ -1,3 +1,4 @@
+"use client";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
@@ -6,7 +7,7 @@ import {
   CssBaseline,
   Divider,
   Drawer,
-  Link,
+  Link as MuiLink,
   List,
   ListItem,
   ListItemButton,
@@ -14,6 +15,7 @@ import {
   Menu,
   Tooltip,
 } from "@mui/material";
+import Link from "next/link";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import React, { useState } from "react";
@@ -27,6 +29,7 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
 export default function NavbarLoggedIn({
   session,
@@ -43,6 +46,7 @@ export default function NavbarLoggedIn({
   const isSmallScreen = useMediaQuery(theme.breakpoints.up("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.up("md"));
   const router = useRouter();
+  const { t } = useTranslation();
 
   if (!session) return null;
   const user = session.user;
@@ -55,14 +59,7 @@ export default function NavbarLoggedIn({
     setAnchorEl(null);
   };
   const drawerWidth = 240;
-  const navItems = [
-    { name: "Pantry", url: "/dashboard/pantry" },
-    {
-      name: "Recipes",
-      url: "/dashboard/recipes",
-    },
-    { name: "Search", url: "/dashboard/search" },
-  ];
+
   const handleDrawerToggle = () => {
     setMobileOpen((prevState: any) => !prevState);
   };
@@ -74,20 +71,43 @@ export default function NavbarLoggedIn({
         color={theme.palette.primary.main}
         sx={{ my: 2 }}
       >
-        Pantry Partner{" "}
+        Pantry Partner
       </Typography>
       <Divider />
       <List>
-        {navItems.map((item) => (
-          <ListItem key={item.name} disablePadding>
-            <ListItemButton sx={{ textAlign: "center" }} href={item.url}>
-              <ListItemText
-                sx={{ color: theme.palette.primary.main }}
-                primary={item.name}
-              />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        <ListItem disablePadding>
+          <ListItemButton
+            sx={{ textAlign: "center" }}
+            href={"/dashboard/pantry"}
+          >
+            <ListItemText
+              sx={{ color: theme.palette.primary.main }}
+              primary={t("menu_pantry")}
+            />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton
+            sx={{ textAlign: "center" }}
+            href={"/dashboard/recipes"}
+          >
+            <ListItemText
+              sx={{ color: theme.palette.primary.main }}
+              primary={t("menu_recipes")}
+            />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton
+            sx={{ textAlign: "center" }}
+            href={"/dashboard/search"}
+          >
+            <ListItemText
+              sx={{ color: theme.palette.primary.main }}
+              primary={t("menu_search")}
+            />
+          </ListItemButton>
+        </ListItem>
       </List>
     </Box>
   );
@@ -126,7 +146,7 @@ export default function NavbarLoggedIn({
               justifyContent={"center"}
               alignItems={"center"}
             >
-              <Link
+              <MuiLink
                 href={"/dashboard/pantry"}
                 sx={{
                   display: "flex",
@@ -141,7 +161,7 @@ export default function NavbarLoggedIn({
                   width={40}
                   height={40}
                 />
-              </Link>
+              </MuiLink>
               <Typography
                 variant="h5"
                 component="div"
@@ -161,11 +181,15 @@ export default function NavbarLoggedIn({
               sx={{ display: { xs: "none", sm: "block" } }}
               marginRight={"1rem"}
             >
-              {navItems.map((item) => (
-                <Button key={item.name} sx={{ color: "#fff" }} href={item.url}>
-                  {item.name}
-                </Button>
-              ))}
+              <Link href={"/dashboard/pantry"} passHref>
+                <Button sx={{ color: "#fff" }}>{t("menu_pantry")}</Button>
+              </Link>
+              <Link href={"/dashboard/recipes"} passHref>
+                <Button sx={{ color: "#fff" }}>{t("menu_recipes")}</Button>
+              </Link>
+              <Link href={"/dashboard/search"} passHref>
+                <Button sx={{ color: "#fff" }}>{t("menu_search")}</Button>
+              </Link>
             </Box>
             {/* FIXME: Add notifications feature */}
             {/*<MenuItem>
@@ -217,7 +241,7 @@ export default function NavbarLoggedIn({
                         },
                       }}
                     >
-                      Admin Page
+                      {t("menu_admin")}
                     </MenuItem>
                   </Link>
                 ) : null}
@@ -232,7 +256,7 @@ export default function NavbarLoggedIn({
                       },
                     }}
                   >
-                    Profile
+                    {t("menu_profile")}
                   </MenuItem>
                 </Link>
                 <MenuItem
@@ -247,7 +271,7 @@ export default function NavbarLoggedIn({
                     },
                   }}
                 >
-                  Sign Out
+                  {t("menu_sign_out")}
                 </MenuItem>
               </Menu>
             </Box>

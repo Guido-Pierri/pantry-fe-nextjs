@@ -1,17 +1,25 @@
 import i18n from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import { initReactI18next } from "react-i18next";
+import HttpBackend from "i18next-http-backend";
 
 i18n
-  .use(initReactI18next)
   .use(LanguageDetector)
+  .use(HttpBackend)
+  .use(LanguageDetector)
+  .use(initReactI18next)
   .init({
     supportedLngs: ["sv", "en"],
     fallbackLng: "sv",
+    preload: ["sv", "en"],
     resources: {
       sv: {
         translation: {
-          text_welcome: "Hantera livsmedel och minimera matsvinn",
+          text_welcome: "Välkommen till Pantry Partner!",
+          text_welcome_user:
+            "Vi är glada att ha dig här {{name}}. Vår applikation är designad för att göra det enklare och mer " +
+            "effektivt att hantera ditt skafferi.",
+          text_intro: "Hantera livsmedel och minimera matsvinn",
           text_login_to_continue: "Logga in för att fortsätta",
           text_enter_your_email: "Ange din e-postadress",
           text_enter_your_password: "Ange ditt lösenord",
@@ -19,52 +27,28 @@ i18n
           text_or: "Eller",
           text_dont_have_account: "Har du inget konto?",
           text_signup: "Registrera dig",
+          text_your_pantry: "Ditt skafferi",
+          text_your_pantry_empty: "Ditt skafferi är tomt",
+          text_add_items: "Lägg till varor i ditt skafferi",
+          text_create_item: "Skapa en vara",
+          text_search_items: "Sök efter varor",
+          menu_pantry: "Skafferi",
+          menu_recipes: "Recept",
+          menu_search: "Sök",
+          menu_admin: "Admin",
+          menu_profile: "Profil",
+          menu_sign_out: "Logga ut",
+          button_search: "Sök",
           text_logged_in_as: "Inloggad som: ",
-          menu_kororder: "Körorder Historik",
-          menu_kororder_unauthorized:
-            "Du har inte behörighet för att se historiken",
-          text_app_name: "TrAppen",
-          text_login_with_sj_ad: "Logga in med SJ AD",
-          text_loading: "Laddar...",
-          kororder_tab_sj: "SJ",
-          text_wip: "Ej byggt, arbete pågår!",
-          text_company: "Företag",
-          text_tag_id: "TågID",
-          text_tag_number: "Tågnummer",
-          text_otn: "OTN",
-          text_otns: "OTNs",
-          text_departure_date: "Utgångsdatum",
-          text_stracka: "Begärd sträcka",
-          text_order_number: "Tågordernummer",
-          text_created_at: "Skapad",
-          text_toggle_train_field_help: "Klicka för att ändra fältet till ",
-          text_successful: "Lyckades",
-          text_nothing_selected: "Inget valt",
-          text_yes: "Ja",
-          text_no: "Nej",
-          text_search: "Sök",
-          text_rows_per_page: "Rader per sida",
-          text_of: "av",
-          text_more_than: "mer än",
-          text_copy: "Kopiera",
-          text_copied: "Kopierade",
-          text_loading_document: "Laddar dokument...",
-          text_table: "TABELL",
-          text_print: "SKRIV UT",
-          text_request: "Begäran",
-          text_header: "Titelhuvud",
-          text_log_out: "Logga ut",
-          text_dashboard_info: "Välj en funktion i menyn till vänster",
-          text_green_dot: "Lyckades",
-          text_red_dot: "Misslyckades",
-          text_created_from: "Skapad från/med",
-          text_service: "Service",
-          text_version: "Version",
         },
       },
       en: {
         translation: {
-          text_welcome: "Manage groceries and minimize food waste",
+          text_welcome: "Welcome to Pantry Partner!",
+          text_welcome_user:
+            "We’re thrilled to have you here {{name}}. Our application is designed to make managing your pantry " +
+            "easier and more efficient.",
+          text_intro: "Manage groceries and minimize food waste",
           text_login_to_continue: "Please log in to continue",
           text_enter_your_email: "Enter your email",
           text_enter_your_password: "Enter your password",
@@ -72,46 +56,18 @@ i18n
           text_or: "Or",
           text_dont_have_account: "Don't have an account?",
           text_signup: "Sign up",
-          menu_kororder: "Order History",
-          menu_kororder_unauthorized:
-            "You are not authorized to view the order history",
-          text_logged_in_as: "Logged in as: ",
-          text_login_with_sj_ad: "Login with SJ AD",
-          text_loading: "Loading...",
-          kororder_tab_sj: "SJ",
-          text_wip: "Not built, work in progress!",
-          text_company: "Company",
-          text_tag_id: "TrainID",
-          text_tag_number: "Train No.",
-          text_otn: "OTN",
-          text_otns: "OTNs",
-          text_departure_date: "Departure date",
-          text_stracka: "Requested distance",
-          text_order_number: "Order number",
-          text_created_at: "Created at",
-          text_toggle_train_field_help: "Click to change input field type to ",
-          text_successful: "Successful",
-          text_nothing_selected: "Nothing selected",
-          text_yes: "Yes",
-          text_no: "No",
-          text_search: "Search",
-          text_rows_per_page: "Rows per page",
-          text_of: "of",
-          text_more_than: "more than",
-          text_copy: "Copy",
-          text_copied: "Copied",
-          text_loading_document: "Loading document...",
-          text_table: "TABLE",
-          text_print: "PRINT",
-          text_request: "Request",
-          text_header: "Header",
-          text_log_out: "Logout",
-          text_dashboard_info: "Choose a function in the left menu",
-          text_green_dot: "Succeeded",
-          text_red_dot: "Failed",
-          text_created_from: "Created from/with",
-          text_service: "Service",
-          text_version: "Version",
+          text_your_pantry: "Your pantry",
+          text_your_pantry_empty: "Your pantry is empty",
+          text_add_items: "Add items to your pantry",
+          text_create_item: "Create item",
+          text_search_items: "Search for items",
+          menu_pantry: "Pantry",
+          menu_recipes: "Recipes",
+          menu_search: "Search",
+          menu_admin: "Admin",
+          menu_profile: "Profile",
+          menu_sign_out: "Sign out",
+          button_search: "Search",
         },
       },
     },
@@ -120,8 +76,35 @@ i18n
       formatSeparator: ",",
     },
     debug: true,
+
+    detection: {
+      order: [
+        "querystring",
+        "cookie",
+        "localStorage",
+        "navigator",
+        "htmlTag",
+        "path",
+        "subdomain",
+      ],
+      caches: ["cookie"],
+    },
+    react: {
+      useSuspense: false,
+    },
   });
 
 i18n.changeLanguage("sv");
 
+i18n.on("initialized", (options) => {
+  console.log("i18next initialized", options);
+});
+
+i18n.on("loaded", (loaded) => {
+  console.log("Loaded translations:", loaded);
+});
+
+i18n.on("failedLoading", (lng, ns, msg) => {
+  console.error(`Failed loading ${ns} namespace for ${lng} language:`, msg);
+});
 export default i18n;
