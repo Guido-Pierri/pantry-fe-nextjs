@@ -1,4 +1,3 @@
-"use client";
 import { Session } from "next-auth";
 import { searchItems } from "@/app/lib/data";
 import ResultsAsList from "@/app/ui/search/results-as-list";
