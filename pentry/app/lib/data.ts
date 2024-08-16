@@ -2,8 +2,8 @@ import {
   CustomItem,
   MyKitchenRecipesApiResponse,
   PantryDto,
+  Recipe,
   RecipeCollection,
-  RecipeInformation,
   SearchItem,
   TranslationResponse,
   User,
@@ -203,9 +203,7 @@ export async function fetchSpoonacularRecipes(
   return res.json();
 }
 
-export async function fetchRecipeById(
-  id: string,
-): Promise<Promise<RecipeInformation>> {
+export async function fetchRecipeById(id: string): Promise<Promise<Recipe>> {
   const apiKey = process.env.SPOONACULAR_API_KEY;
   const urlApi = process.env.SPOONACULAR_API_URL;
   const url = `${urlApi}/recipes/${id}/information?includeNutrition=false&addWinePairing=false&addTasteData=false`;

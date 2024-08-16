@@ -7,6 +7,7 @@ export default async function Page() {
   const session = await auth();
   const user = session?.user;
   const id = user?.id;
+  console.log(user?.token);
   if (!id) return null;
   const pantry = await fetchPantryByUserId(id);
   if (!pantry) return null;

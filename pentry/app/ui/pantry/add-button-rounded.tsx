@@ -8,7 +8,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import React from "react";
 import { t } from "i18next";
 
-export default function AddButtonRounded() {
+export default function AddButtonRounded({ position }: { position?: string }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [anchorElAddButton, setanchorElAddButton] =
     React.useState<null | HTMLElement>(null);
@@ -32,7 +32,7 @@ export default function AddButtonRounded() {
           variant={"circular"}
           color={"primary"}
           size={"large"}
-          sx={{ position: "absolute", right: "1rem", bottom: "1rem" }}
+          sx={{ position: position, right: "1rem", bottom: "1rem" }}
           onClick={handleOpenAddMenu}
         >
           <AddIcon

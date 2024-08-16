@@ -8,15 +8,15 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import { OpenDialogContext } from "./open-dialog-context";
-import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
-export default function SearchBar({ placeholder }: { placeholder: string }) {
+export default function SearchBar() {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const { setOpen } = useContext(OpenDialogContext);
-
+  const { t } = useTranslation();
   const handleSearch = useDebouncedCallback((term) => {
     const params = new URLSearchParams(searchParams);
 
@@ -68,7 +68,7 @@ export default function SearchBar({ placeholder }: { placeholder: string }) {
           }}
           type="search"
           fullWidth={true}
-          placeholder={placeholder}
+          placeholder={t("text_search_placeholder")}
           onChange={(e) => {
             handleSearch(e.target.value);
           }}
