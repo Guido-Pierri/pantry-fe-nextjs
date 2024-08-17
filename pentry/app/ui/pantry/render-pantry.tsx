@@ -66,7 +66,7 @@ export default function RenderPantry({
           </Typography>
         </Box>
       )}
-      <AddButtonRounded position={"absolute"} />
+      <AddButtonRounded />
     </Box>
   );
 }

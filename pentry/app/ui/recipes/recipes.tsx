@@ -96,7 +96,7 @@ export default function Recipes({ recipes }: { recipes: RecipeCollection }) {
         {t("text_no_recipes")}{" "}
       </Typography>
       <Image src={recipeImg} alt={"recipe image"} priority height={500} />
-      <AddButtonRounded position={"absolute"} />{" "}
+      <AddButtonRounded />
     </Box>
   );
 }
