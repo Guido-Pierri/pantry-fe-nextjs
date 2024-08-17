@@ -1,3 +1,5 @@
+"use client";
+
 import { Box, Grid, Typography } from "@mui/material";
 import { Item, PantryDto, User } from "@/app/lib/definitions";
 import Image from "next/image";
@@ -5,6 +7,7 @@ import pantryPic from "@/app/images/3047332_32705.svg";
 import React from "react";
 import { PantryListItemCard } from "@/app/ui/dashboard/cards";
 import AddButtonRounded from "@/app/ui/pantry/add-button-rounded";
+import { useTranslation } from "react-i18next";
 
 export default function RenderPantry({
   pantry,
@@ -13,6 +16,7 @@ export default function RenderPantry({
   pantry: PantryDto;
   user: User;
 }) {
+  const { t } = useTranslation();
   return (
     <Box>
       {pantry && pantry.items.length > 0 ? (
@@ -29,7 +33,7 @@ export default function RenderPantry({
               color={"primary"}
               sx={{ fontWeight: "bold", textAlign: "center" }}
             >
-              Your pantry
+              {t("text_your_pantry")}
             </Typography>
           </Grid>
           {pantry.items.map((item: Item) => (
@@ -48,15 +52,18 @@ export default function RenderPantry({
             position: "relative",
           }}
         >
+          <Image src={pantryPic} alt="Empty pantry" priority height={500} />
           <Typography
             variant="h5"
             component="div"
             color={"primary"}
             sx={{ fontWeight: "bold" }}
           >
-            Your pantry is empty
+            {t("text_your_pantry_empty")}
           </Typography>
-          <Image src={pantryPic} alt="Empty pantry" priority height={500} />
+          <Typography variant={"caption"} component={"div"} color={"primary"}>
+            {t("text_click")}
+          </Typography>
         </Box>
       )}
       <AddButtonRounded />

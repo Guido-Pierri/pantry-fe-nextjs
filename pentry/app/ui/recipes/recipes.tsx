@@ -1,3 +1,4 @@
+"use client";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { Recipe, RecipeCollection } from "@/app/lib/definitions";
@@ -11,13 +12,20 @@ import AddButtonRounded from "@/app/ui/pantry/add-button-rounded";
 import React from "react";
 import recipeImg from "@/app/images/v19-pla6.png";
 import Image from "next/image";
+import { useTranslation } from "react-i18next";
 
 export default function Recipes({ recipes }: { recipes: RecipeCollection }) {
+  const { t } = useTranslation();
   return recipes && recipes?.length > 0 ? (
     <Grid container spacing={2}>
       <Grid item xs={12}>
-        <Typography sx={{ mt: 0, mb: 2 }} variant="h6" component="div">
-          Recipes based on your pantry items
+        <Typography
+          sx={{ mt: 0, mb: 2 }}
+          variant="h6"
+          component="div"
+          color={"primary"}
+        >
+          {t("text_recipes")}
         </Typography>
       </Grid>
       {recipes?.map((item: Recipe) => (
@@ -50,7 +58,7 @@ export default function Recipes({ recipes }: { recipes: RecipeCollection }) {
                       {item.title}
                     </Typography>
                     <Typography variant="h6" color="text.primary">
-                      Available ingredients:
+                      {t("text_ingredients")}
                     </Typography>
                     <Typography
                       color="text.secondary"
@@ -85,10 +93,10 @@ export default function Recipes({ recipes }: { recipes: RecipeCollection }) {
         fontWeight={"bolder"}
         sx={{ marginBottom: "1rem" }}
       >
-        No recipes found
+        {t("text_no_recipes")}{" "}
       </Typography>
       <Image src={recipeImg} alt={"recipe image"} priority height={500} />
-      <AddButtonRounded />{" "}
+      <AddButtonRounded />
     </Box>
   );
 }

@@ -6,19 +6,20 @@ import MenuItem from "@mui/material/MenuItem";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import React from "react";
+import { t } from "i18next";
 
 export default function AddButtonRounded() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [anchorElAddButton, setanchorElAddButton] =
+  const [anchorElAddButton, setAnchorElAddButton] =
     React.useState<null | HTMLElement>(null);
   const [rotation, setRotation] = React.useState(0);
 
   const handleOpenAddMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setanchorElAddButton(event.currentTarget);
+    setAnchorElAddButton(event.currentTarget);
     setRotation(45);
   };
   const handleCloseUserMenu = () => {
-    setanchorElAddButton(null);
+    setAnchorElAddButton(null);
     setRotation(0);
   };
   const handleClose = () => {
@@ -26,12 +27,12 @@ export default function AddButtonRounded() {
   };
   return (
     <Box>
-      <Tooltip title={"Add items to your pantry"}>
+      <Tooltip title={t("text_add_items")}>
         <Fab
           variant={"circular"}
           color={"primary"}
           size={"large"}
-          sx={{ position: "absolute", right: "1rem", bottom: "1rem" }}
+          style={{ position: "absolute", right: "1rem", bottom: "1rem" }}
           onClick={handleOpenAddMenu}
         >
           <AddIcon
@@ -71,7 +72,7 @@ export default function AddButtonRounded() {
               variant={"extended"}
             >
               <AddIcon />
-              Create item
+              {t("text_create_item")}
             </Fab>
           </MenuItem>
         </Link>
@@ -84,7 +85,7 @@ export default function AddButtonRounded() {
               aria-label={"search"}
             >
               <SearchIcon />
-              Search for an item
+              {t("text_search_items")}
             </Fab>
           </Link>
         </MenuItem>

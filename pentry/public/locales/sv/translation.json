@@ -1,0 +1,24 @@
+{
+  "text_welcome": "Hantera livsmedel och minimera matsvinn",
+  "text_login_to_continue": "Logga in för att fortsätta",
+  "text_enter_your_email": "Ange din e-postadress",
+  "text_enter_your_password": "Ange ditt lösenord",
+  "text_login_credentials": "Logga in med uppgifter",
+  "text_or": "Eller",
+  "text_dont_have_account": "Har du inget konto?",
+  "text_signup": "Registrera dig",
+  "text_your_pantry": "Ditt skafferi",
+  "text_your_pantry_empty": "Ditt skafferi är tomt",
+  "text_add_items": "Lägg till varor i ditt skafferi",
+  "text_create_item": "Skapa en vara",
+  "text_search_items": "Sök efter varor",
+  "menu_pantry": "Skafferi",
+  "menu_recipes": "Recept",
+  "menu_search": "Sök",
+  "menu_admin": "Admin",
+  "menu_profile": "Profil",
+  "menu_sign_out": "Logga ut",
+  "button_search": "Sök",
+  "text_logged_in_as": "Inloggad som: "
+}
+

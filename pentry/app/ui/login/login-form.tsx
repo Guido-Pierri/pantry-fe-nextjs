@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 import { Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import ReportGmailerrorredIcon from "@mui/icons-material/ReportGmailerrorred";
+import i18n from "@/i18n";
 
 export default function LoginForm() {
   const [errorMessage, dispatch] = useFormState(authenticate, undefined);
@@ -13,13 +14,15 @@ export default function LoginForm() {
   return (
     <Box component={"form"} action={dispatch}>
       <Box padding={"1.5rem"}>
-        <Typography variant={"h5"}>Please log in to continue.</Typography>
+        <Typography variant={"h5"}>
+          {i18n.t("text_login_to_continue")}
+        </Typography>
         <Box mt={"1.5rem"}>
           <TextField
             id={"email"}
             type={"email"}
             name={"email"}
-            placeholder={"Enter your email address"}
+            placeholder={i18n.t("text_enter_your_email")}
             required={true}
             fullWidth={true}
           ></TextField>
@@ -28,7 +31,7 @@ export default function LoginForm() {
             id={"password"}
             type={"password"}
             name={"password"}
-            placeholder={"Enter your password"}
+            placeholder={i18n.t("text_enter_your_password")}
             required={true}
             fullWidth={true}
           ></TextField>
@@ -48,6 +51,7 @@ export default function LoginForm() {
           )}
         </Box>
       </Box>
+      <Typography textAlign={"center"}>{i18n.t("text_or")}</Typography>
     </Box>
   );
 }
@@ -68,7 +72,7 @@ function LoginButton() {
         aria-disabled={pending}
         sx={{ width: "240px", height: "50px" }}
       >
-        Sign in with credentials
+        {i18n.t("text_login_credentials")}
       </Button>
     </Box>
   );
