@@ -14,6 +14,7 @@ import Button from "@mui/material/Button";
 import ReportGmailerrorredIcon from "@mui/icons-material/ReportGmailerrorred";
 import KeyboardBackspaceRoundedIcon from "@mui/icons-material/KeyboardBackspaceRounded";
 import SignupButton from "@/app/ui/sign-up/sign-up-button";
+import { useTranslation } from "react-i18next";
 
 export default function SignUpForm() {
   const [isVisiblePass, setIsVisiblePass] = useState(false);
@@ -46,7 +47,7 @@ export default function SignUpForm() {
       if (response) setErrorMessage(response);
     });
   };
-
+  const { t } = useTranslation();
   return (
     <Box
       sx={{ width: { sm: "352px" } }}
@@ -60,19 +61,19 @@ export default function SignUpForm() {
           <KeyboardBackspaceRoundedIcon />
         </Button>
         <Typography color={"primary"} variant={"h5"}>
-          Sign up to Pantry partner
+          {t("text_signup")}
         </Typography>
       </Box>
       <FormControl>
         <InputLabel sx={{ marginTop: "1rem" }} htmlFor="firstName">
-          Enter First Name
+          {t("text_signup_form_first_name")}
         </InputLabel>
         <TextField
           id="firstName"
           variant="outlined"
           required={true}
           fullWidth={true}
-          placeholder={"First Name"}
+          placeholder={t("text_first_name")}
           value={firstName}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setFirstName(e.target.value)
@@ -81,14 +82,14 @@ export default function SignUpForm() {
       </FormControl>
       <FormControl>
         <InputLabel sx={{ marginTop: "1rem" }} htmlFor="lastName">
-          Enter Last Name
+          {t("text_sign_up_form_last_name")}
         </InputLabel>
         <TextField
           id="lastName"
           variant="outlined"
           required={true}
           fullWidth={true}
-          placeholder={"Last Name"}
+          placeholder={t("text_last_name")}
           value={lastName}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setLastName(e.target.value)
@@ -97,7 +98,7 @@ export default function SignUpForm() {
       </FormControl>
       <FormControl>
         <InputLabel sx={{ marginTop: "1rem" }} htmlFor="password">
-          Enter Email
+          {t("text_sign_up_form_email")}{" "}
         </InputLabel>
         <TextField
           id="email"
@@ -105,7 +106,7 @@ export default function SignUpForm() {
           required={true}
           fullWidth={true}
           value={email}
-          placeholder={"Email"}
+          placeholder={t("text_email")}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setEmail(e.target.value)
           }
@@ -113,7 +114,7 @@ export default function SignUpForm() {
       </FormControl>
       <FormControl>
         <InputLabel sx={{ marginTop: "1rem" }} htmlFor="password">
-          Enter Password
+          {t("text_sign_up_form_password")}
         </InputLabel>
 
         <OutlinedInput
@@ -141,7 +142,7 @@ export default function SignUpForm() {
       </FormControl>
       <FormControl>
         <InputLabel sx={{ marginTop: "1rem" }} htmlFor="confirmPassword">
-          Confirm Password
+          {t("text_sign_up_form_confirm")}{" "}
         </InputLabel>
         <OutlinedInput
           id="confirmPassword"
