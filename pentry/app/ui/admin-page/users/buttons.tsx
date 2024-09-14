@@ -1,30 +1,28 @@
-import {deleteUser} from '@/app/lib/actions';
-import {PencilIcon, TrashIcon} from "@heroicons/react/16/solid";
+import { deleteUser } from "@/app/lib/actions";
+import DeleteIcon from "@mui/icons-material/Delete";
 import Link from "@mui/material/Link";
+import EditIcon from "@mui/icons-material/Edit";
+import { Button, Typography } from "@mui/material";
 
-// ...
-
-export function UpdateUser({id}: { id: string }) {
-    return (
-        <Link
-            href={`/dashboard/admin-page/users/${id}/edit`}
-            className="rounded-md border p-2 hover:bg-gray-100"
-        >
-            <PencilIcon className="w-5"/>
-        </Link>
-    );
+export function UpdateUser({ id }: { id: string }) {
+  return (
+    <Button>
+      <Link href={`/dashboard/admin-page/users/${id}/edit`}>
+        <EditIcon className="w-5" />
+      </Link>
+    </Button>
+  );
 }
 
-export function DeleteUser({id}: { id: string }) {
-    const deleteUserWithId = deleteUser.bind(null, id);
+export function DeleteUser({ id }: { id: string }) {
+  const deleteUserWithId = deleteUser.bind(null, id);
 
-    return (
-        <form action={deleteUserWithId}>
-            <button className="rounded-md border p-2 hover:bg-gray-100">
-                <span className="sr-only">Delete</span>
-                <TrashIcon className="w-4"/>
-            </button>
-        </form>
-    );
+  return (
+    <form action={deleteUserWithId}>
+      <Button>
+        <Typography className="sr-only">Delete</Typography>
+        <DeleteIcon />
+      </Button>
+    </form>
+  );
 }
-
