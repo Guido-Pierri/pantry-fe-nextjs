@@ -19,7 +19,7 @@ export default async function UsersTable({ users }: { users: User[] }) {
       </Typography>
 
       <Box>
-        {users?.map((user: User) => <UserCard user={user} />)}
+        {users?.map((user: User) => <UserCard key={user.id} user={user} />)}
         <table className="hidden min-w-full text-gray-900 md:table">
           <thead className="rounded-lg text-left text-sm font-normal">
             <tr>
