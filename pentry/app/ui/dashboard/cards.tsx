@@ -40,6 +40,7 @@ import Loading from "@/app/loading";
 import TextField from "@mui/material/TextField";
 import CardActionArea from "@mui/material/CardActionArea";
 import { useTranslation } from "react-i18next";
+import { DeleteUser, UpdateUser } from "@/app/ui/admin-page/users/buttons";
 
 const iconMap = {
   items: RectangleStackIcon,
@@ -342,6 +343,8 @@ export function RecipeCard({ recipe }: { recipe: Recipe }): ReactNode {
 
 export function AddItemCard() {
   const { pending } = useFormStatus();
+  const { t } = useTranslation();
+
   console.log("pending", pending);
   if (pending) {
     return <Loading />;
@@ -349,11 +352,11 @@ export function AddItemCard() {
   return (
     <Box>
       <Box flexDirection={"column"} border={"black"}>
-        <Typography variant={"h6"}>Save an item to your pantry</Typography>
+        <Typography variant={"h6"}>{t("text_save_custom_item")}</Typography>
         <TextField
           id={"name"}
           name={"name"}
-          label={"Enter name"}
+          label={t("text_enter_name")}
           type={"text"}
           placeholder={"Item"}
           required={true}
@@ -378,7 +381,7 @@ export function AddItemCard() {
           size={"small"}
           sx={{ padding: ".5rem" }}
         >
-          Save Item
+          {t("text_button_save_item")}{" "}
         </Fab>
         <Fab
           href={"/dashboard/pantry"}
@@ -387,7 +390,7 @@ export function AddItemCard() {
           size={"small"}
           sx={{ padding: ".5rem" }}
         >
-          Cancel
+          {t("text_button_cancel")}
         </Fab>
       </Box>
     </Box>
@@ -453,5 +456,39 @@ export function SaveItemCard({ item }: { item: Item }): ReactNode {
         </Fab>
       ) : null}
     </Box>
+  );
+}
+
+export function UserCard({ user }: { user: User }): ReactNode {
+  const { t } = useTranslation();
+  return (
+    <Card
+      sx={{ display: { md: "none" } }}
+      key={user.id}
+      className="mb-2 w-full rounded-md bg-white p-4"
+    >
+      <CardContent>
+        <Box>
+          <Box className="mb-2 flex items-center">
+            <Typography>
+              {user.firstName} {user.lastName}
+            </Typography>
+          </Box>
+          <Typography className="text-sm text-gray-500">
+            {user.email}
+          </Typography>
+          <Typography className="text-sm text-gray-500">
+            {user.roles}
+          </Typography>
+        </Box>
+        {/*<InvoiceStatus status={invoice.status} />*/}
+      </CardContent>
+      <CardActions className="flex w-full items-center justify-between pt-4">
+        <Box display={"flex"} justifyContent={"flex-end"}>
+          <UpdateUser id={user.id} />
+          <DeleteUser id={user.id} />
+        </Box>
+      </CardActions>
+    </Card>
   );
 }
