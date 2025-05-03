@@ -62,6 +62,7 @@ export type User = {
   authProvider: string;
   token?: string;
   isFirstTimeUser: boolean;
+  emailVerified: Date;
 };
 export type ItemForm = {
   id: string;
