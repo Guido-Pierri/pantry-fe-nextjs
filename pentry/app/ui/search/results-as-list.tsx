@@ -34,8 +34,6 @@ export default function ResultsAsList(props: SimpleDialogProps) {
     return `${location?.pathname}?${params?.toString()}`;
   };
   //const items: SearchItem[] = page?.content;
-  console.log("items", items);
-  console.log("query in results", query);
 
   return (
     <Box mt={"2rem"}>

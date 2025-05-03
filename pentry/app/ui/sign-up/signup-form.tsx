@@ -8,13 +8,13 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import InputAdornment from "@mui/material/InputAdornment";
-import { FormControl } from "@mui/base";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import Button from "@mui/material/Button";
 import ReportGmailerrorredIcon from "@mui/icons-material/ReportGmailerrorred";
 import KeyboardBackspaceRoundedIcon from "@mui/icons-material/KeyboardBackspaceRounded";
 import SignupButton from "@/app/ui/sign-up/sign-up-button";
 import { useTranslation } from "react-i18next";
+import { Field } from "@base-ui-components/react";
 
 export default function SignUpForm() {
   const [isVisiblePass, setIsVisiblePass] = useState(false);
@@ -64,7 +64,7 @@ export default function SignUpForm() {
           {t("text_signup")}
         </Typography>
       </Box>
-      <FormControl>
+      <Field.Control>
         <InputLabel sx={{ marginTop: "1rem" }} htmlFor="firstName">
           {t("text_signup_form_first_name")}
         </InputLabel>
@@ -79,8 +79,8 @@ export default function SignUpForm() {
             setFirstName(e.target.value)
           }
         />
-      </FormControl>
-      <FormControl>
+      </Field.Control>
+      <Field.Control>
         <InputLabel sx={{ marginTop: "1rem" }} htmlFor="lastName">
           {t("text_sign_up_form_last_name")}
         </InputLabel>
@@ -95,8 +95,8 @@ export default function SignUpForm() {
             setLastName(e.target.value)
           }
         />
-      </FormControl>
-      <FormControl>
+      </Field.Control>
+      <Field.Control>
         <InputLabel sx={{ marginTop: "1rem" }} htmlFor="password">
           {t("text_sign_up_form_email")}{" "}
         </InputLabel>
@@ -111,8 +111,8 @@ export default function SignUpForm() {
             setEmail(e.target.value)
           }
         />
-      </FormControl>
-      <FormControl>
+      </Field.Control>
+      <Field.Control>
         <InputLabel sx={{ marginTop: "1rem" }} htmlFor="password">
           {t("text_sign_up_form_password")}
         </InputLabel>
@@ -139,8 +139,8 @@ export default function SignUpForm() {
           }
           required={true}
         />
-      </FormControl>
-      <FormControl>
+      </Field.Control>
+      <Field.Control>
         <InputLabel sx={{ marginTop: "1rem" }} htmlFor="confirmPassword">
           {t("text_sign_up_form_confirm")}{" "}
         </InputLabel>
@@ -166,7 +166,7 @@ export default function SignUpForm() {
           }
           required={true}
         />
-      </FormControl>
+      </Field.Control>
       <SignupButton />
 
       <Box aria-live="polite" aria-atomic="true">

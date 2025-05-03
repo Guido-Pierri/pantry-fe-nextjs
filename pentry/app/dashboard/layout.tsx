@@ -13,7 +13,7 @@ export default async function Layout({children}: { children: React.ReactNode }) 
 
         }}>
             <Box width={'100%'}>
-                <Navbar session={session}/>
+                <Navbar session={ session}/>
             </Box>
             <Box
                 padding={'1rem'}

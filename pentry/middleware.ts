@@ -1,6 +1,8 @@
-export {auth as middleware} from "@/auth";
+// middleware.ts
+import { withAuth } from "next-auth/middleware";
 
-// Read more: https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
+export default withAuth;
+
 export const config = {
-    matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
-}
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+};

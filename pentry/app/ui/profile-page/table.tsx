@@ -16,7 +16,7 @@ import {
   Visibility,
   VisibilityOff,
 } from "@mui/icons-material";
-import { FormControl } from "@mui/base";
+import {Field}  from "@base-ui-components/react" ;
 import React, { useState } from "react";
 import { User } from "@/app/lib/definitions";
 import Fab from "@mui/material/Fab";
@@ -116,7 +116,7 @@ export default function UsersTable({ user }: { user: User }) {
           variant="standard"
           required={true}
         />
-        <FormControl>
+        <Field.Control>
           <InputLabel htmlFor="password">{t("text_form_password")}</InputLabel>
           <OutlinedInput
             id="password"
@@ -139,8 +139,8 @@ export default function UsersTable({ user }: { user: User }) {
             //onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
             required={true}
           />
-        </FormControl>
-        <FormControl>
+        </Field.Control>
+        <Field.Control>
           <InputLabel htmlFor="confirmPassword">
             {t("text_form_confirm")}
           </InputLabel>
@@ -166,7 +166,7 @@ export default function UsersTable({ user }: { user: User }) {
             //onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmPassword(e.target.value)}
             required={true}
           />
-        </FormControl>
+        </Field.Control>
       </Box>
       <Button
         endIcon={<DeleteIcon />}
