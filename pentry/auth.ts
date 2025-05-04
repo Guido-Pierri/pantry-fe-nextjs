@@ -150,7 +150,7 @@ export const config = {
       console.log("session", session);
       console.log("session.token", session.token);
       console.log("session.user", session.user);
-      console.log("check if token expired");
+      console.log("check if token expired in session");
       if (await isTokenExpired(session.token)) {
         console.log("token expired");
         await signOut();
@@ -177,7 +177,7 @@ export const config = {
         console.log("user", user);
         console.log("account", account);
         console.log("credentials", account?.provider);
-        console.log("check if token expired");
+        console.log("check if token expired in jwt");
         if (await isTokenExpired(token?.accessToken as string)) {
           console.log("token expired");
           return null;
